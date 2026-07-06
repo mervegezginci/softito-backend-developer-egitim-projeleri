@@ -31,9 +31,51 @@ Proje, kütüphane iş süreçlerini ve kullanıcı yetkilerini kapsayan geniş 
 
 ## 📸 Ekran Görüntüleri
 
-*Ekran görüntülerinizi bu klasör altındaki `images/` klasörüne ekleyip aşağıdaki linkleri güncelleyebilirsiniz:*
+Uygulamaya ait arayüz ekran görüntüleri aşağıda yer almaktadır:
 
-```markdown
-![Kütüphane Dashboard](images/dashboard.png)
-![Swagger Kitap API](images/swagger_kutuphane.png)
-```
+### 🏠 Kullanıcı & Kitap İşlemleri Arayüzü
+
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>1. Ana Sayfa (Kitap Listesi & Karşılama)</b><br/>
+      <img src="images/01_anasayfa.png" width="100%" alt="Ana Sayfa"/>
+    </td>
+    <td width="50%" align="center">
+      <b>2. Kitap Detay Sayfası</b><br/>
+      <img src="images/02_kitap_detay.png" width="100%" alt="Kitap Detayı"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>3. Kitap Ödünç Alma Talebi (Modal)</b><br/>
+      <img src="images/03_odunc_alma_modal.png" width="100%" alt="Ödünç Alma Modalı"/>
+    </td>
+    <td width="50%" align="center">
+      <b>4. Ödünç Aldığım Kitaplar (Kullanıcı Paneli)</b><br/>
+      <img src="images/04_odunc_aldiklarim.png" width="100%" alt="Ödünç Alınan Kitaplar"/>
+    </td>
+  </tr>
+</table>
+
+### 🛡️ Yönetici (Admin) Paneli & API Arayüzü
+
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>5. Yönetici Kontrol Paneli (Dashboard)</b><br/>
+      <img src="images/05_admin_dashboard.png" width="100%" alt="Yönetici Dashboard"/>
+    </td>
+    <td width="50%" align="center">
+      <b>6. Swagger Web API Dokümantasyonu</b><br/>
+      <img src="images/06_swagger_api.png" width="100%" alt="Swagger Kitap API"/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <b>7. Kullanıcı & Yetkilendirme Yönetimi</b><br/>
+      <img src="images/07_admin_kullanicilar.png" width="80%" alt="Kullanıcı Yönetimi"/>
+    </td>
+  </tr>
+</table>
+
