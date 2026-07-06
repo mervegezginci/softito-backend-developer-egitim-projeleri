@@ -35,9 +35,31 @@ Katmanlı mimarideki veri modelleri ve ilişkileri:
 
 ## 📸 Ekran Görüntüleri
 
-*Ekran görüntülerinizi bu klasör altındaki `images/` klasörüne ekleyip aşağıdaki linkleri güncelleyebilirsiniz:*
+Uygulamaya ait arayüz ekran görüntüleri aşağıda yer almaktadır:
 
-```markdown
-![Müşteri Randevu Ekranı](images/randevu.png)
-![Yönetim Paneli](images/admin_paneli.png)
-```
+### 🏠 Kamu (Müşteri) Arayüzü
+
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>1. Salone Kurumsal Karşılama Sayfası</b><br/>
+      <img src="images/01_salone_anasayfa.png" width="100%" alt="Salone Ana Sayfa"/>
+    </td>
+    <td width="50%" align="center">
+      <b>2. Hizmetlerimiz & Rezervasyon Sayfası</b><br/>
+      <img src="images/02_salone_hizmetler.png" width="100%" alt="Salone Hizmetler Sayfası"/>
+    </td>
+  </tr>
+</table>
+
+### 🛡️ Yönetici (Admin) Paneli
+
+<table width="100%">
+  <tr>
+    <td width="100%" align="center">
+      <b>3. Aurora Yönetici Paneli - Hizmet Kataloğu Yönetimi (CRUD)</b><br/>
+      <img src="images/03_aurora_admin_hizmetler.png" width="90%" alt="Aurora Admin Hizmetler"/>
+    </td>
+  </tr>
+</table>
+
