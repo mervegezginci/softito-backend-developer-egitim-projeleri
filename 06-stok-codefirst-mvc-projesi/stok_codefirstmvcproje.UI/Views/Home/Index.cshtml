@@ -1,0 +1,470 @@
+@{
+    ViewData["Title"] = "Raporlar";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    
+    <!-- Üst Başlık & Aksiyon Butonları -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold mb-0">📊 Sistem Raporları & Analiz Paneli</h4>
+            <p class="text-muted mb-0">Envanter durumları, kritik stoklar ve kategori bazlı analiz raporları.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button onclick="window.print()" class="btn btn-outline-secondary">
+                <i class="bx bx-printer me-1"></i> Yazdır / PDF Kaydet
+            </button>
+            <button onclick="exportTableToCSV('stockDetailsTable', 'envanter-detay-raporu.csv')" class="btn btn-success">
+                <i class="bx bx-file me-1"></i> Excel (CSV) İndir
+            </button>
+        </div>
+    </div>
+
+    <!-- 5 Adet KPI Kartı -->
+    <div class="row g-3 mb-4">
+        <!-- Toplam Ürün -->
+        <div class="col">
+            <div class="card border-0 shadow-sm text-center" style="border-radius: 12px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white;">
+                <div class="card-body py-4">
+                    <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                        <i class="bx bx-package fs-4"></i>
+                    </div>
+                    <span class="d-block mb-1 text-white-50 small fw-semibold">Toplam Ürün</span>
+                    <h3 class="card-title text-white mb-0 fw-bold">@ViewBag.TotalProduct</h3>
+                </div>
+            </div>
+        </div>
+        <!-- Toplam Kategori -->
+        <div class="col">
+            <div class="card border-0 shadow-sm text-center" style="border-radius: 12px; background: linear-gradient(135deg, #11998e, #38ef7d); color: white;">
+                <div class="card-body py-4">
+                    <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                        <i class="bx bx-category fs-4"></i>
+                    </div>
+                    <span class="d-block mb-1 text-white-50 small fw-semibold">Kategori Sayısı</span>
+                    <h3 class="card-title text-white mb-0 fw-bold">@ViewBag.TotalCategory</h3>
+                </div>
+            </div>
+        </div>
+        <!-- Tedarikçi Sayısı -->
+        <div class="col">
+            <div class="card border-0 shadow-sm text-center" style="border-radius: 12px; background: linear-gradient(135deg, #36d1dc, #5b86e5); color: white;">
+                <div class="card-body py-4">
+                    <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                        <i class="bx bx-store-alt fs-4"></i>
+                    </div>
+                    <span class="d-block mb-1 text-white-50 small fw-semibold">Tedarikçiler</span>
+                    <h3 class="card-title text-white mb-0 fw-bold">@ViewBag.TotalSupplier</h3>
+                </div>
+            </div>
+        </div>
+        <!-- Toplam Stok -->
+        <div class="col">
+            <div class="card border-0 shadow-sm text-center" style="border-radius: 12px; background: linear-gradient(135deg, #f12711, #f5af19); color: white;">
+                <div class="card-body py-4">
+                    <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                        <i class="bx bx-cube-alt fs-4"></i>
+                    </div>
+                    <span class="d-block mb-1 text-white-50 small fw-semibold">Toplam Stok</span>
+                    <h3 class="card-title text-white mb-0 fw-bold">@ViewBag.TotalStock.ToString("N0")</h3>
+                </div>
+            </div>
+        </div>
+        <!-- Toplam Stok Değeri -->
+        <div class="col">
+            <div class="card border-0 shadow-sm text-center" style="border-radius: 12px; background: linear-gradient(135deg, #8a2387, #e94057, #f27121); color: white;">
+                <div class="card-body py-4">
+                    <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                        <i class="bx bx-money fs-4"></i>
+                    </div>
+                    <span class="d-block mb-1 text-white-50 small fw-semibold">Envanter Değeri</span>
+                    <h3 class="card-title text-white mb-0 fw-bold" style="font-size: 1.15rem;">@ViewBag.TotalStockValue.ToString("N2") ₺</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grafik Panelleri -->
+    <div class="row g-4 mb-4">
+        <!-- Kategori Dağılımı -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0" style="border-radius: 12px;">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="card-title mb-0 fw-bold text-dark"><i class="bx bx-pie-chart-alt text-primary me-2"></i> Kategori Değer Dağılımı</h5>
+                    <small class="text-muted">Kategorilerin toplam envanter değer oranları (₺)</small>
+                </div>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <div style="width: 210px; height: 210px;">
+                        <canvas id="categoryValueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- En Çok Stoğu Olan Ürünler -->
+        <div class="col-md-5">
+            <div class="card h-100 shadow-sm border-0" style="border-radius: 12px;">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="card-title mb-0 fw-bold text-dark"><i class="bx bx-bar-chart-alt-2 text-success me-2"></i> En Yüksek Stoklu Ürünler</h5>
+                    <small class="text-muted">Adet bazında en fazla envantere sahip ilk 5 ürün</small>
+                </div>
+                <div class="card-body">
+                    <canvas id="topStockChart" style="height: 200px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stok Giriş vs Sipariş Oranı -->
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm border-0" style="border-radius: 12px;">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="card-title mb-0 fw-bold text-dark"><i class="bx bx-transfer text-warning me-2"></i> Envanter Sirkülasyonu</h5>
+                    <small class="text-muted">Toplam Giriş (Stock In) vs Çıkış (Stock Out)</small>
+                </div>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <div style="width: 170px; height: 170px;">
+                        <canvas id="circulationChart"></canvas>
+                    </div>
+                    <div class="d-flex justify-content-around w-100 mt-3 text-center small text-muted">
+                        <div>
+                            <span class="d-block fw-bold text-success">@ViewBag.TotalStockIn.ToString("N0")</span>
+                            <span>Toplam Giriş</span>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-danger">@ViewBag.TotalStockOut.ToString("N0")</span>
+                            <span>Toplam Sipariş</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seçmeli Raporlar Bölümü (User Requested Style) -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0" style="border-radius: 12px;">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold text-dark"><i class="bx bx-chart text-primary me-2"></i> Rapor Seçici</h5>
+                </div>
+                <div class="card-body">
+                    <form id="reportForm" onsubmit="event.preventDefault(); loadAjaxReport();">
+                        <div class="row align-items-end mb-4">
+                            <div class="col-md-9">
+                                <label for="reportType" class="form-label fw-bold text-muted small">Rapor Türü</label>
+                                <select class="form-select" id="reportType" name="reportType">
+                                    <option value="kritik_stok_seviyeleri" selected>Kritik Stok Seviyesindeki Ürünler (Stok &le; 15)</option>
+                                    <option value="kategori_stok_degerleri">Kategorilere Göre Toplam Stok Değeri</option>
+                                    <option value="tedarikci_urun_sayilari">Tedarikçilere Göre Ürün Çeşitliliği</option>
+                                    <option value="en_yuksek_stoklar">En Yüksek Stoklu 5 Ürün</option>
+                                    <option value="toplam_giris_miktarlari">Ürünlerin Toplam Giriş Miktarları</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mt-2 mt-md-0">
+                                <button type="submit" class="btn btn-success w-100 fw-semibold" style="padding: 10px 0;">
+                                    Raporu Getir
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="fw-bold text-dark">Bilgi</th>
+                                    <th class="fw-bold text-dark" width="200">Değer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportTableBody">
+                                <tr>
+                                    <td colspan="2" class="text-center py-3 text-muted">Rapor yükleniyor...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kritik Stoklar & Son Ürünler Tabloları -->
+    <div class="row g-4">
+        <!-- Sol: Kritik Stok Uyarısı (Stok <= 15) -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0" style="border-radius: 12px; border-left: 4px solid #de3545 !important;">
+                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title mb-0 fw-bold text-danger"><i class="bx bx-error-alt me-2"></i> Kritik Stok Seviyesi (Stok &le; 15)</h5>
+                        <small class="text-muted">Tedarik edilmesi gereken acil ürün listesi</small>
+                    </div>
+                    <span class="badge bg-danger rounded-pill">@ViewBag.CriticalStockItems.Count UYARI</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">Ürün</th>
+                                    <th>Kategori</th>
+                                    <th>Tedarikçi</th>
+                                    <th class="text-end pe-3">Stok Adet</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.CriticalStockItems.Count == 0)
+                                {
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4 text-muted">Kritik stok seviyesinde ürün bulunmamaktadır. 🎉</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var item in ViewBag.CriticalStockItems)
+                                    {
+                                        <tr>
+                                            <td class="ps-3 fw-semibold text-dark">@item.Name</td>
+                                            <td>@item.Category?.CategoryName</td>
+                                            <td class="small">@item.Supplier?.CompanyName</td>
+                                            <td class="text-end pe-3">
+                                                <span class="badge bg-label-danger text-danger fw-bold fs-7 px-3">
+                                                    @item.StockQty
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ: Envanter Detay Tablosu (Gizli Excel Export Kaynağı ve UI Rapor Tablosu) -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0" style="border-radius: 12px;">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="card-title mb-0 fw-bold text-dark"><i class="bx bx-list-ol text-info me-2"></i> Son Envanter Durumu</h5>
+                    <small class="text-muted">Sistemdeki ürünler ve anlık stok adetleri</small>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="stockDetailsTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">Ürün</th>
+                                    <th>Kategori</th>
+                                    <th>Tedarikçi</th>
+                                    <th>Fiyat</th>
+                                    <th class="text-end pe-3">Stok</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.ProductDetails)
+                                {
+                                    <tr>
+                                        <td class="ps-3 fw-semibold">@item.Product</td>
+                                        <td>@item.Category</td>
+                                        <td class="small">@item.Supplier</td>
+                                        <td>@item.Price.ToString("N2") ₺</td>
+                                        <td class="text-end pe-3 fw-bold @(item.Stock <= 15 ? "text-danger" : "text-success")">@item.Stock.ToString("N0")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- CSS Yazdırma (Print) Modu Hata Giderme -->
+<style>
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+        .container-xxl, .container-xxl * {
+            visibility: visible;
+        }
+        .container-xxl {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        .btn, .navbar, .layout-menu-toggle, .layout-menu {
+            display: none !important;
+        }
+        .card {
+            border: 1px solid #ddd !important;
+            box-shadow: none !important;
+            break-inside: avoid;
+        }
+    }
+</style>
+
+<!-- Chart.js CDN Entegrasyonu -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        // 1. Kategori Değer Dağılımı Grafiği (Doughnut)
+        const categoryLabels = @Html.Raw(Json.Serialize(((System.Collections.IEnumerable)ViewBag.CategoryStockValues).Cast<dynamic>().Select(x => (string)x.CategoryName)));
+        const categoryValues = @Html.Raw(Json.Serialize(((System.Collections.IEnumerable)ViewBag.CategoryStockValues).Cast<dynamic>().Select(x => (decimal)x.TotalValue)));
+
+        const ctx1 = document.getElementById('categoryValueChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    data: categoryValues,
+                    backgroundColor: [
+                        '#1e3c72', '#2a5298', '#11998e', '#38ef7d', '#f12711', '#f5af19', '#8a2387'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+
+        // 2. En Yüksek Stoklu Ürünler Grafiği (Horizontal Bar)
+        const topLabels = @Html.Raw(Json.Serialize(((System.Collections.IEnumerable)ViewBag.TopStockProducts).Cast<dynamic>().Select(x => (string)x.ProductName)));
+        const topValues = @Html.Raw(Json.Serialize(((System.Collections.IEnumerable)ViewBag.TopStockProducts).Cast<dynamic>().Select(x => (int)x.Stock)));
+
+        const ctx2 = document.getElementById('topStockChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: topLabels,
+                datasets: [{
+                    label: 'Stok Miktarı (Adet)',
+                    data: topValues,
+                    backgroundColor: 'rgba(56, 239, 125, 0.85)',
+                    borderColor: '#38ef7d',
+                    borderWidth: 1.5,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. Envanter Sirkülasyonu Grafiği (Pie)
+        const ctx3 = document.getElementById('circulationChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: ['Toplam Giriş', 'Toplam Sipariş'],
+                datasets: [{
+                    data: [@ViewBag.TotalStockIn, @ViewBag.TotalStockOut],
+                    backgroundColor: ['#38ef7d', '#de3545'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // 4. AJAX Rapor Yükleme
+        window.loadAjaxReport = function () {
+            const reportType = document.getElementById("reportType").value;
+            const tbody = document.getElementById("reportTableBody");
+            tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-muted"><i class="bx bx-loader-alt bx-spin me-1"></i> Rapor yükleniyor...</td></tr>';
+            
+            fetch('/Home/GetReportData?reportType=' + reportType)
+                .then(response => response.json())
+                .then(data => {
+                    tbody.innerHTML = "";
+                    if (!data || data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-muted">Kayıt bulunamadı.</td></tr>';
+                        return;
+                    }
+                    data.forEach(item => {
+                        const tr = document.createElement("tr");
+                        const bilgiVal = item.bilgi || item.Bilgi || "";
+                        const degerVal = item.deger || item.Deger || "";
+                        tr.innerHTML = `
+                            <td class="fw-semibold">${bilgiVal}</td>
+                            <td class="fw-bold text-success">${degerVal}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-danger">Rapor yüklenirken hata oluştu!</td></tr>';
+                });
+        };
+        
+        loadAjaxReport(); // İlk açılışta yükle
+
+    });
+
+    // Client-side CSV İndirme Fonksiyonu (Türkçe Karakter Uyumlu)
+    function exportTableToCSV(tableId, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("#" + tableId + " tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (var j = 0; j < cols.length; j++) {
+                var text = cols[j].innerText.replace(/"/g, '""');
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(";"));
+        }
+        
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        var downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

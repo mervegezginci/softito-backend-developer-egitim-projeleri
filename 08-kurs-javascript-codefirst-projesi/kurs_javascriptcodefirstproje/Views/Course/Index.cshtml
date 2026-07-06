@@ -1,0 +1,127 @@
+@{
+    ViewData["Title"] = "Kurslar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card card-admin p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0 text-dark">Kurs Yönetimi</h4>
+        <div class="d-flex gap-2 no-print">
+            <button onclick="window.print()" class="btn btn-outline-secondary">
+                <i class="fas fa-print me-1"></i> Yazdır / PDF
+            </button>
+            <button onclick="exportTableToCSV('courseTable', 'kurslar-raporu.csv')" class="btn btn-success">
+                <i class="fas fa-file-excel me-1"></i> Excel İndir
+            </button>
+            <button class="btn btn-primary" id="btnAddCourse">
+                <i class="fas fa-plus me-1"></i> Yeni Kurs
+            </button>
+        </div>
+    </div>
+
+    <!-- Arama Kutusu -->
+    <div class="mb-4 no-print" style="max-width: 400px;">
+        <div class="input-group">
+            <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+            <input type="text" id="txtSearch" class="form-control" placeholder="Kurs ara..." />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="courseTable">
+            <thead class="table-light">
+                <tr>
+                    <th>Kategori</th>
+                    <th>Kurs Adı</th>
+                    <th>Açıklama</th>
+                    <th>Fiyat (₺)</th>
+                    <th>Süre (Saat)</th>
+                    <th width="180" class="text-end no-print">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody id="table_data">
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-muted">Kayıtlar yükleniyor...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="CourseModal">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Kurs Tanımı</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Kategori</label>
+                        <select id="CategoryId" class="form-select">
+                            <option value="">Kategori Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Kurs Adı</label>
+                        <input type="text" id="CourseName" class="form-control" placeholder="Örn: React ile Frontend" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Açıklama</label>
+                        <textarea id="Description" class="form-control" rows="3" placeholder="Kurs detaylı açıklaması..."></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Fiyat (₺)</label>
+                        <input type="number" id="Price" class="form-control" placeholder="Örn: 1500" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Süre (Saat)</label>
+                        <input type="number" id="Duration" class="form-control" placeholder="Örn: 40" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Resim Görsel URL</label>
+                        <input type="text" id="ImageUrl" class="form-control" placeholder="https://images.unsplash.com/..." />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" data-bs-dismiss="modal">İptal</button>
+                <button class="btn btn-primary" onclick="AddCourse()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="urlCourseData" value="@Url.Action("CourseList", "Course")" />
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/course.js"></script>
+
+<!-- CSV İndirme Script -->
+<script>
+    function exportTableToCSV(tableId, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("#" + tableId + " tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            for (var j = 0; j < cols.length; j++) {
+                if (cols[j].classList.contains("no-print")) continue;
+                var text = cols[j].innerText.replace(/"/g, '""').replace(/\n/g, ' ');
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(";"));
+        }
+        
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        var downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

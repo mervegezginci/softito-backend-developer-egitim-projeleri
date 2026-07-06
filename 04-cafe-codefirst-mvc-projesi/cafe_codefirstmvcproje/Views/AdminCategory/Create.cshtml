@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model Category
+
+<form method="post">
+
+    <label>Kategori Adı</label>
+
+    <input asp-for="CategoryName"
+           class="form-control" />
+
+    <br />
+
+    <button class="btn btn-success">
+        Kaydet
+    </button>
+
+</form>

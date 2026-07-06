@@ -1,0 +1,111 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\yavin\.git\COMMIT_EDITMSG" />
+    <None Include="wwwroot\yavin\.git\config" />
+    <None Include="wwwroot\yavin\.git\description" />
+    <None Include="wwwroot\yavin\.git\FETCH_HEAD" />
+    <None Include="wwwroot\yavin\.git\HEAD" />
+    <None Include="wwwroot\yavin\.git\hooks\applypatch-msg.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\commit-msg.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\fsmonitor-watchman.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\post-update.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\pre-applypatch.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\pre-commit.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\pre-merge-commit.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\pre-push.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\pre-rebase.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\pre-receive.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\prepare-commit-msg.sample" />
+    <None Include="wwwroot\yavin\.git\hooks\update.sample" />
+    <None Include="wwwroot\yavin\.git\index" />
+    <None Include="wwwroot\yavin\.git\info\exclude" />
+    <None Include="wwwroot\yavin\.git\logs\HEAD" />
+    <None Include="wwwroot\yavin\.git\logs\refs\heads\main" />
+    <None Include="wwwroot\yavin\.git\logs\refs\remotes\origin\main" />
+    <None Include="wwwroot\yavin\.git\objects\08\9263f6228f659b59bfbba3f9ea6004e8907a04" />
+    <None Include="wwwroot\yavin\.git\objects\1e\437f7d6a67b4817fb96e7e9976960ef4971187" />
+    <None Include="wwwroot\yavin\.git\objects\21\bd81d09382be27c53639d6a9491408d7da599c" />
+    <None Include="wwwroot\yavin\.git\objects\2f\2ea9812281558b077c73c95a9a3de670c75320" />
+    <None Include="wwwroot\yavin\.git\objects\31\875cfe3a497d980e3157eb0fd0661fed8ada89" />
+    <None Include="wwwroot\yavin\.git\objects\34\e7f2bf6da859ef64eea4c35d9e5fcaee06ac16" />
+    <None Include="wwwroot\yavin\.git\objects\3d\9d3aae00d3a805c9c5a6ae75cb16b79260eca8" />
+    <None Include="wwwroot\yavin\.git\objects\3f\2c11ca6fa2f289f5f759fd84357a89651eae48" />
+    <None Include="wwwroot\yavin\.git\objects\40\5064f2a05f52fd6d6475363d974f8c157c2980" />
+    <None Include="wwwroot\yavin\.git\objects\42\56320699c6d3e57baf0cbdae91f9c3be8ac068" />
+    <None Include="wwwroot\yavin\.git\objects\44\07f442bd1b2be8035bd5489b0e0d8e29341232" />
+    <None Include="wwwroot\yavin\.git\objects\48\3692f0e829ca5796998412f60b5a8887f616a0" />
+    <None Include="wwwroot\yavin\.git\objects\4c\afa589516b5e7f4af2005131b578026ae5b313" />
+    <None Include="wwwroot\yavin\.git\objects\4e\48a46697302eb89d858229ec12ad23edd9b259" />
+    <None Include="wwwroot\yavin\.git\objects\50\f7b891fcba30d8abef9ff74dbdda88b7d7109c" />
+    <None Include="wwwroot\yavin\.git\objects\51\0cc8085ca5984b5e947dc3e5a84593ff3b6cff" />
+    <None Include="wwwroot\yavin\.git\objects\56\4b0490139140afb755ac249259e0266f266e82" />
+    <None Include="wwwroot\yavin\.git\objects\5d\57f4411766079ca224fc4f6859224bed6ef6bf" />
+    <None Include="wwwroot\yavin\.git\objects\5d\cebd6a2a7127228bf4330ae18b78785942ec19" />
+    <None Include="wwwroot\yavin\.git\objects\64\b395d09502fa523505c05513dccdf3adf71124" />
+    <None Include="wwwroot\yavin\.git\objects\6f\9509c88bed7080d496fc5e1d87a9315e30549d" />
+    <None Include="wwwroot\yavin\.git\objects\70\07b9eabfe2109aebf2a1987811e5cca60f2629" />
+    <None Include="wwwroot\yavin\.git\objects\71\9e78137dc593235572136efa74560870eff359" />
+    <None Include="wwwroot\yavin\.git\objects\71\f147749afb9c6d4a6144d6d2efab41551928b6" />
+    <None Include="wwwroot\yavin\.git\objects\73\c1a4d5d156b6ddc62a7e3eba1c206bd6ad19c8" />
+    <None Include="wwwroot\yavin\.git\objects\75\b2ed6d7ef81ecbd50e9b967cfbe81ae203f6d5" />
+    <None Include="wwwroot\yavin\.git\objects\78\be1880edc2dba521305e14cb6a835c842717f2" />
+    <None Include="wwwroot\yavin\.git\objects\7a\6df56826c33a0f689d7e464b29ab763465ce65" />
+    <None Include="wwwroot\yavin\.git\objects\7c\44b5a776d2526de03a6c65e15375a85bfd0421" />
+    <None Include="wwwroot\yavin\.git\objects\7d\830ecd561f3a566ca83e1e01dcca938a2bbdd2" />
+    <None Include="wwwroot\yavin\.git\objects\7f\02af3072f2659a40a86ac3a4fa35a715f8a767" />
+    <None Include="wwwroot\yavin\.git\objects\7f\5aa760aeccea65d05bb5b1d95145881600e19e" />
+    <None Include="wwwroot\yavin\.git\objects\8f\34bb9682ef995f4a47e3e68058fa621eae2fed" />
+    <None Include="wwwroot\yavin\.git\objects\96\ce78ee214d15ac820e3ede3d7dc56e744eef07" />
+    <None Include="wwwroot\yavin\.git\objects\9d\ba8c340bf81622be7b48a7a3546869bfb851d4" />
+    <None Include="wwwroot\yavin\.git\objects\9d\f490e8cfdd75704d31f518caf76ab34494b124" />
+    <None Include="wwwroot\yavin\.git\objects\a5\fea3343594bf1ce2c503e74b8721fbb0578008" />
+    <None Include="wwwroot\yavin\.git\objects\aa\707ae710ba252a7ce6007828f606c9e98baa37" />
+    <None Include="wwwroot\yavin\.git\objects\af\159ea059e69af55a02839e97486936655abc06" />
+    <None Include="wwwroot\yavin\.git\objects\af\e315244f6dae3beda0159693d25a6e0466dd90" />
+    <None Include="wwwroot\yavin\.git\objects\b1\61ce191582e8e7d7273974ebc310523e2018c2" />
+    <None Include="wwwroot\yavin\.git\objects\b7\d4788c9b2604328373e4494470d3c0b758f61d" />
+    <None Include="wwwroot\yavin\.git\objects\b7\efbfaae8b90e4c9ca49587d9f5b2fb88c245e3" />
+    <None Include="wwwroot\yavin\.git\objects\b8\a8f656e1607a2c36884d3165872ef3515b5879" />
+    <None Include="wwwroot\yavin\.git\objects\bc\780154724945e55c3eff2ea1ea09470cfd126b" />
+    <None Include="wwwroot\yavin\.git\objects\c0\93cc7b12f55cf709e22855a6985f5b2e0fe22d" />
+    <None Include="wwwroot\yavin\.git\objects\d0\5ea581fbbf17eb0d3139f9937ac6a8fde98685" />
+    <None Include="wwwroot\yavin\.git\objects\d1\42deb4ae473810fa831665be74a7b63c77b685" />
+    <None Include="wwwroot\yavin\.git\objects\d1\ac9ba1169e4076832034c5585e1c5bf9d6f83c" />
+    <None Include="wwwroot\yavin\.git\objects\db\70e73e473f8ed16d596ab0fd373f3423fc8512" />
+    <None Include="wwwroot\yavin\.git\objects\dc\52d954d8d7f62c82cf63236d27093764a3d046" />
+    <None Include="wwwroot\yavin\.git\objects\dc\e459d0e5a832b08688e2331557535d60d8a171" />
+    <None Include="wwwroot\yavin\.git\objects\dc\fe300b31918927c6a4c23d45f4f1c15afa4bcd" />
+    <None Include="wwwroot\yavin\.git\objects\dd\2b62de79e6d2486293a3bdad2b448f82575e6b" />
+    <None Include="wwwroot\yavin\.git\objects\df\82f372cd68169f3d19be42da5f1a07df747b13" />
+    <None Include="wwwroot\yavin\.git\objects\df\e0770424b2a19faf507a501ebfc23be8f54e7b" />
+    <None Include="wwwroot\yavin\.git\objects\e1\e1a6353c8ff0947fa96e03cf127306bc2169cd" />
+    <None Include="wwwroot\yavin\.git\objects\e1\e271c00e31d309e9bab411caeef86d6d6d0d57" />
+    <None Include="wwwroot\yavin\.git\objects\e5\dc1b316b890ab4276d592f0417574f679d7cba" />
+    <None Include="wwwroot\yavin\.git\objects\e8\2fb64ed45b6f26a5fbd9c558fe2fcf67f28a3f" />
+    <None Include="wwwroot\yavin\.git\objects\e9\f54b13d5e925602e04501415ced4bc0bc881d2" />
+    <None Include="wwwroot\yavin\.git\objects\f3\3e8162997aaa9da582aa81428ee87aa48953a6" />
+    <None Include="wwwroot\yavin\.git\objects\fa\e180dacc52937c1d6a24636431663d6754fef5" />
+    <None Include="wwwroot\yavin\.git\objects\fc\107f37d141c659ea3804714cea285f21ce9ef4" />
+    <None Include="wwwroot\yavin\.git\objects\fc\567cd2f11d83683d9eb4ca1a5fdc912f7d417c" />
+    <None Include="wwwroot\yavin\.git\refs\heads\main" />
+    <None Include="wwwroot\yavin\.git\refs\remotes\origin\main" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\yavin\.git\objects\info\" />
+    <Folder Include="wwwroot\yavin\.git\objects\pack\" />
+    <Folder Include="wwwroot\yavin\.git\refs\tags\" />
+  </ItemGroup>
+
+</Project>

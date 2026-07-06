@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+          content="Modern ofis tasarımı, dekorasyon ve kurumsal çalışma alanı çözümleri">
+
+    <meta name="author"
+          content="Ofis Tasarım">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+    <meta property="og:site_name" content="" /> <!-- website name -->
+    <meta property="og:site" content="" /> <!-- website link -->
+    <meta property="og:title" content="" /> <!-- title shown in the actual shared post -->
+    <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+    <meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+    <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+    <meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+    <!-- Webpage Title -->
+    <title>Ofis Tasarım</title>
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="~/yavin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/yavin/css/fontawesome-all.min.css" rel="stylesheet">
+    <link href="~/yavin/css/swiper.css" rel="stylesheet">
+    <link href="~/yavin/css/styles.css" rel="stylesheet">
+
+    <!-- Favicon  -->
+    <link rel="icon" href="images/favicon.png">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-light" aria-label="Main navigation">
+        <div class="container">
+
+            <a class="navbar-brand logo-image" asp-page="/Index">
+                <img src="~/yavin/images/logo.svg" alt="Logo">
+            </a>
+
+
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ms-auto navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#header">Anasayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#details">Detaylar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Hizmetler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projeler</a>
+                    </li>
+
+                </ul>
+                <span class="nav-item d-flex gap-2 align-items-center">
+                    <a class="btn-outline-sm" href="/Admin/Index">Admin Paneli</a>
+                    <a class="btn-outline-sm" href="#contact">İletişim</a>
+                </span>
+            </div> <!-- end of navbar-collapse -->
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+    <!-- Header -->
+    <header id="header" class="header">
+        <img class="decoration-star" src="~/yavin/images/decoration-star.svg" alt="alternative">
+        <img class="decoration-star-2" src="~/yavin/images/decoration-star.svg" alt="alternative">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-xl-5">
+                    <div class="text-container">
+                        <h1 class="h1-large">Modern ve Profesyonel Ofis Tasarımları</h1>
+
+                        <p class="p-large">
+                            İş yerlerinizi daha verimli, estetik ve kullanışlı hale getiren
+                            modern ofis tasarım çözümleri sunuyoruz.
+                        </p>
+
+                        <a class="btn-solid-lg" href="#introduction">Detaylı Bilgi</a>
+                        <a class="btn-outline-lg" href="#contact">Teklif Al</a>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+                <div class="col-lg-5 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="~/yavin/images/header.png" alt="alternative">
+                    </div> <!-- end of image-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header> <!-- end of header -->
+    <!-- end of header -->
+
+
+    @RenderBody()
+
+
+    <!-- Footer -->
+    <div class="footer bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-col first">
+                        <h6>Hakkımızda</h6>
+
+                        <p class="p-small">
+                            Ofis Tasarım olarak modern, estetik ve işlevsel çalışma alanları
+                            oluşturuyoruz. Kurumsal firmalar için profesyonel ofis tasarım,
+                            dekorasyon ve proje çözümleri sunuyoruz.
+                        </p>
+                    </div> <!-- end of footer-col -->
+                    <div class="footer-col second">
+                        <h6>Hızlı Bağlantılar</h6>
+
+                        <ul class="list-unstyled li-space-lg p-small">
+
+                            <li>
+                                Kurumsal:
+                                <a href="#">Hakkımızda</a>,
+                                <a href="#">Misyon & Vizyon</a>
+                            </li>
+
+                            <li>
+                                Hizmetler:
+                                <a href="#services">Hizmetlerimiz</a>,
+                                <a href="#projects">Projelerimiz</a>
+                            </li>
+
+                            <li>
+                                Menü:
+                                <a href="#header">Anasayfa</a>,
+                                <a href="#details">Detaylar</a>,
+                                <a href="#services">Hizmetler</a>,
+                                <a href="#contact">İletişim</a>
+                            </li>
+
+                        </ul>
+                    </div> <!-- end of footer-col -->
+                    <div class="footer-col third">
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-pinterest-p fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <p class="p-small">
+                            Bizimle iletişime geçmek için:
+                            <a href="mailto:info@ofistasarim.com">
+                                <strong>info@ofistasarim.com</strong>
+                            </a>
+                        </p>
+                    </div> <!-- end of footer-col -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of footer -->
+    <!-- end of footer -->
+    <!-- Copyright -->
+    <div class="copyright bg-gray">
+        <div class="container">
+            <div class="row">
+                <p class="p-small">
+                    © 2026 Ofis Tasarım - Tüm Hakları Saklıdır.
+                </p>
+            </div> <!-- enf of row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="p-small">
+                        Ofis Tasarım Yönetim Paneli ve Kurumsal Web Sitesi
+                    </p>
+                </div> <!-- end of col -->
+            </div> <!-- enf of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of copyright -->
+    <!-- end of copyright -->
+    <!-- Back To Top Button -->
+    <button onclick="topFunction()" id="myBtn">
+        <img src="~/yavin/images/up-arrow.png" alt="alternative">
+    </button>
+    <!-- end of back to top button -->
+    <!-- Scripts -->
+    <script src="~/yavin/js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
+    <script src="~/yavin/js/swiper.min.js"></script> <!-- Swiper for image and text sliders -->
+    <script src="~/yavin/js/purecounter.min.js"></script> <!-- Purecounter counter for statistics numbers -->
+    <script src="~/yavin/js/scripts.js"></script> <!-- Custom scripts -->
+</body>
+</html>

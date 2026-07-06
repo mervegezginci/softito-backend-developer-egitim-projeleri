@@ -1,0 +1,77 @@
+﻿@model stok_codefirstmvcproje.model.Product
+
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+            <h4>Yeni Ürün Ekle</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post"
+                  action="@Url.Action("Create", "Product")">
+
+                <div class="mb-3">
+                    <label>Ürün Adı</label>
+                    <input type="text"
+                           name="Name"
+                           class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Stok</label>
+                    <input type="number"
+                           name="StockQty"
+                           class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Fiyat</label>
+                    <input type="number"
+                           step="0.01"
+                           name="UnitPrice"
+                           class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Kategori</label>
+                    <select name="CategoryId"
+                            class="form-select"
+                            asp-items="ViewBag.Categories">
+                        <option value="">Kategori Seçiniz</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Tedarikçi</label>
+                    <select name="SupplierId"
+                            class="form-select"
+                            asp-items="ViewBag.Suppliers">
+                        <option value="">Tedarikçi Seçiniz</option>
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button class="btn btn-primary">
+                        Kaydet
+                    </button>
+
+                    <a href="@Url.Action("Index", "Product")"
+                       class="btn btn-secondary">
+                        Vazgeç
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

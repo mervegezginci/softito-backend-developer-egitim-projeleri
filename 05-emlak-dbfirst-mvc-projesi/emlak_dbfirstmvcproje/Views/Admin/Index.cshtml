@@ -1,0 +1,417 @@
+@using System.Text.Json
+@model List<Property>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<!-- Custom Styles for Reports Page -->
+<style>
+    .kpi-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border-radius: 12px;
+        overflow: hidden;
+        border: none;
+        color: white;
+    }
+    .kpi-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+    .gradient-primary {
+        background: linear-gradient(135deg, #1572e8 0%, #0c4ea3 100%);
+    }
+    .gradient-success {
+        background: linear-gradient(135deg, #31ce36 0%, #1d8221 100%);
+    }
+    .gradient-info {
+        background: linear-gradient(135deg, #48abf7 0%, #1579c4 100%);
+    }
+    .gradient-warning {
+        background: linear-gradient(135deg, #ffad46 0%, #d48013 100%);
+    }
+    .text-white-80 {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+    .card-title-premium {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+    .chart-container-premium {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+
+<div class="container-fluid pb-5">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Sistem Raporları & Analiz Paneli</h1>
+            <p class="text-muted mb-0">Gayrimenkul portföyünüz ve şehir bazlı dağılımlar hakkında analitik raporlar.</p>
+        </div>
+    </div>
+
+    <!-- KPI Cards Row -->
+    <div class="row">
+
+        <!-- Toplam İlan -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-primary">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Toplam İlan</div>
+                            <div class="h2 mb-0 font-weight-bold">@ViewBag.PropertyCount</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <i class="fas fa-home mr-1"></i> Yayındaki ilan sayısı
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-building fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Şehir Sayısı -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-success">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Hizmet Verilen Şehirler</div>
+                            <div class="h2 mb-0 font-weight-bold">@ViewBag.CityCount</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i> Farklı lokasyon sayısı
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-city fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ortalama Fiyat -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-info">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Ortalama İlan Fiyatı</div>
+                            <div class="h3 mb-0 font-weight-bold">@(((decimal)ViewBag.AveragePrice).ToString("N0")) ₺</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <i class="fas fa-calculator mr-1"></i> Portföy ortalaması
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toplam Portföy Değeri -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-warning">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Toplam Portföy Değeri</div>
+                            <div class="h3 mb-0 font-weight-bold">@(((decimal)ViewBag.TotalValue).ToString("N0")) ₺</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <i class="fas fa-wallet mr-1"></i> Toplam varlık büyüklüğü
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-coins fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Extra Statistics Row -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow border-0 bg-light">
+                <div class="card-body py-3 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="badge bg-danger text-white me-2">En Değerli İlan</span>
+                        <strong class="text-dark">@ViewBag.MaxPriceProperty</strong>
+                    </div>
+                    <div class="fw-bold text-danger">@(((decimal)ViewBag.MaxPrice).ToString("N0")) ₺</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+
+        <!-- Line Chart: Price Trend -->
+        <div class="col-xl-6 col-lg-6 mb-4">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-history mr-1"></i> Son İlanların Fiyat Trendi</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container-premium">
+                        <canvas id="priceTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doughnut Chart: Property Types -->
+        <div class="col-xl-3 col-lg-3 mb-4">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-filter mr-1"></i> İlan Türü Oranları</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container-premium">
+                        <canvas id="propertyTypeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bar Chart: City Distribution -->
+        <div class="col-xl-3 col-lg-3 mb-4">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-map-marked-alt mr-1"></i> Şehir Dağılımı</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container-premium">
+                        <canvas id="cityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Seçmeli Raporlar Bölümü (User Requested Style) -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 font-weight-bold text-dark"><i class="fas fa-chart-bar mr-1"></i> Raporlar</h6>
+                </div>
+                <div class="card-body">
+                    <form id="reportForm" onsubmit="event.preventDefault(); loadAjaxReport();">
+                        <div class="row align-items-end mb-4">
+                            <div class="col-md-8">
+                                <label for="reportType" class="form-label fw-bold text-muted small">Rapor Türü</label>
+                                <select class="form-select" id="reportType" name="reportType">
+                                    <option value="sehir_ilan_sayilari" selected>Şehirlere Göre İlan Sayıları</option>
+                                    <option value="emlak_tipi_ilan_sayilari">Emlak Tipine Göre İlan Sayıları</option>
+                                    <option value="yuksek_fiyatli_ilanlar">5 Milyon TL Üzerindeki İlanlar</option>
+                                    <option value="en_buyuk_ilanlar">Metrekaresi En Büyük 5 İlan</option>
+                                    <option value="danisman_ilan_sayilari">Aktif Danışmanların İlan Sayıları</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mt-2 mt-md-0">
+                                <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+                                    Raporu Getir
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="fw-bold text-dark">Bilgi</th>
+                                    <th class="fw-bold text-dark" width="200">Değer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportTableBody">
+                                <tr>
+                                    <td colspan="2" class="text-center py-3 text-muted">Rapor yükleniyor...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Properties Table -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-list-ol mr-1"></i> Son Eklenen 10 İlan</h6>
+                    <a href="@Url.Action("Index", "Property")" class="btn btn-sm btn-outline-primary">Tüm İlanları Yönet</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">Başlık</th>
+                                    <th>Konum (Şehir)</th>
+                                    <th>Fiyat</th>
+                                    <th>Oda / Metrekare</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="ps-4 font-weight-bold text-gray-800">@item.Title</td>
+                                        <td><span class="badge bg-secondary text-white">@item.City?.Name</span></td>
+                                        <td class="font-weight-bold text-success">@item.Price.ToString("N0") ₺</td>
+                                        <td>@item.RoomCount Oda - @item.SquareMeter m²</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- CHART.JS INCLUDES -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 1. Price Trend Line Chart
+        var trendCtx = document.getElementById('priceTrendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(JsonSerializer.Serialize(ViewBag.LastTitles)),
+                datasets: [{
+                    label: 'İlan Fiyatı (₺)',
+                    data: @Html.Raw(JsonSerializer.Serialize(ViewBag.LastPrices)),
+                    borderColor: '#1572e8',
+                    backgroundColor: 'rgba(21, 114, 232, 0.05)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#1572e8',
+                    pointRadius: 4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // 2. Property Type Doughnut Chart
+        var typeCtx = document.getElementById('propertyTypeChart').getContext('2d');
+        new Chart(typeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: @Html.Raw(JsonSerializer.Serialize(ViewBag.TypeNames)),
+                datasets: [{
+                    data: @Html.Raw(JsonSerializer.Serialize(ViewBag.TypeCounts)),
+                    backgroundColor: ['#ffad46', '#31ce36', '#48abf7', '#f25961', '#59d05d'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. City Distribution Bar Chart
+        var cityCtx = document.getElementById('cityChart').getContext('2d');
+        new Chart(cityCtx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(JsonSerializer.Serialize(ViewBag.CityNames)),
+                datasets: [{
+                    label: 'İlan Sayısı',
+                    data: @Html.Raw(JsonSerializer.Serialize(ViewBag.CityCounts)),
+                    backgroundColor: 'rgba(49, 206, 54, 0.8)',
+                    borderColor: '#31ce36',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        // 4. AJAX Rapor Yükleme
+        window.loadAjaxReport = function () {
+            const reportType = document.getElementById("reportType").value;
+            const tbody = document.getElementById("reportTableBody");
+            tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-muted"><i class="fas fa-spinner fa-spin mr-1"></i> Rapor yükleniyor...</td></tr>';
+            
+            fetch('/Admin/GetReportData?reportType=' + reportType)
+                .then(response => response.json())
+                .then(data => {
+                    tbody.innerHTML = "";
+                    if (!data || data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-muted">Kayıt bulunamadı.</td></tr>';
+                        return;
+                    }
+                    data.forEach(item => {
+                        const tr = document.createElement("tr");
+                        const bilgiVal = item.bilgi || item.Bilgi || "";
+                        const degerVal = item.deger || item.Deger || "";
+                        tr.innerHTML = `
+                            <td class="fw-semibold">${bilgiVal}</td>
+                            <td class="fw-bold text-success">${degerVal}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-danger">Rapor yüklenirken hata oluştu!</td></tr>';
+                });
+        };
+        
+        loadAjaxReport(); // İlk açılışta yükle
+    });
+</script>

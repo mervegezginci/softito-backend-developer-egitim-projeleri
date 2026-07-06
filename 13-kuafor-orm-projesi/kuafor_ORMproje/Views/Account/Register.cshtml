@@ -1,0 +1,67 @@
+﻿@using kuafor_ORMproje.ViewModels
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<div class="account-container">
+    <div class="account-box">
+
+        <h2>Hesap Oluştur</h2>
+
+        <form asp-action="Register" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-4">
+                <label asp-for="Name" class="form-label">Ad Soyad</label>
+                <input asp-for="Name" class="form-control" placeholder="Ad soyadınızı giriniz" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label">E-posta Adresi</label>
+                <input asp-for="Email" class="form-control" placeholder="E-posta adresinizi giriniz" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" class="form-control" placeholder="Şifrenizi giriniz" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="ConfirmNewPassword" class="form-label">Şifre Tekrar</label>
+                <input asp-for="ConfirmNewPassword" class="form-control" placeholder="Şifrenizi tekrar giriniz" />
+                <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Hesap Oluştur" class="register-btn" />
+
+            <div class="text-center mt-4">
+                <p>
+                    Zaten bir hesabınız var mı?
+                    <a asp-controller="Account" asp-action="Login">
+                        Giriş Yap
+                    </a>
+                </p>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="back-link">
+                    ← Ana Sayfaya Dön
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

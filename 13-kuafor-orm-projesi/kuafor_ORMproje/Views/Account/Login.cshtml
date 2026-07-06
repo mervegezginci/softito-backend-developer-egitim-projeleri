@@ -1,0 +1,77 @@
+﻿@using kuafor_ORMproje.ViewModels
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+
+<div class="account-container">
+    <div class="account-box">
+
+        <h2>Hoşgeldiniz</h2>
+
+        <form asp-action="Login" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="Email giriniz" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" class="form-control" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div class="form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label">
+                        Beni Hatırla
+                    </label>
+                </div>
+
+                <a asp-controller="Account"
+                   asp-action="VerifyEmail"
+                   class="forgot-link">
+                    Şifremi Unuttum?
+                </a>
+
+            </div>
+
+            <button type="submit" class="login-btn">
+                Giriş Yap
+            </button>
+
+            <div class="text-center mt-4">
+                <p>
+                    Hesabınız yok mu?
+                    <a asp-controller="Account"
+                       asp-action="Register">
+                        Hesap Oluşturun
+                    </a>
+                </p>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="back-link">
+                    ← Ana Sayfaya Geri Dön
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

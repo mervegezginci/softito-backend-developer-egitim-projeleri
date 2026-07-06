@@ -1,0 +1,71 @@
+﻿@model List<stok_codefirstmvcproje.model.Supplier>
+
+<div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white py-3">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Tedarikçiler</h4>
+
+                <a href="@Url.Action("Create", "Supplier")"
+                   class="btn btn-dark">
+                    Yeni Tedarikçi
+                </a>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="get" class="mb-4">
+                <input type="text"
+                       name="search"
+                       class="form-control"
+                       placeholder="Firma Ara..." />
+            </form>
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Firma</th>
+                        <th>Telefon</th>
+                        <th width="180">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CompanyName</td>
+                            <td>@item.ContactPhone</td>
+
+                            <td>
+
+                                <a href="@Url.Action("Edit", "Supplier", new { id = item.Id })"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Düzenle
+                                </a>
+
+                                <a href="@Url.Action("Delete", "Supplier", new { id = item.Id })"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Sil
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

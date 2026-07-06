@@ -1,0 +1,68 @@
+﻿@model kutuphane_apiproje.Models.Review
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="form-container">
+
+    <div class="form-card">
+
+        <div class="page-header">
+            <span>Değerlendirme İşlemleri</span>
+            <h2>Yeni Değerlendirme</h2>
+        </div>
+
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-box">
+                <label>Puan</label>
+                <input asp-for="Rating" class="form-control">
+            </div>
+
+            <div class="form-box">
+                <label>Yorum</label>
+                <textarea asp-for="Comment" class="form-control area"></textarea>
+            </div>
+
+            <div class="form-box">
+                <label>Tarih</label>
+                <input asp-for="CreatedDate" class="form-control">
+            </div>
+
+            <div class="form-box">
+                <label>Kitap</label>
+                <select asp-for="BookId"
+                        asp-items="ViewBag.BookId"
+                        class="form-control">
+                </select>
+            </div>
+
+            <div class="form-box">
+                <label>Kullanıcı</label>
+                <select asp-for="UserId"
+                        asp-items="ViewBag.UserId"
+                        class="form-control">
+                </select>
+            </div>
+
+            <button class="save-btn">
+                Kaydet
+            </button>
+
+            <a asp-action="Index" class="back-btn">
+                Geri Dön
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

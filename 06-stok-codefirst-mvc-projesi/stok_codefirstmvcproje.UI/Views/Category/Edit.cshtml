@@ -1,0 +1,48 @@
+﻿@model stok_codefirstmvcproje.model.Category
+
+<div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+            <h4>Kategori Düzenle</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post"
+                  action="@Url.Action("Edit", "Category")">
+
+                <input type="hidden"
+                       name="Id"
+                       value="@Model.Id" />
+
+                <div class="mb-3">
+                    <label>Kategori Adı</label>
+                    <input type="text"
+                           name="CategoryName"
+                           value="@Model.CategoryName"
+                           class="form-control" />
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Güncelle
+                    </button>
+
+                    <a href="@Url.Action("Index", "Category")"
+                       class="btn btn-secondary">
+                        Vazgeç
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

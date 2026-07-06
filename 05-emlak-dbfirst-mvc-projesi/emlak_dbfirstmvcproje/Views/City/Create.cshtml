@@ -1,0 +1,36 @@
+﻿@model City
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4>Yeni Şehir Ekle</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form asp-action="Create" method="post">
+
+            <div class="mb-3">
+                <label>Şehir Adı</label>
+                <input asp-for="Name"
+                       class="form-control"
+                       required />
+            </div>
+
+            <button type="submit"
+                    class="btn btn-success">
+                Kaydet
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                İptal
+            </a>
+
+        </form>
+
+    </div>
+</div>

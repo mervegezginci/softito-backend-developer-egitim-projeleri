@@ -1,0 +1,33 @@
+﻿@model List<kurs_javascriptcodefirstproje.Models.Course>
+
+<div class="container mt-5">
+    <h2>Kurslar</h2>
+
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+
+                <div class="card mb-3">
+
+                    <img src="@item.ImageUrl"
+                         class="card-img-top">
+
+                    <div class="card-body">
+
+                        <h5>@item.CourseName</h5>
+
+                        <p>@item.Description</p>
+
+                        <strong>@item.Price ₺</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+</div>

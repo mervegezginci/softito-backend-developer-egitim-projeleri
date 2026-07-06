@@ -1,0 +1,192 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Cafe Yönetim Raporları</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body text-center">
+                    <h6>Toplam Ürün</h6>
+                    <h3>@ViewBag.ProductCount</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body text-center">
+                    <h6>Toplam Kategori</h6>
+                    <h3>@ViewBag.CategoryCount</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body text-center">
+                    <h6>Toplam Müşteri</h6>
+                    <h3>@ViewBag.CustomerCount</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body text-center">
+                    <h6>Onaylı Yorum</h6>
+                    <h3>@ViewBag.ApprovedCommentCount</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Kategori Bazlı Ürün Sayıları
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Yorum Dağılımı
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-left-danger">
+                <div class="card-body">
+                    <h6>En Pahalı Ürün</h6>
+                    <strong>@ViewBag.MostExpensiveProduct</strong>
+                    <br />
+                    @ViewBag.MaxPrice ₺
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-left-success">
+                <div class="card-body">
+                    <h6>En Ucuz Ürün</h6>
+                    <strong>@ViewBag.CheapestProduct</strong>
+                    <br />
+                    @ViewBag.MinPrice ₺
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-left-primary">
+                <div class="card-body">
+                    <h6>En Çok Yorum Alan</h6>
+                    <strong>@ViewBag.MostCommentedProduct</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-left-info">
+                <div class="card-body">
+                    <h6>Ortalama Puan</h6>
+                    <strong>@ViewBag.AverageRating</strong>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Sistem Özeti
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p>Toplam ürün sayısı: <strong>@ViewBag.ProductCount</strong></p>
+                    <p>Toplam kategori sayısı: <strong>@ViewBag.CategoryCount</strong></p>
+                    <p>Toplam müşteri: <strong>@ViewBag.CustomerCount</strong></p>
+                    <p>Onaylı yorum: <strong>@ViewBag.ApprovedCommentCount</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Cafe İstatistikleri
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p>En pahalı ürün: <strong>@ViewBag.MostExpensiveProduct</strong></p>
+                    <p>En ucuz ürün: <strong>@ViewBag.CheapestProduct</strong></p>
+                    <p>En çok yorum alan: <strong>@ViewBag.MostCommentedProduct</strong></p>
+                    <p>Ortalama puan: <strong>@ViewBag.AverageRating</strong></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById("myAreaChart").getContext('2d');
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.CategoryNames)),
+                datasets: [{
+                    label: "Ürün Sayısı",
+                    data: @Html.Raw(Json.Serialize(ViewBag.ProductCounts)),
+                    borderColor: "blue",
+                    backgroundColor: "rgba(0, 0, 255, 0.05)",
+                    fill: true
+                }, {
+                    label: "Ortalama Fiyat (₺)",
+                    data: @Html.Raw(Json.Serialize(ViewBag.CategoryAvgPrices)),
+                    borderColor: "green",
+                    backgroundColor: "rgba(0, 128, 0, 0.05)",
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: [{ ticks: { beginAtZero: true } }]
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,79 @@
+@model kuafor_ORMproje.Model.Service
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Hizmet Düzenle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Hizmet Bilgilerini Düzenle</h5>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                    <i class="bx bx-arrow-back me-1"></i> Listeye Dön
+                </a>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    @Html.AntiForgeryToken()
+                    
+                    <input type="hidden" asp-for="Id" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="ServiceName">Hizmet Adı</label>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text"><i class="bx bx-purchase-tag-alt"></i></span>
+                            <input asp-for="ServiceName" class="form-control" required />
+                        </div>
+                        <span asp-validation-for="ServiceName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Price">Fiyat (TL)</label>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text">₺</span>
+                            <input asp-for="Price" type="number" step="0.01" class="form-control" required />
+                        </div>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Duration">Süre (Dakika)</label>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text"><i class="bx bx-time"></i></span>
+                            <input asp-for="Duration" type="number" class="form-control" required />
+                        </div>
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Description">Açıklama</label>
+                        <textarea asp-for="Description" class="form-control" style="height: 100px; resize: none;"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="ImageUrl">Görsel URL</label>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text"><i class="bx bx-image"></i></span>
+                            <input asp-for="ImageUrl" class="form-control" />
+                        </div>
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

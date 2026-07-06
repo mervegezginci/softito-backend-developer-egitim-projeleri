@@ -1,0 +1,327 @@
+@model DashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+}
+
+<!-- KPI Kartları -->
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <p class="text-muted small mb-1 text-uppercase fw-semibold" style="letter-spacing: 2px;">Yönetim Paneli</p>
+        <h2 class="fw-bold mb-0" style="font-size: 2rem;">Dashboard</h2>
+    </div>
+    <button onclick="window.print()" class="btn btn-outline-secondary btn-sm">
+        <i class="fas fa-print me-1"></i> Yazdır
+    </button>
+</div>
+
+<!-- İstatistik Grid -->
+<div class="row g-3 mb-4">
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #3b82f6;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">Toplam Kitap</p>
+                    <h2 class="stat-number text-primary">@Model.TotalBooks</h2>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                    <i class="fas fa-book"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #8b5cf6;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">Toplam Yazar</p>
+                    <h2 class="stat-number" style="color: #8b5cf6;">@Model.TotalAuthors</h2>
+                </div>
+                <div class="stat-icon" style="background: rgba(139,92,246,.1); color: #8b5cf6;">
+                    <i class="fas fa-pen-nib"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #f59e0b;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">Kategori</p>
+                    <h2 class="stat-number text-warning">@Model.TotalCategories</h2>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                    <i class="fas fa-folder"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #64748b;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">Kullanıcı</p>
+                    <h2 class="stat-number text-secondary">@Model.TotalUsers</h2>
+                </div>
+                <div class="stat-icon bg-secondary bg-opacity-10 text-secondary">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #06b6d4;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">Aktif Ödünç</p>
+                    <h2 class="stat-number" style="color: #06b6d4;">@Model.ActiveBorrowings</h2>
+                </div>
+                <div class="stat-icon" style="background: rgba(6,182,212,.1); color: #06b6d4;">
+                    <i class="fas fa-book-open"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #10b981;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">İade Edilen</p>
+                    <h2 class="stat-number text-success">@Model.ReturnedBooks</h2>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #f43f5e;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">Toplam Yorum</p>
+                    <h2 class="stat-number" style="color: #f43f5e;">@Model.TotalReviews</h2>
+                </div>
+                <div class="stat-icon" style="background: rgba(244,63,94,.1); color: #f43f5e;">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-stat-card" style="border-left: 4px solid #84cc16;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="stat-label">Müsait Kitap</p>
+                    <h2 class="stat-number" style="color: #84cc16;">@Model.AvailableBooks</h2>
+                </div>
+                <div class="stat-icon" style="background: rgba(132,204,22,.1); color: #84cc16;">
+                    <i class="fas fa-book-bookmark"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Dinamik Rapor Bölümü -->
+<div class="report-panel">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold mb-1">Detaylı Rapor Motoru</h5>
+            <p class="text-muted small mb-0">Rapor türü seçerek tabloyu anında güncelleyin</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button onclick="exportReportCSV()" class="btn btn-success btn-sm">
+                <i class="fas fa-file-excel me-1"></i> Excel İndir
+            </button>
+            <button onclick="window.print()" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-print me-1"></i> PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Rapor Seçici Butonlar -->
+    <div class="d-flex flex-wrap gap-2 mb-4" id="reportButtons">
+        <button onclick="LoadReport(1)" class="btn btn-sm btn-primary report-btn" data-type="1">
+            <i class="fas fa-trophy me-1"></i> En Çok Ödünç Alınan
+        </button>
+        <button onclick="LoadReport(2)" class="btn btn-sm btn-outline-secondary report-btn" data-type="2">
+            <i class="fas fa-history me-1"></i> Son 5 Ödünç
+        </button>
+        <button onclick="LoadReport(3)" class="btn btn-sm btn-outline-secondary report-btn" data-type="3">
+            <i class="fas fa-pen-nib me-1"></i> En Çok Kitaplı Yazar
+        </button>
+        <button onclick="LoadReport(4)" class="btn btn-sm btn-outline-secondary report-btn" data-type="4">
+            <i class="fas fa-folder me-1"></i> Kategori Bazlı Kitap
+        </button>
+        <button onclick="LoadReport(5)" class="btn btn-sm btn-outline-secondary report-btn" data-type="5">
+            <i class="fas fa-book-open me-1"></i> Ödünçteki Kitaplar
+        </button>
+        <button onclick="LoadReport(6)" class="btn btn-sm btn-outline-secondary report-btn" data-type="6">
+            <i class="fas fa-check me-1"></i> Müsait Kitaplar
+        </button>
+        <button onclick="LoadReport(7)" class="btn btn-sm btn-outline-secondary report-btn" data-type="7">
+            <i class="fas fa-star me-1"></i> En Çok Yorum Alan
+        </button>
+        <button onclick="LoadReport(8)" class="btn btn-sm btn-outline-secondary report-btn" data-type="8">
+            <i class="fas fa-plus me-1"></i> Son Eklenen Kitaplar
+        </button>
+        <button onclick="LoadReport(9)" class="btn btn-sm btn-outline-secondary report-btn" data-type="9">
+            <i class="fas fa-clock me-1"></i> En Eski Yayınlananlar
+        </button>
+        <button onclick="LoadReport(10)" class="btn btn-sm btn-outline-secondary report-btn" data-type="10">
+            <i class="fas fa-user me-1"></i> En Aktif Okuyucular
+        </button>
+    </div>
+
+    <!-- Yükleniyor -->
+    <div id="reportLoading" class="text-center py-3 text-muted d-none">
+        <div class="spinner-border spinner-border-sm me-2" role="status"></div> Yükleniyor...
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="reportTable">
+            <thead class="table-light">
+                <tr>
+                    <th width="65%">Bilgi</th>
+                    <th>Değer</th>
+                </tr>
+            </thead>
+            <tbody id="reportResult">
+                <tr>
+                    <td colspan="2" class="text-center py-4 text-muted">
+                        <i class="fas fa-chart-bar fs-2 d-block mb-2 text-secondary"></i>
+                        Yukarıdaki butonlardan rapor türü seçiniz.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Stiller -->
+<style>
+    .dashboard-stat-card {
+        background: white;
+        padding: 1.25rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        border: 1px solid #f1f5f9;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .dashboard-stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    }
+    .stat-label {
+        color: #64748b;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    .stat-number {
+        font-size: 2rem !important;
+        font-weight: 800 !important;
+        margin: 0 !important;
+    }
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    .report-panel {
+        background: white;
+        border: 1px solid #f1f5f9;
+        border-radius: 14px;
+        padding: 1.75rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+    @@media print {
+        #reportButtons, .btn { display: none !important; }
+        .report-panel { box-shadow: none !important; border: 1px solid #ddd !important; }
+    }
+</style>
+
+<script>
+    function LoadReport(type) {
+        // Aktif buton
+        document.querySelectorAll('.report-btn').forEach(function (btn) {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-outline-secondary');
+        });
+        var activeBtn = document.querySelector('[data-type="' + type + '"]');
+        if (activeBtn) {
+            activeBtn.classList.remove('btn-outline-secondary');
+            activeBtn.classList.add('btn-primary');
+        }
+
+        document.getElementById('reportLoading').classList.remove('d-none');
+        document.getElementById('reportResult').innerHTML = '';
+
+        fetch("/Admin/GetReport?reportType=" + type)
+            .then(x => x.json())
+            .then(data => {
+                document.getElementById('reportLoading').classList.add('d-none');
+                let html = '';
+                if (Array.isArray(data) && data.length > 0) {
+                    data.forEach(function (item) {
+                        html += `<tr>
+                            <td class="fw-semibold">${item.Bilgi ?? item.bilgi ?? '-'}</td>
+                            <td><span class="badge bg-primary px-3 py-2">${item.Deger ?? item.deger ?? '-'}</span></td>
+                        </tr>`;
+                    });
+                } else {
+                    html = '<tr><td colspan="2" class="text-center text-muted py-4">Sonuç bulunamadı.</td></tr>';
+                }
+                document.getElementById('reportResult').innerHTML = html;
+            })
+            .catch(function () {
+                document.getElementById('reportLoading').classList.add('d-none');
+                document.getElementById('reportResult').innerHTML =
+                    '<tr><td colspan="2" class="text-center text-danger py-4">Rapor yüklenirken hata oluştu.</td></tr>';
+            });
+    }
+
+    // İlk yüklemede otomatik rapor çek
+    document.addEventListener('DOMContentLoaded', function () {
+        LoadReport(1);
+    });
+
+    function exportReportCSV() {
+        var csv = [];
+        var rows = document.querySelectorAll("#reportTable tr");
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            for (var j = 0; j < cols.length; j++) {
+                var text = cols[j].innerText.replace(/"/g, '""').replace(/\n/g, ' ');
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(";"));
+        }
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        var a = document.createElement("a");
+        a.download = "kutuphane-raporu.csv";
+        a.href = window.URL.createObjectURL(csvFile);
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+</script>

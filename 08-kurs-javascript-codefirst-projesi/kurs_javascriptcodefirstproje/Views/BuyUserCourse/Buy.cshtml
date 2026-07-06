@@ -1,0 +1,78 @@
+﻿@model kurs_javascriptcodefirstproje.Models.Course
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Kurs Başvuru Formu</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="text-center">
+                        <img src="@Model.ImageUrl"
+                             class="img-fluid rounded mb-3"
+                             style="height:160px; width:100%; object-fit:cover;" />
+                    </div>
+
+                    <h3 class="text-center text-primary">
+                        Seçilen Kurs: @Model.CourseName
+                    </h3>
+
+                    <p class="text-center">
+                        Fiyat: @Model.Price ₺
+                    </p>
+
+                    <form asp-action="Buy" method="post">
+
+                        <input type="hidden" name="courseId" value="@Model.Id" />
+
+                        <div class="mb-3">
+                            <label>Ad Soyad</label>
+                            <input name="StudentName" class="form-control" required />
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input name="Email" type="email" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Telefon</label>
+                            <input name="Phone" class="form-control" required />
+                        </div>
+
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="submit" class="btn btn-success w-100">
+                                Başvuruyu Gönder
+                            </button>
+
+                            <a asp-action="Index" class="btn btn-secondary w-100" style="padding-top:10px;">
+                                ← Geri Dön
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,311 @@
+﻿<main>
+
+    @* hero alanı *@
+    <div class="w-100 overflow-hidden bg-gray-100" id="top">
+
+        <div class="container position-relative">
+            <div class="col-12 col-lg-8 mt-0 h-100 position-absolute top-0 end-0 bg-cover" data-aos="fade-left"
+                 style="background-image: url('/stride-1.0.0/img/webp/interior11.webp');">
+            </div>
+            <div class="row">
+
+                <div class="col-lg-7 py-vh-6 position-relative" data-aos="fade-right">
+                    <h1 class="display-1 fw-bold mt-5">
+                        Ürününü seç, yorumları incele!
+                    </h1>
+
+                    <p class="lead">
+                        Gerçek kullanıcı deneyimleriyle en doğru seçimi yap.
+                    </p>
+
+                    <a href="#products" class="btn btn-dark btn-xl shadow me-3 rounded-0 my-5">
+                        Ürünleri İncele
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @* popüler işaretli olanlar *@
+    <section id="products" class="py-5">
+        <div class="container">
+
+            <h2 class="text-center fw-bold mb-2">
+                Ürünlerimiz
+            </h2>
+
+            <p class="text-center text-muted mb-5">
+                Kahvelerimizi, içeceklerimizi ve özel ürünlerimizi inceleyin.
+            </p>
+
+            <div class="row">
+
+                @foreach (var item in Model.PopularProducts)
+                {
+                    <div class="col-md-3 mb-4">
+
+                        <div class="card shadow border-0 h-100">
+
+                            <img src="@item.ImageUrl"
+                                 class="card-img-top"
+                                 style="height:250px;object-fit:cover;" />
+
+                            <div class="card-body text-center">
+
+                                <h5>@item.ProductName</h5>
+
+                                <h4 class="fw-bold">
+                                    @item.Price ₺
+                                </h4>
+
+                                <p class="mb-0 text-warning">
+
+                                    @{
+                                        double toplam = 0;
+                                        int adet = 0;
+
+                                        foreach (var yorum in Model.Comments)
+                                        {
+                                            if (yorum.ProductId == item.Id)
+                                            {
+                                                toplam += yorum.Rating;
+                                                adet++;
+                                            }
+                                        }
+
+                                        double avgRating = adet > 0 ? toplam / adet : 0;
+                                    }
+
+                                <p class="text-warning">
+                                    ⭐ @avgRating.ToString("0.0")
+                                </p>
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+    </section>
+
+    @* hakkımızda *@
+    <div class="py-vh-4 bg-gray-100 w-100 overflow-hidden" id="aboutus">
+        <div class="container">
+
+            <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-lg-6">
+                    <div class="row gx-5 d-flex">
+                        <div class="col-md-11">
+                            <div class="shadow ratio ratio-16x9 rounded bg-cover bp-center align-self-end" data-aos="fade-right"
+                                 style="background-image: url(https://images.pexels.com/photos/37627107/pexels-photo-37627107.jpeg);--bs-aspect-ratio: 50%;">
+                            </div>
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <div class="shadow ratio ratio-1x1 rounded bg-cover mt-5 bp-center float-end" data-aos="fade-up"
+                                 style="background-image: url(https://images.pexels.com/photos/27605493/pexels-photo-27605493.jpeg);">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-12 shadow ratio rounded bg-cover mt-5 bp-center" data-aos="fade-left"
+                                 style="background-image: url(https://images.pexels.com/photos/33238712/pexels-photo-33238712.jpeg);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h3 class="py-5 border-top border-dark" data-aos="fade-left">
+                        Her fincanda kalite, her yudumda mutluluk.
+                        Özenle seçilmiş kahve çekirdeklerimiz ve deneyimli
+                        baristalarımız ile sizlere eşsiz bir kahve deneyimi sunuyoruz.
+                    </h3>
+
+                    <p data-aos="fade-left" data-aos-delay="200">
+                        Günün her anına eşlik eden sıcak kahvelerimiz,
+                        taze çekilmiş çekirdeklerden hazırlanır. İster yoğun bir espresso,
+                        ister yumuşak içimli latte tercih edin, her siparişinizde aynı
+                        kaliteyi ve lezzeti bulabilirsiniz.
+                    </p>
+
+                    <p data-aos="fade-left" data-aos-delay="400">
+                        Modern atmosferimiz, hızlı servis anlayışımız ve müşteri
+                        memnuniyetini ön planda tutan ekibimizle kahve tutkunlarını
+                        bir araya getiriyoruz. Siz de kahvenin en keyifli halini
+                        keşfetmek için bize katılın.
+                    </p>
+
+                    <p>
+                        <a href="#products" class="link-fancy link-dark" data-aos="fade-left" data-aos-delay="600">
+                            Ürünleri İncele
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @* müşterinin yaptığı yorumlar *@
+    <div class="container py-vh-4 w-100 overflow-hidden">
+        <div class="row d-flex justify-content-center align-items-center">
+            <section id="comments" class="bg-light py-vh-5">
+
+                <div class="container">
+                    <h2 class="text-center fw-bold mb-2">
+                        Müşteri Yorumları
+                    </h2>
+
+                    <p class="text-center text-muted mb-5">
+                        Kullanıcılarımızın deneyimleri
+                    </p>
+
+                    <div class="row">
+
+                        @foreach (var item in Model.Comments)
+                        {
+                            <div class="col-md-4 mb-4">
+
+                                <div class="card border-0 shadow-sm h-100 rounded-4">
+
+                                    <div class="card-body p-4">
+
+                                        <!-- Üst kullanıcı alanı -->
+                                        <div class="d-flex align-items-center mb-3">
+
+                                            <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center"
+                                                 style="width:45px;height:45px;font-weight:bold;">
+                                                @item.Customer.FullName.Substring(0, 1).ToUpper()
+                                            </div>
+
+                                            <div class="ms-3">
+                                                <h6 class="mb-0 fw-bold">@item.Customer.FullName</h6>
+                                                <small class="text-muted">Müşteri</small>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Yorum -->
+                                        <p class="text-muted mb-3" style="min-height:60px;">
+                                            "@item.Text"
+                                        </p>
+
+                                        <!-- Yıldız -->
+                                        <div class="text-warning">
+
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= item.Rating)
+                                                {
+                                                    <span>⭐</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">⭐</span>
+                                                }
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    @* dışarıdan yorum gönderme formu *@
+    <section class="py-5 bg-light">
+
+        <div class="container">
+
+            <div class="row justify-content-center">
+
+                <div class="col-lg-6">
+
+                    <div class="card border-0 shadow-sm rounded-4">
+
+                        <div class="card-body p-4">
+
+                            <h3 class="text-center fw-bold mb-2">
+                                Yorum Yap
+                            </h3>
+
+                            <p class="text-center text-muted mb-4">
+                                Deneyimini diğer kullanıcılarla paylaş
+                            </p>
+
+                            <form asp-controller="Home" asp-action="SendComment" method="post">
+
+                                <input type="text"
+                                       name="fullname"
+                                       class="form-control mb-3"
+                                       placeholder="Ad Soyad"
+                                       required />
+
+                                <input type="email"
+                                       name="email"
+                                       class="form-control mb-3"
+                                       placeholder="E-mail"
+                                       required />
+
+                                <select name="productId" class="form-control form-select mb-3">
+
+                                    <option disabled selected>Ürün seçiniz</option>
+
+                                    @foreach (var item in Model.PopularProducts)
+                                    {
+                                        <option value="@item.Id">
+                                            @item.ProductName
+                                        </option>
+                                    }
+
+                                </select>
+
+                                <textarea name="text"
+                                          class="form-control mb-3"
+                                          rows="4"
+                                          placeholder="Yorumunuzu yazın..."
+                                          required></textarea>
+
+                                <select name="rating" class="form-control form-select mb-4">
+
+                                    <option disabled selected>Puan veriniz</option>
+                                    <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                                    <option value="4">⭐⭐⭐⭐ (4)</option>
+                                    <option value="3">⭐⭐⭐ (3)</option>
+                                    <option value="2">⭐⭐ (2)</option>
+                                    <option value="1">⭐ (1)</option>
+
+                                </select>
+
+                                <button class="btn btn-dark w-100 py-2">
+                                    Gönder
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

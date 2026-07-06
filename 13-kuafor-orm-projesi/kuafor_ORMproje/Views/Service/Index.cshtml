@@ -1,0 +1,67 @@
+@model IEnumerable<kuafor_ORMproje.Model.Service>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Hizmet Yönetimi";
+}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Hizmet Kataloğu</h5>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bx bx-plus me-1"></i> Yeni Hizmet Ekle
+        </a>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">Görsel</th>
+                    <th>Hizmet Adı</th>
+                    <th>Fiyat</th>
+                    <th>Süre</th>
+                    <th>Açıklama</th>
+                    <th style="width: 150px;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.ImageUrl" alt="@item.ServiceName" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=100&q=80'" />
+                            </td>
+                            <td><strong>@item.ServiceName</strong></td>
+                            <td class="text-primary fw-bold">@item.Price.ToString("C2")</td>
+                            <td><i class="bx bx-time-five"></i> @item.Duration dk</td>
+                            <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@item.Description</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm" title="Düzenle">
+                                        <i class="bx bx-edit-alt"></i>
+                                    </a>
+                                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Bu hizmeti silmek istediğinizden emin misiniz?');" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Sil">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            Kayıtlı hizmet bulunamadı.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

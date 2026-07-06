@@ -1,0 +1,84 @@
+@model IEnumerable<kutuphane_apiproje.Models.Category>
+
+@{
+    ViewData["Title"] = "Kategoriler";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="category-page">
+
+    <div class="page-title-area">
+        <div>
+            <span>Yönetim Paneli</span>
+            <h2>Kategoriler</h2>
+        </div>
+        <a asp-action="Create" class="add-btn">+ Yeni Kategori</a>
+    </div>
+
+    <!-- Arama Kutusu -->
+    <form method="get" style="margin-bottom: 20px; max-width: 400px;">
+        <div style="display:flex; gap:8px;">
+            <input type="text" name="search" class="form-control" placeholder="Kategori adı ara..."
+                   value="@ViewBag.Search" id="txtSearch" style="border-radius:8px;" />
+            @if (!string.IsNullOrEmpty(ViewBag.Search as string))
+            {
+                <a href="/Category/Index" class="btn btn-outline-secondary" style="border-radius:8px;">✕</a>
+            }
+        </div>
+    </form>
+
+    <div class="category-table-card">
+
+        <table class="category-table">
+
+            <thead>
+                <tr>
+                    <th>Kategori Adı</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @item.CategoryName
+                        </td>
+
+                        <td>
+
+                            <a asp-action="Edit"
+                               asp-route-id="@item.Id"
+                               class="edit-btn">
+                                Düzenle
+                            </a>
+
+                            <form asp-action="Delete"
+                                  asp-route-id="@item.Id"
+                                  method="post"
+                                  style="display:inline">
+
+                                @Html.AntiForgeryToken()
+
+                                <button class="delete-btn"
+                                        onclick="return confirm('Kategori silinsin mi?')">
+                                    Sil
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

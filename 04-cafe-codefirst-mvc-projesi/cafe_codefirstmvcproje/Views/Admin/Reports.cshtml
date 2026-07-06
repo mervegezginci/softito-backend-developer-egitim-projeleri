@@ -1,0 +1,597 @@
+@model cafe_codefirstmvcproje.Models.ReportsViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Custom Styles for Reports Page -->
+<style>
+    .kpi-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border-radius: 12px;
+        overflow: hidden;
+        border: none;
+    }
+    .kpi-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+    }
+    .gradient-primary {
+        background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    }
+    .gradient-success {
+        background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+    }
+    .gradient-info {
+        background: linear-gradient(135deg, #36b9cc 0%, #258391 100%);
+    }
+    .gradient-warning {
+        background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+    }
+    .text-white-80 {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+    .card-title-premium {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+    .table-premium th {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        background-color: #f8f9fc;
+        color: #4e73df;
+        border-top: none;
+    }
+    .table-premium td {
+        vertical-align: middle;
+    }
+    .badge-premium {
+        padding: 0.5em 0.85em;
+        font-size: 85%;
+        border-radius: 30px;
+    }
+    .search-filter-box {
+        background-color: #f8f9fc;
+        border-radius: 10px;
+        border: 1px solid #e3e6f0;
+    }
+    .chart-container-premium {
+        position: relative;
+        height: 350px;
+        width: 100%;
+    }
+
+    /* Print styling rules */
+    @@media print {
+        #accordionSidebar, .navbar, .btn, .search-filter-box, .nav-tabs, .card-header-actions {
+            display: none !important;
+        }
+        .container-fluid {
+            width: 100% !important;
+            padding: 0 !important;
+        }
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .col-xl-8, .col-xl-4, .col-lg-7, .col-lg-5, .col-md-6, .col-md-3, .col-xl-3 {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            margin-bottom: 20px !important;
+        }
+        .chart-container-premium {
+            height: 250px !important;
+        }
+        .table-responsive {
+            overflow: visible !important;
+        }
+    }
+</style>
+
+<div class="container-fluid pb-5">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Sistem ve Cafe Raporları</h1>
+            <p class="text-muted mb-0">İşletmenizin ürün, kategori ve müşteri yorumlarına ait detaylı performans metrikleri.</p>
+        </div>
+        <div class="card-header-actions mt-3 mt-sm-0">
+            <button onclick="window.print()" class="btn btn-sm btn-primary shadow-sm mr-2">
+                <i class="fas fa-print fa-sm text-white-50 mr-1"></i> Yazdır / PDF Kaydet
+            </button>
+        </div>
+    </div>
+
+    <!-- KPI Cards Row -->
+    <div class="row">
+
+        <!-- Toplam Ürün -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-primary text-white">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Toplam Ürün</div>
+                            <div class="h2 mb-0 font-weight-bold">@Model.TotalProducts</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <i class="fas fa-mug-hot mr-1"></i> Aktif menü öğeleri
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-utensils fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toplam Kategori -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-success text-white">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Toplam Kategori</div>
+                            <div class="h2 mb-0 font-weight-bold">@Model.TotalCategories</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <i class="fas fa-list-ul mr-1"></i> Farklı menü grupları
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toplam Müşteri -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-info text-white">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Kayıtlı Müşteri</div>
+                            <div class="h2 mb-0 font-weight-bold">@Model.TotalCustomers</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <i class="fas fa-user-check mr-1"></i> Sistemde kayıtlı
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yorum Dağılımı -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card kpi-card shadow h-100 py-2 gradient-warning text-white">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="card-title-premium text-white-80 mb-1">Yorum Durumu</div>
+                            <div class="h3 mb-0 font-weight-bold">@Model.TotalComments Yorum</div>
+                            <div class="text-xs text-white-80 mt-2">
+                                <span class="badge badge-success font-weight-bold">@Model.ApprovedComments Onaylı</span>
+                                <span class="badge badge-danger font-weight-bold">@Model.PendingComments Bekleyen</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comments fa-2x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+
+        <!-- Kategori Dağılımı Grafik -->
+        <div class="col-xl-8 col-lg-7 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Kategori Bazlı Ürün Dağılımı ve Fiyat Ortalaması</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container-premium">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Müşteri Puan Dağılımı Grafik -->
+        <div class="col-xl-4 col-lg-5 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Müşteri Puanlama Dağılımı</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container-premium">
+                        <canvas id="ratingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Reports Tables & Analysis -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white py-3">
+                    <ul class="nav nav-tabs card-header-tabs" id="reportTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active font-weight-bold" id="products-tab" data-toggle="tab" href="#productsReport" role="tab" aria-controls="productsReport" aria-selected="true">
+                                <i class="fas fa-hamburger mr-1"></i> Ürün Performans Analizi
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" id="categories-tab" data-toggle="tab" href="#categoriesReport" role="tab" aria-controls="categoriesReport" aria-selected="false">
+                                <i class="fas fa-folder-open mr-1"></i> Kategori Özet Raporu
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-body">
+                    <div class="tab-content" id="reportTabsContent">
+
+                        <!-- Tab 1: Ürün Performans Analizi -->
+                        <div class="tab-pane fade show active" id="productsReport" role="tabpanel" aria-labelledby="products-tab">
+                            
+                            <!-- Search and Filter Bar -->
+                            <div class="search-filter-box p-3 mb-4">
+                                <div class="row">
+                                    <div class="col-md-4 mb-2 mb-md-0">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-white border-right-0"><i class="fas fa-search text-muted"></i></span>
+                                            </div>
+                                            <input type="text" id="productSearch" onkeyup="filterProducts()" class="form-control border-left-0" placeholder="Ürün veya kategori ara...">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-2 mb-md-0">
+                                        <select id="categoryFilter" onchange="filterProducts()" class="form-control">
+                                            <option value="">Tüm Kategoriler</option>
+                                            @foreach (var cat in Model.CategoryReports)
+                                            {
+                                                <option value="@cat.CategoryName">@cat.CategoryName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-2 mb-md-0">
+                                        <select id="popularFilter" onchange="filterProducts()" class="form-control">
+                                            <option value="">Tüm Popülerlik Durumları</option>
+                                            <option value="populer">Sadece Popüler Ürünler</option>
+                                            <option value="normal">Normal Ürünler</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button onclick="exportTableToCSV('productsTable', 'urun-performans-raporu.csv')" class="btn btn-success btn-block shadow-sm">
+                                            <i class="fas fa-file-excel fa-sm mr-1"></i> CSV İndir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Products Table -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-premium" id="productsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Ürün Adı</th>
+                                            <th>Kategori</th>
+                                            <th>Fiyat</th>
+                                            <th>Toplam Yorum</th>
+                                            <th>Ortalama Puan</th>
+                                            <th class="text-center">Popüler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productsTableBody">
+                                        @foreach (var item in Model.ProductReports)
+                                        {
+                                            <tr data-category="@item.CategoryName" data-popular="@(item.IsPopular ? "populer" : "normal")">
+                                                <td class="font-weight-bold text-gray-800">@item.ProductName</td>
+                                                <td><span class="badge badge-light badge-premium border">@item.CategoryName</span></td>
+                                                <td class="font-weight-bold text-primary">@item.Price.ToString("C2")</td>
+                                                <td><i class="far fa-comment text-muted mr-1"></i> @item.CommentCount Adet</td>
+                                                <td>
+                                                    @if (item.CommentCount > 0)
+                                                    {
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="text-warning mr-2"><i class="fas fa-star"></i></span>
+                                                            <span class="font-weight-bold text-gray-800">@item.AverageRating.ToString("0.0")</span>
+                                                            <span class="text-muted text-xs ml-1">/ 5.0</span>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted text-xs">Puanlanmadı</span>
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (item.IsPopular)
+                                                    {
+                                                        <span class="badge badge-success badge-premium"><i class="fas fa-fire mr-1"></i> Popüler</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-secondary badge-premium">Normal</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <!-- Tab 2: Kategori Özet Raporu -->
+                        <div class="tab-pane fade" id="categoriesReport" role="tabpanel" aria-labelledby="categories-tab">
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="text-gray-800 mb-0 font-weight-bold">Kategori Performans İndikatörleri</h5>
+                                <button onclick="exportTableToCSV('categoriesTable', 'kategori-ozet-raporu.csv')" class="btn btn-success shadow-sm">
+                                    <i class="fas fa-file-excel fa-sm mr-1"></i> CSV İndir
+                                </button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-premium" id="categoriesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Kategori Adı</th>
+                                            <th>Toplam Ürün Sayısı</th>
+                                            <th>Ortalama Ürün Fiyatı</th>
+                                            <th>En Düşük Fiyat</th>
+                                            <th>En Yüksek Fiyat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CategoryReports)
+                                        {
+                                            <tr>
+                                                <td class="font-weight-bold text-gray-800">@item.CategoryName</td>
+                                                <td class="font-weight-bold text-info"><i class="fas fa-box mr-1"></i> @item.ProductCount Ürün</td>
+                                                <td class="font-weight-bold text-success">@item.AvgPrice.ToString("C2")</td>
+                                                <td class="text-muted">@item.MinPrice.ToString("C2")</td>
+                                                <td class="text-danger font-weight-bold">@item.MaxPrice.ToString("C2")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts for Charts and Interactive Logic -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Data derived from MVC model
+        var categoryLabels = @Html.Raw(Json.Serialize(Model.CategoryReports.Select(x => x.CategoryName)));
+        var categoryProductCounts = @Html.Raw(Json.Serialize(Model.CategoryReports.Select(x => x.ProductCount)));
+        var categoryAvgPrices = @Html.Raw(Json.Serialize(Model.CategoryReports.Select(x => x.AvgPrice)));
+
+        var ratingData = @Html.Raw(Json.Serialize(Model.RatingCounts));
+
+        // 1. Dual-Axis Category Chart (Bar & Line)
+        var catCtx = document.getElementById("categoryChart").getContext('2d');
+        new Chart(catCtx, {
+            type: 'bar',
+            data: {
+                labels: categoryLabels,
+                datasets: [{
+                    label: "Ürün Sayısı (Sol)",
+                    type: 'bar',
+                    backgroundColor: "rgba(78, 115, 223, 0.8)",
+                    hoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    data: categoryProductCounts,
+                    yAxisID: 'y-axis-products',
+                }, {
+                    label: "Ortalama Fiyat (Sağ - ₺)",
+                    type: 'line',
+                    borderColor: "rgba(28, 200, 138, 1)",
+                    backgroundColor: "rgba(28, 200, 138, 0.05)",
+                    pointBackgroundColor: "rgba(28, 200, 138, 1)",
+                    pointBorderColor: "rgba(28, 200, 138, 1)",
+                    pointHoverBackgroundColor: "rgba(28, 200, 138, 1)",
+                    pointHoverBorderColor: "rgba(28, 200, 138, 1)",
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    borderWidth: 3,
+                    data: categoryAvgPrices,
+                    yAxisID: 'y-axis-price',
+                    fill: false,
+                    lineTension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 15
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            fontColor: "#858796",
+                            fontSize: 11
+                        }
+                    }],
+                    yAxes: [{
+                        id: 'y-axis-products',
+                        type: 'linear',
+                        position: 'left',
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: "#858796",
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            callback: function(value) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }, {
+                        id: 'y-axis-price',
+                        type: 'linear',
+                        position: 'right',
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: "#858796",
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            callback: function(value) {
+                                return value + ' ₺';
+                            }
+                        },
+                        gridLines: {
+                            drawOnChartArea: false,
+                        }
+                    }]
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+                            if (tooltipItem.datasetIndex === 1) {
+                                return datasetLabel + ': ' + tooltipItem.yLabel.toFixed(2) + ' ₺';
+                            }
+                            return datasetLabel + ': ' + tooltipItem.yLabel;
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Rating Breakdown Chart (Doughnut)
+        var ratingCtx = document.getElementById("ratingChart").getContext('2d');
+        new Chart(ratingCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['1 Yıldız', '2 Yıldız', '3 Yıldız', '4 Yıldız', '5 Yıldız'],
+                datasets: [{
+                    data: ratingData,
+                    backgroundColor: ['#e74a3b', '#f6c23e', '#36b9cc', '#4e73df', '#1cc88a'],
+                    hoverBackgroundColor: ['#be2617', '#dda20a', '#2296a8', '#2e59d9', '#17a673'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    borderWidth: 2
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutoutPercentage: 65,
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 10,
+                        padding: 10
+                    }
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                }
+            }
+        });
+    });
+
+    // Client-side Product List Filter
+    function filterProducts() {
+        var searchValue = document.getElementById("productSearch").value.toLowerCase();
+        var categoryValue = document.getElementById("categoryFilter").value;
+        var popularValue = document.getElementById("popularFilter").value;
+
+        var rows = document.querySelectorAll("#productsTableBody tr");
+
+        rows.forEach(function (row) {
+            var productName = row.cells[0].textContent.toLowerCase();
+            var rowCategory = row.getAttribute("data-category");
+            var rowPopular = row.getAttribute("data-popular");
+
+            var matchesSearch = productName.indexOf(searchValue) > -1 || rowCategory.toLowerCase().indexOf(searchValue) > -1;
+            var matchesCategory = categoryValue === "" || rowCategory === categoryValue;
+            var matchesPopular = popularValue === "" || rowPopular === popularValue;
+
+            if (matchesSearch && matchesCategory && matchesPopular) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    // Client-side CSV Exporter
+    function exportTableToCSV(tableId, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("#" + tableId + " tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            // Only export visible rows (handles current search/filters!)
+            if (rows[i].style.display === "none") continue;
+
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (var j = 0; j < cols.length; j++) {
+                var text = cols[j].innerText.trim().replace(/"/g, '""');
+                row.push('"' + text + '"');
+            }
+            
+            csv.push(row.join(","));        
+        }
+
+        // Add UTF-8 BOM so Turkish characters show correctly in Excel
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], {type: "text/csv;charset=utf-8;"});
+        var downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

@@ -1,0 +1,176 @@
+﻿@using kutuphane_apiproje.ViewModels
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="account-container">
+    <div class="account-box">
+
+        <h2>Hesap Oluştur</h2>
+
+        <form asp-action="Register" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-4">
+                <label asp-for="Name" class="form-label">Ad Soyad</label>
+                <input asp-for="Name" class="form-control" placeholder="Ad soyadınızı giriniz" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label">E-posta Adresi</label>
+                <input asp-for="Email" class="form-control" placeholder="E-posta adresinizi giriniz" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" class="form-control" placeholder="Şifrenizi giriniz" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="ConfirmNewPassword" class="form-label">Şifre Tekrar</label>
+                <input asp-for="ConfirmNewPassword" class="form-control" placeholder="Şifrenizi tekrar giriniz" />
+                <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Hesap Oluştur" class="register-btn" />
+
+            <div class="text-center mt-4">
+                <p>
+                    Zaten bir hesabınız var mı?
+                    <a asp-controller="Account" asp-action="Login">
+                        Giriş Yap
+                    </a>
+                </p>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="back-link">
+                    ← Ana Sayfaya Dön
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<style>
+    body {
+        background: #f5f3ef;
+        font-family: 'Inter', sans-serif;
+        color: #222;
+    }
+
+    .account-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px;
+    }
+
+    .account-box {
+        width: 520px;
+        background: #fff;
+        border: 1px solid #e5dfd8;
+        padding: 50px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.05);
+    }
+
+        .account-box h2 {
+            text-align: center;
+            font-family: Georgia, serif;
+            font-size: 48px;
+            font-weight: 400;
+            color: #1f1f1f;
+            margin-bottom: 40px;
+        }
+
+    .form-label {
+        color: #666;
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        height: 55px;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        background: #faf9f7;
+        padding: 15px;
+        transition: .3s;
+    }
+
+        .form-control:focus {
+            border-color: #c5a992;
+            box-shadow: none;
+            background: #fff;
+        }
+
+    .register-btn {
+        width: 100%;
+        height: 55px;
+        background: transparent;
+        border: 1px solid #c5a992;
+        color: #c5a992;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: .4s;
+    }
+
+        .register-btn:hover {
+            background: #c5a992;
+            color: #fff;
+        }
+
+    .text-danger {
+        font-size: 14px;
+    }
+
+    p {
+        color: #777;
+        margin-bottom: 20px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #c5a992;
+        transition: .3s;
+    }
+
+        a:hover {
+            color: #1f1f1f;
+        }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    @@media(max-width:576px) {
+
+        .account-box {
+            width: 100%;
+            padding: 35px 25px;
+        }
+
+            .account-box h2 {
+                font-size: 38px;
+            }
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

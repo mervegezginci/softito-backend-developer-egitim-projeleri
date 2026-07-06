@@ -1,0 +1,129 @@
+@model List<kutuphane_apiproje.Models.Borrowing>
+
+@{
+    var userName = User.Identity?.Name ?? "Kullanıcı";
+}
+
+<div class="container py-5">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="section-header align-center mb-5">
+        <div class="title">
+            <span>Kullanıcı Paneli</span>
+        </div>
+        <h2 class="section-title">
+            Ödünç Aldığım Kitaplar
+        </h2>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-box">
+            <i class="icon icon-book"></i>
+            <h3>Henüz ödünç aldığınız kitap bulunmuyor.</h3>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-accent mt-4">
+                Kitaplara Git
+            </a>
+        </div>
+    }
+    else
+    {
+        <!-- Özet istatistikler -->
+        <div class="row g-3 mb-5">
+            <div class="col-md-4">
+                <div class="p-4 rounded-3 text-center" style="background: #f0f7ff; border: 1px solid #cce0ff;">
+                    <p class="text-muted small mb-1 text-uppercase fw-semibold">Toplam Ödünç</p>
+                    <h3 class="fw-bold text-primary mb-0">@Model.Count</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-3 text-center" style="background: #f0fff6; border: 1px solid #b8f0d0;">
+                    <p class="text-muted small mb-1 text-uppercase fw-semibold">İade Edilen</p>
+                    <h3 class="fw-bold text-success mb-0">@Model.Count(x => x.IsReturned)</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-3 text-center" style="background: #fff8f0; border: 1px solid #ffe0b0;">
+                    <p class="text-muted small mb-1 text-uppercase fw-semibold">Devam Eden</p>
+                    <h3 class="fw-bold text-warning mb-0">@Model.Count(x => !x.IsReturned)</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="borrow-card" style="position: relative;">
+
+                        @if (!item.IsReturned && item.DueDate < DateTime.Now)
+                        {
+                            <div style="position:absolute;top:10px;right:10px;z-index:2;">
+                                <span class="badge bg-danger">Gecikmiş!</span>
+                            </div>
+                        }
+
+                        <img src="@item.Book?.ImageUrl" class="borrow-image">
+
+                        <div class="borrow-body">
+
+                            <h4>@item.Book?.Title</h4>
+
+                            <span class="author">@item.Book?.Author?.FullName</span>
+
+                            <hr>
+
+                            <div class="borrow-info">
+                                <p>
+                                    <strong>Alış</strong><br />
+                                    @item.BorrowDate.ToString("dd.MM.yyyy")
+                                </p>
+                                <p>
+                                    <strong>Son Teslim</strong><br />
+                                    <span class="@(item.DueDate < DateTime.Now && !item.IsReturned ? "text-danger fw-bold" : "")">
+                                        @item.DueDate.ToString("dd.MM.yyyy")
+                                    </span>
+                                </p>
+                            </div>
+
+                            @if (item.IsReturned)
+                            {
+                                <span class="status returned">✓ Teslim Edildi</span>
+                                <p class="text-muted small mt-1">@item.ReturnDate?.ToString("dd.MM.yyyy")</p>
+                            }
+                            else
+                            {
+                                <span class="status active">Devam Ediyor</span>
+
+                                <!-- TESLİM ET BUTONU -->
+                                <form asp-controller="Borrowing" asp-action="ReturnMyBook" method="post" class="mt-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" class="btn btn-sm w-100 fw-semibold"
+                                            style="background: #c5a992; color: white; border: none; padding: 9px; border-radius: 8px; transition: 0.2s;"
+                                            onclick="return confirm('Bu kitabı teslim etmek istediğinize emin misiniz?')"
+                                            onmouseover="this.style.background='#a9876b'" onmouseout="this.style.background='#c5a992'">
+                                        <i class="fas fa-undo-alt me-1"></i> Teslim Et
+                                    </button>
+                                </form>
+                            }
+
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@item.BookId"
+                               class="detail-btn mt-2">
+                                Kitabı Gör
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

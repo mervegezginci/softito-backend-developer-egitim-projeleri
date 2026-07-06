@@ -1,0 +1,99 @@
+@{
+    ViewData["Title"] = "Kategoriler";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card card-admin p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0 text-dark">Kategori Yönetimi</h4>
+        <div class="d-flex gap-2 no-print">
+            <button onclick="window.print()" class="btn btn-outline-secondary">
+                <i class="fas fa-print me-1"></i> Yazdır / PDF
+            </button>
+            <button onclick="exportTableToCSV('categoryTable', 'kategoriler-raporu.csv')" class="btn btn-success">
+                <i class="fas fa-file-excel me-1"></i> Excel İndir
+            </button>
+            <button class="btn btn-primary" id="btnAddCategory">
+                <i class="fas fa-plus me-1"></i> Yeni Kategori
+            </button>
+        </div>
+    </div>
+
+    <!-- Arama Kutusu -->
+    <div class="mb-4 no-print" style="max-width: 400px;">
+        <div class="input-group">
+            <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+            <input type="text" id="txtSearch" class="form-control" placeholder="Kategori ara..." />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="categoryTable">
+            <thead class="table-light">
+                <tr>
+                    <th>Kategori Adı</th>
+                    <th width="200" class="text-end no-print">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody id="table_data">
+                <tr>
+                    <td colspan="2" class="text-center py-4 text-muted">Kayıtlar yükleniyor...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="CategoryModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Kategori Tanımı</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Kategori Adı</label>
+                    <input type="text" id="CategoryName" class="form-control" placeholder="Kategori adı giriniz" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" data-bs-dismiss="modal">İptal</button>
+                <button class="btn btn-primary" onclick="AddCategory()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="urlCategoryData" value="@Url.Action("CategoryList", "Category")" />
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/category.js"></script>
+
+<!-- CSV İndirme Script -->
+<script>
+    function exportTableToCSV(tableId, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("#" + tableId + " tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            for (var j = 0; j < cols.length; j++) {
+                if (cols[j].classList.contains("no-print")) continue;
+                var text = cols[j].innerText.replace(/"/g, '""').replace(/\n/g, ' ');
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(";"));
+        }
+        
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        var downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

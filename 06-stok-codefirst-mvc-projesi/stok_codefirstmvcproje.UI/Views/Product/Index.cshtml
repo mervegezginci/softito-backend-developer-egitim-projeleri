@@ -1,0 +1,137 @@
+@model List<stok_codefirstmvcproje.model.Product>
+
+<div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white py-3">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Ürünler</h4>
+                <div class="d-flex gap-2">
+                    <button onclick="window.print()" class="btn btn-outline-secondary">
+                        <i class="bx bx-printer me-1"></i> Yazdır / PDF
+                    </button>
+                    <button onclick="exportTableToCSV('productsTable', 'urun-listesi-raporu.csv')" class="btn btn-success">
+                        <i class="bx bx-file me-1"></i> Excel İndir
+                    </button>
+                    <a href="@Url.Action("Create", "Product")"
+                       class="btn btn-dark">
+                        Yeni Ürün
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="get" class="mb-4">
+                <input type="text"
+                       name="search"
+                       class="form-control"
+                       placeholder="Ürün, kategori veya tedarikçi ara..." />
+            </form>
+
+            <table class="table table-hover align-middle" id="productsTable">
+
+                <thead>
+                    <tr>
+                        <th>Ürün</th>
+                        <th>Kategori</th>
+                        <th>Tedarikçi</th>
+                        <th>Stok</th>
+                        <th>Fiyat</th>
+                        <th width="180" class="no-print">İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Category.CategoryName</td>
+                            <td>@item.Supplier.CompanyName</td>
+                            <td class="fw-bold @(item.StockQty <= 15 ? "text-danger" : "text-success")">@item.StockQty</td>
+                            <td>@item.UnitPrice.ToString("N2") ₺</td>
+
+                            <td class="no-print">
+
+                                <a href="@Url.Action("Edit", "Product", new { id = item.Id })"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Düzenle
+                                </a>
+
+                                <a href="@Url.Action("Delete", "Product", new { id = item.Id })"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Sil
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Yazdırma Modu CSS (İşlem butonları ve filtreleri gizlemek için) -->
+<style>
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+        .card, .card * {
+            visibility: visible;
+        }
+        .card {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .btn, .no-print, form, .navbar, .layout-menu {
+            display: none !important;
+        }
+    }
+</style>
+
+<!-- CSV Export Javascript -->
+<script>
+    function exportTableToCSV(tableId, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("#" + tableId + " tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (var j = 0; j < cols.length; j++) {
+                // İşlemler sütununu (son sütunu) Excel'e ekleme
+                if (cols[j].classList.contains("no-print")) continue;
+                
+                var text = cols[j].innerText.replace(/"/g, '""');
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(";"));
+        }
+        
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        var downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

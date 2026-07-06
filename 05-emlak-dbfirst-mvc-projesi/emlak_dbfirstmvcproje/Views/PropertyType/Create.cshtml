@@ -1,0 +1,36 @@
+﻿@model PropertyType
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4>Yeni İlan Türü</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form asp-action="Create" method="post">
+
+            <div class="mb-3">
+                <label>Tür Adı</label>
+                <input asp-for="TypeName"
+                       class="form-control"
+                       required />
+            </div>
+
+            <button type="submit"
+                    class="btn btn-success">
+                Kaydet
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                İptal
+            </a>
+
+        </form>
+
+    </div>
+</div>

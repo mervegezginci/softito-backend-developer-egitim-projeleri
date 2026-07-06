@@ -1,0 +1,65 @@
+﻿@model StockEntry
+
+<div class="card">
+
+    <div class="card-header">
+        <h4>Depoya Ürün Girişi</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form method="post">
+
+            <div class="mb-3">
+
+                <label>Ürün</label>
+
+                <select name="ProductId" class="form-select">
+
+                    @foreach (var item in ViewBag.Products)
+                    {
+                        <option value="@item.Id">
+                            @item.Name
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Tedarikçi</label>
+
+                <select name="SupplierId" class="form-select">
+
+                    @foreach (var item in ViewBag.Suppliers)
+                    {
+                        <option value="@item.Id">
+                            @item.CompanyName
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Adet</label>
+
+                <input type="number"
+                       name="Quantity"
+                       class="form-control" />
+
+            </div>
+
+            <button class="btn btn-success">
+                Depoya Ekle
+            </button>
+
+        </form>
+
+    </div>
+
+</div>

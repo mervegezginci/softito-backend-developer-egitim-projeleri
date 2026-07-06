@@ -1,0 +1,212 @@
+﻿/* ===========================
+   GOOGLE FONTS
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
+
+
+/* ===========================
+   BODY
+=========================== */
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    background: url('/salone-1.0.0/img/hero-bg.jpg') center center/cover no-repeat fixed;
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+}
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(255,255,255,.82);
+        backdrop-filter: blur(3px);
+    }
+
+
+/* ===========================
+   CONTAINER
+=========================== */
+
+.account-container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+
+/* ===========================
+   CARD
+=========================== */
+
+.account-box {
+    width: 480px;
+    background: rgba(255,255,255,.96);
+    padding: 50px;
+    border-radius: 8px;
+    border: 1px solid rgba(199,154,91,.35);
+    box-shadow: 0 25px 60px rgba(0,0,0,.10);
+}
+
+
+    /* ===========================
+   TITLE
+=========================== */
+
+    .account-box h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 46px;
+        text-align: center;
+        color: #222;
+        margin-bottom: 10px;
+    }
+
+        .account-box h2::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 3px;
+            background: #C79A5B;
+            margin: 18px auto 0;
+        }
+
+
+/* ===========================
+   LABEL
+=========================== */
+
+.form-label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+
+/* ===========================
+   INPUT
+=========================== */
+
+.form-control {
+    height: 58px;
+    border-radius: 0;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    transition: .35s;
+}
+
+    .form-control:focus {
+        border-color: #C79A5B;
+        background: white;
+        box-shadow: 0 0 0 .2rem rgba(199,154,91,.15);
+    }
+
+
+/* ===========================
+   CHECKBOX
+=========================== */
+
+.form-check-input:checked {
+    background: #C79A5B;
+    border-color: #C79A5B;
+}
+
+.form-check-label {
+    color: #555;
+}
+
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.login-btn,
+.register-btn,
+.verify-btn,
+.change-btn {
+    width: 100%;
+    height: 58px;
+    border: 2px solid #C79A5B;
+    background: transparent;
+    color: #C79A5B;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: .35s;
+}
+
+    .login-btn:hover,
+    .register-btn:hover,
+    .verify-btn:hover,
+    .change-btn:hover {
+        background: #C79A5B;
+        color: white;
+    }
+
+
+/* ===========================
+   LINKS
+=========================== */
+
+a {
+    color: #C79A5B;
+    text-decoration: none;
+    transition: .3s;
+}
+
+    a:hover {
+        color: #111;
+    }
+
+.forgot-link {
+    font-size: 14px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+/* ===========================
+   TEXT
+=========================== */
+
+p {
+    color: #777;
+}
+
+.text-danger {
+    font-size: 13px;
+}
+
+
+/* ===========================
+   READONLY
+=========================== */
+
+.readonly-input {
+    background: #f3f3f3 !important;
+}
+
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:768px) {
+
+    .account-box {
+        width: 100%;
+        padding: 35px 25px;
+    }
+
+        .account-box h2 {
+            font-size: 34px;
+        }
+}

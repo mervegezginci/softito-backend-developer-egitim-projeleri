@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<Category>
+
+<h2>Kategoriler</h2>
+
+<a href="@Url.Action("Create", "AdminCategory")" class="btn btn-primary mb-3">
+    Yeni Kategori
+</a>
+
+<form method="get" action="@Url.Action("Index", "AdminCategory")" class="mb-3">
+    <div class="input-group">
+        <input type="text"
+               name="search"
+               value="@Context.Request.Query["search"]"
+               class="form-control"
+               placeholder="Kategori ara..." />
+
+    </div>
+</form>
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>Kategori</th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.CategoryName</td>
+
+            <td>
+                <a href="@Url.Action("Delete", "AdminCategory", new { id = item.Id })"
+                   class="btn btn-danger">
+                    Sil
+                </a>
+            </td>
+
+            <td>
+                <a href="@Url.Action("Update", "AdminCategory", new { id = item.Id })"
+                   class="btn btn-warning">
+                    Güncelle
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

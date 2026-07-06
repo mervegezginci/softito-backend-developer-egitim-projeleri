@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5a586e692c08432c974183d4ebb3e1c8" Name="Diagram1">
+        <EntityTypeShape EntityType="softAracKiralamaModel.Araclar" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="softAracKiralamaModel.Kiralamalar" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="softAracKiralamaModel.Kullanicilar" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="softAracKiralamaModel.Markalar" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="softAracKiralamaModel.Musteriler" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="softAracKiralamaModel.FK__Araclar__MarkaNo__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="softAracKiralamaModel.FK__Kiralamal__AracN__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="softAracKiralamaModel.FK__Kiralamal__Muste__403A8C7D" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

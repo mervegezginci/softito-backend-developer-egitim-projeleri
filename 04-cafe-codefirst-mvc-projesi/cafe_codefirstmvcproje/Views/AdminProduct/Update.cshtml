@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model Product
+
+<h2>Ürün Güncelle</h2>
+
+<form method="post">
+
+    <!-- 🔥 UPDATE için zorunlu -->
+    <input type="hidden" asp-for="Id" />
+
+    <label>Ürün Adı</label>
+    <input asp-for="ProductName" class="form-control" />
+    <br />
+
+    <label>Fiyat</label>
+    <input asp-for="Price" class="form-control" />
+    <br />
+
+    <label>Resim Url</label>
+    <input asp-for="ImageUrl" class="form-control" />
+    <br />
+
+    <label>Kategori</label>
+    <select asp-for="CategoryId" class="form-control"
+            asp-items="@(new SelectList(ViewBag.Categories, "Id", "CategoryName"))">
+        <option value="">Kategori Seçin</option>
+    </select>
+
+    <div class="form-check">
+        <input asp-for="IsPopular" class="form-check-input" />
+        <label class="form-check-label">
+            Popüler Ürün
+        </label>
+    </div>
+
+    <br />
+
+    <button class="btn btn-primary">
+        Güncelle
+    </button>
+
+</form>

@@ -1,0 +1,52 @@
+@page
+@model OfisTasarim_RazorPagesProje.Pages.Projects.CreateModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Yeni Proje";
+}
+
+<div class="card card-admin p-4" style="max-width: 650px;">
+    <h4 class="fw-bold mb-4 text-dark">Yeni Proje Ekle</h4>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i> @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="Title" class="form-label fw-semibold">Proje Başlığı</label>
+            <input type="text" class="form-control" id="Title" name="Title" value="@Model.ProjectBilgi.Title" placeholder="Örn: Minimalist Yönetici Ofisi" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="CategoryId" class="form-label fw-semibold">Kategori</label>
+            <select class="form-select" id="CategoryId" name="CategoryId" required>
+                <option value="">-- Kategori Seçiniz --</option>
+                @foreach (var cat in Model.Categories)
+                {
+                    <option value="@cat.ID" selected="@(Model.ProjectBilgi.CategoryId == cat.ID ? "selected" : null)">@cat.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Description" class="form-label fw-semibold">Proje Açıklaması</label>
+            <textarea class="form-control" id="Description" name="Description" rows="4" placeholder="Proje detayları ve tasarım yaklaşımı..." required>@Model.ProjectBilgi.Description</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="ImageUrl" class="form-label fw-semibold">Görsel URL</label>
+            <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" value="@Model.ProjectBilgi.ImageUrl" placeholder="Örn: https://images.unsplash.com/... veya /yavin/images/..." required />
+            <small class="text-muted">Harici bir görsel linki veya yerel görsel yolunu yazabilirsiniz.</small>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-yavin-primary"><i class="fas fa-save me-1"></i> Projeyi Kaydet</button>
+            <a href="/Projects/Index" class="btn btn-outline-secondary">İptal</a>
+        </div>
+    </form>
+</div>

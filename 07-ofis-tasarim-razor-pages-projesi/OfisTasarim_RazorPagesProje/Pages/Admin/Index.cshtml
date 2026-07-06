@@ -1,0 +1,272 @@
+@page
+@model OfisTasarim_RazorPagesProje.Pages.Admin.IndexModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raporlar";
+}
+
+<!-- Rapor Üst Başlık & Butonlar -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0 text-dark">📊 Sistem Raporları & Analiz Paneli</h4>
+        <p class="text-muted mb-0">Ofis tasarım projeleri, aktif hizmetler ve müşteri talepleri genel analizi.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <button onclick="window.print()" class="btn btn-outline-secondary">
+            <i class="fas fa-print me-1"></i> Yazdır / PDF Kaydet
+        </button>
+        <button onclick="exportTableToCSV('recentContactsTable', 'son-mesajlar-raporu.csv')" class="btn btn-success">
+            <i class="fas fa-file-excel me-1"></i> Excel İndir
+        </button>
+    </div>
+</div>
+
+<!-- KPI Kartları -->
+<div class="row g-4 mb-4">
+    <!-- Categories Card -->
+    <div class="col-md-3">
+        <div class="card card-admin border-0 shadow-sm p-4 text-center" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 12px;">
+            <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.2);">
+                <i class="fas fa-list fs-4"></i>
+            </div>
+            <span class="d-block mb-1 text-white-50 small fw-semibold">Toplam Kategori</span>
+            <h3 class="card-title text-white mb-0 fw-bold">@Model.TotalCategories</h3>
+        </div>
+    </div>
+
+    <!-- Services Card -->
+    <div class="col-md-3">
+        <div class="card card-admin border-0 shadow-sm p-4 text-center" style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 12px;">
+            <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.2);">
+                <i class="fas fa-cogs fs-4"></i>
+            </div>
+            <span class="d-block mb-1 text-white-50 small fw-semibold">Aktif Hizmetler</span>
+            <h3 class="card-title text-white mb-0 fw-bold">@Model.TotalServices</h3>
+        </div>
+    </div>
+
+    <!-- Projects Card -->
+    <div class="col-md-3">
+        <div class="card card-admin border-0 shadow-sm p-4 text-center" style="background: linear-gradient(135deg, #36d1dc, #5b86e5); color: white; border-radius: 12px;">
+            <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.2);">
+                <i class="fas fa-project-diagram fs-4"></i>
+            </div>
+            <span class="d-block mb-1 text-white-50 small fw-semibold">Üretilen Projeler</span>
+            <h3 class="card-title text-white mb-0 fw-bold">@Model.TotalProjects</h3>
+        </div>
+    </div>
+
+    <!-- Contacts Card -->
+    <div class="col-md-3">
+        <div class="card card-admin border-0 shadow-sm p-4 text-center" style="background: linear-gradient(135deg, #f12711, #f5af19); color: white; border-radius: 12px;">
+            <div class="avatar bg-white-50 mx-auto mb-2 text-white" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.2);">
+                <i class="fas fa-envelope fs-4"></i>
+            </div>
+            <span class="d-block mb-1 text-white-50 small fw-semibold">Gelen Talepler</span>
+            <h3 class="card-title text-white mb-0 fw-bold">@Model.TotalContacts</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Sol Kısım: Proje Dağılım Grafiği -->
+    <div class="col-md-6">
+        <div class="card card-admin p-4 shadow-sm border-0 h-100" style="border-radius: 12px;">
+            <h5 class="fw-bold mb-3 text-dark"><i class="fas fa-chart-pie text-primary me-2"></i> Kategoriye Göre Proje Dağılımı</h5>
+            <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
+                <canvas id="categoryProjectChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Kısım: Son Mesajlaşma Hareketleri -->
+    <div class="col-md-6">
+        <div class="card card-admin p-4 shadow-sm border-0 h-100" style="border-radius: 12px;">
+            <h5 class="fw-bold mb-3 text-dark"><i class="fas fa-envelope-open-text text-warning me-2"></i> Son Gelen Müşteri Talepleri</h5>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="recentContactsTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Müşteri</th>
+                            <th>Tarih</th>
+                            <th>Mesaj</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.RecentContacts.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted">Mesaj bulunamadı.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.RecentContacts)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@item.Name <br/><small class="text-muted">@item.Email</small></td>
+                                    <td class="small text-muted">@item.Date</td>
+                                    <td class="text-truncate" style="max-width: 200px;">@item.Message</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Seçmeli Raporlar Bölümü (User Requested Style) -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card card-admin p-4 shadow-sm border-0" style="border-radius: 12px;">
+            <h5 class="fw-bold mb-3 text-dark"><i class="fas fa-chart-bar text-success me-2"></i> Rapor Seçici</h5>
+            <form id="reportForm" onsubmit="event.preventDefault(); loadAjaxReport();">
+                <div class="row align-items-end mb-4">
+                    <div class="col-md-9">
+                        <label for="reportType" class="form-label fw-bold text-muted small">Rapor Türü</label>
+                        <select class="form-select" id="reportType" name="reportType">
+                            <option value="proje_sayilari_kategori" selected>Kategorilere Göre Proje Sayıları</option>
+                            <option value="hizmet_aciklama_uzunluk">Hizmetlerin Açıklama Karakter Sayısı</option>
+                            <option value="son_mesajlar_karakter">Gelen Mesaj Karakter Sayısı</option>
+                            <option value="ofis_gecen_projeler">Proje Başlığında "Ofis" Geçenler</option>
+                            <option value="unsplash_gorselli_projeler">Unsplash Görselli Projeler</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mt-2 mt-md-0">
+                        <button type="submit" class="btn btn-success w-100 fw-semibold" style="padding: 10px 0;">
+                            Raporu Getir
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="fw-bold text-dark">Bilgi</th>
+                            <th class="fw-bold text-dark" width="200">Değer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportTableBody">
+                        <tr>
+                            <td colspan="2" class="text-center py-3 text-muted">Rapor yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Yazdırma Stilleri -->
+<style>
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+        main, main * {
+            visibility: visible;
+        }
+        main {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        .btn, #sidebar, nav {
+            display: none !important;
+        }
+    }
+</style>
+
+<!-- Chart.js Entegrasyonu -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const labels = @Html.Raw(Json.Serialize(Model.CategoryProjectStats.Select(x => x.CategoryName)));
+        const dataValues = @Html.Raw(Json.Serialize(Model.CategoryProjectStats.Select(x => x.ProjectCount)));
+
+        const ctx = document.getElementById('categoryProjectChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: ['#1e3c72', '#2a5298', '#11998e', '#38ef7d', '#f12711', '#f5af19'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // 4. AJAX Rapor Yükleme
+        window.loadAjaxReport = function () {
+            const reportType = document.getElementById("reportType").value;
+            const tbody = document.getElementById("reportTableBody");
+            tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-muted"><i class="fas fa-spinner fa-spin me-1"></i> Rapor yükleniyor...</td></tr>';
+            
+            fetch('/Admin/Index?handler=ReportData&reportType=' + reportType)
+                .then(response => response.json())
+                .then(data => {
+                    tbody.innerHTML = "";
+                    if (!data || data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-muted">Kayıt bulunamadı.</td></tr>';
+                        return;
+                    }
+                    data.forEach(item => {
+                        const tr = document.createElement("tr");
+                        const bilgiVal = item.bilgi || item.Bilgi || "";
+                        const degerVal = item.deger || item.Deger || "";
+                        tr.innerHTML = `
+                            <td class="fw-semibold">${bilgiVal}</td>
+                            <td class="fw-bold text-success">${degerVal}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    tbody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-danger">Rapor yüklenirken hata oluştu!</td></tr>';
+                });
+        };
+        
+        loadAjaxReport(); // İlk açılışta yükle
+    });
+
+    // CSV İndirme
+    function exportTableToCSV(tableId, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("#" + tableId + " tr");
+        
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            for (var j = 0; j < cols.length; j++) {
+                var text = cols[j].innerText.replace(/"/g, '""').replace(/\n/g, ' ');
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(";"));
+        }
+        
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        var downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>

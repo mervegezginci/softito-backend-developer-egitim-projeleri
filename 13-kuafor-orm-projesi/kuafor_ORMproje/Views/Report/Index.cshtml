@@ -1,0 +1,199 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raporlar ve Analizler";
+}
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0"><span class="text-muted fw-light">Sistem /</span> Raporlama ve Analiz</h4>
+        <a asp-action="ClearCache" class="btn btn-outline-warning">
+            <i class="bx bx-refresh me-1"></i> Raporlama Önbelleğini Temizle
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Hizmet Bazlı Gelir Grafiği (Pie Chart) -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                <div class="card-title mb-0">
+                    <h5 class="m-0 me-2">Hizmet Kırılımına Göre Gelir Raporu</h5>
+                    <small class="text-muted">En Çok Ciro Getiren Hizmetler</small>
+                </div>
+            </div>
+            <div class="card-body mt-3">
+                <div id="serviceRevenueChart"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Çalışan Performans Grafiği (Bar Chart) -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                <div class="card-title mb-0">
+                    <h5 class="m-0 me-2">Uzman Performans Analizi</h5>
+                    <small class="text-muted">Alınan ve Tamamlanan Toplam Randevu Sayısı</small>
+                </div>
+            </div>
+            <div class="card-body mt-3">
+                <div id="employeePerformanceChart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sistem Log Simülasyonu -->
+<div class="row mt-2">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Son Sistem Log Kayıtları</h5>
+                <span class="badge bg-label-info">Sistem Loglama Devrede</span>
+            </div>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Seviye</th>
+                            <th>Kategori</th>
+                            <th>Açıklama</th>
+                            <th>Tarih</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr>
+                            <td><span class="badge bg-label-success">INFO</span></td>
+                            <td><strong>ReportController</strong></td>
+                            <td>Hizmet bazlı gelir raporu önbelleğe yüklendi. (Cache hit: False)</td>
+                            <td>@DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-label-success">INFO</span></td>
+                            <td><strong>ReportController</strong></td>
+                            <td>Çalışan performans raporu önbelleğe yüklendi. (Cache hit: False)</td>
+                            <td>@DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-label-success">INFO</span></td>
+                            <td><strong>AccountController</strong></td>
+                            <td>Yönetici girişi başarılı: merve@gmail.com</td>
+                            <td>@DateTime.Now.AddMinutes(-5).ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-label-warning">WARN</span></td>
+                            <td><strong>ApplicationDbContext</strong></td>
+                            <td>SQLite veritabanı bağlantısı kuruldu. (Double conversion bypass etkin)</td>
+                            <td>@DateTime.Now.AddHours(-1).ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Service Revenue Data Parsing
+            const serviceNames = [];
+            const serviceRevenues = [];
+            
+            @if (ViewBag.ServiceRevenue != null)
+            {
+                foreach (var item in (List<kuafor_ORMproje.Controllers.ServiceRevenueViewModel>)ViewBag.ServiceRevenue)
+                {
+                    <text>
+                    serviceNames.push("@Html.Raw(item.ServiceName)");
+                    serviceRevenues.push(@item.TotalAmount);
+                    </text>
+                }
+            }
+
+            // Render Service Revenue Chart (Pie Chart)
+            const serviceChartEl = document.querySelector('#serviceRevenueChart');
+            if (serviceChartEl && serviceRevenues.length > 0) {
+                const serviceChartOptions = {
+                    chart: {
+                        height: 320,
+                        type: 'donut'
+                    },
+                    labels: serviceNames,
+                    series: serviceRevenues,
+                    colors: ['#696cff', '#8592a3', '#71dd37', '#ff3e1d', '#ffab00', '#03c3ec'],
+                    legend: {
+                        show: true,
+                        position: 'bottom'
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function (val) {
+                            return parseInt(val) + "%";
+                        }
+                    }
+                };
+                const serviceChart = new ApexCharts(serviceChartEl, serviceChartOptions);
+                serviceChart.render();
+            } else {
+                serviceChartEl.innerHTML = "<div class='text-center py-4 text-muted'>Veri bulunamadı.</div>";
+            }
+
+            // 2. Employee Performance Data Parsing
+            const employeeNames = [];
+            const totalAppointments = [];
+            const completedAppointments = [];
+
+            @if (ViewBag.EmployeePerformance != null)
+            {
+                foreach (var item in (List<kuafor_ORMproje.Controllers.EmployeePerformanceViewModel>)ViewBag.EmployeePerformance)
+                {
+                    <text>
+                    employeeNames.push("@Html.Raw(item.EmployeeName)");
+                    totalAppointments.push(@item.AppointmentCount);
+                    completedAppointments.push(@item.CompletedCount);
+                    </text>
+                }
+            }
+
+            // Render Employee Performance Chart (Bar Chart)
+            const employeeChartEl = document.querySelector('#employeePerformanceChart');
+            if (employeeChartEl && employeeNames.length > 0) {
+                const employeeChartOptions = {
+                    chart: {
+                        height: 320,
+                        type: 'bar',
+                        toolbar: { show: false }
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '55%',
+                            endingShape: 'rounded'
+                        },
+                    },
+                    dataLabels: { enabled: false },
+                    series: [{
+                        name: 'Toplam Randevu',
+                        data: totalAppointments
+                    }, {
+                        name: 'Tamamlanan Randevu',
+                        data: completedAppointments
+                    }],
+                    xaxis: {
+                        categories: employeeNames,
+                    },
+                    colors: ['#8592a3', '#696cff'],
+                    legend: {
+                        position: 'bottom'
+                    }
+                };
+                const employeeChart = new ApexCharts(employeeChartEl, employeeChartOptions);
+                employeeChart.render();
+            } else {
+                employeeChartEl.innerHTML = "<div class='text-center py-4 text-muted'>Veri bulunamadı.</div>";
+            }
+        });
+    </script>
+}

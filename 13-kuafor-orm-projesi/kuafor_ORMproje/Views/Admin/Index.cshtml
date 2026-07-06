@@ -1,0 +1,280 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Yönetici Paneli";
+}
+
+<!-- Stat Cards Row -->
+<div class="row">
+    <!-- Total Revenue -->
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                        <span class="badge bg-label-success p-2"><i class="bx bx-dollar-circle text-success fs-3"></i></span>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">Toplam Kazanç</span>
+                <h3 class="card-title mb-2">@ViewBag.TotalRevenue.ToString("C2")</h3>
+                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> Ödenen İşlemler</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Customers -->
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                        <span class="badge bg-label-info p-2"><i class="bx bx-group text-info fs-3"></i></span>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">Toplam Müşteri</span>
+                <h3 class="card-title mb-2">@ViewBag.TotalCustomers</h3>
+                <small class="text-info fw-semibold"><i class="bx bx-user-plus"></i> Kayıtlı Müşteriler</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today's Appointments -->
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                        <span class="badge bg-label-warning p-2"><i class="bx bx-calendar text-warning fs-3"></i></span>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">Bugünkü Randevular</span>
+                <h3 class="card-title mb-2">@ViewBag.TodayAppointments</h3>
+                <small class="text-warning fw-semibold"><i class="bx bx-time"></i> Bugün İçin Ayrılan</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Employees -->
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                        <span class="badge bg-label-primary p-2"><i class="bx bx-user-pin text-primary fs-3"></i></span>
+                    </div>
+                </div>
+                <span class="fw-semibold d-block mb-1">Aktif Çalışanlar</span>
+                <h3 class="card-title mb-2">@ViewBag.TotalEmployees</h3>
+                <small class="text-primary fw-semibold"><i class="bx bx-check-shield"></i> Hizmet Veren Uzmanlar</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row mt-2">
+    <!-- Weekly Revenue Chart -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Haftalık Gelir Akışı</h5>
+                <small class="text-muted">Son 7 Günlük Kazanç Bilgisi</small>
+            </div>
+            <div class="card-body">
+                <div id="weeklyRevenueChart"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Appointment Chart -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Haftalık Randevu Yoğunluğu</h5>
+                <small class="text-muted">Günlük Alınan Toplam Randevu</small>
+            </div>
+            <div class="card-body">
+                <div id="weeklyAppointmentsChart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Appointments Card -->
+<div class="card mt-2">
+    <div class="card-header d-flex align-items-center justify-content-between pb-3">
+        <h5 class="card-title m-0 me-2">Son Randevu Kayıtları</h5>
+        <a asp-controller="Appointment" asp-action="Create" class="btn btn-primary btn-sm">
+            <i class="bx bx-plus me-1"></i> Yeni Randevu
+        </a>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Müşteri</th>
+                    <th>Çalışan</th>
+                    <th>Hizmet</th>
+                    <th>Tarih</th>
+                    <th>Saat</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @if (ViewBag.RecentAppointments != null && ((List<kuafor_ORMproje.Model.Appointment>)ViewBag.RecentAppointments).Any())
+                {
+                    foreach (var app in (List<kuafor_ORMproje.Model.Appointment>)ViewBag.RecentAppointments)
+                    {
+                        <tr>
+                            <td><strong>@app.Customer?.FullName</strong></td>
+                            <td>@app.Employee?.FullName</td>
+                            <td>@app.Service?.ServiceName</td>
+                            <td>@app.AppointmentDate.ToString("dd.MM.yyyy")</td>
+                            <td>@app.AppointmentTime.ToString(@"hh\:mm")</td>
+                            <td>
+                                @if (app.Status == "Onaylandı" || app.Status == "Tamamlandı")
+                                {
+                                    <span class="badge bg-label-success">@app.Status</span>
+                                }
+                                else if (app.Status == "Bekliyor")
+                                {
+                                    <span class="badge bg-label-warning">@app.Status</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-danger">@app.Status</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            Kayıtlı randevu bulunamadı.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Weekly Revenue Chart Data
+            const revenueLabels = [];
+            const revenueValues = [];
+            
+            @if (ViewBag.WeeklyRevenueLabels != null)
+            {
+                foreach (var label in (List<string>)ViewBag.WeeklyRevenueLabels)
+                {
+                    <text>revenueLabels.push("@label");</text>
+                }
+            }
+            @if (ViewBag.WeeklyRevenueValues != null)
+            {
+                foreach (var val in (List<decimal>)ViewBag.WeeklyRevenueValues)
+                {
+                    <text>revenueValues.push(@val);</text>
+                }
+            }
+
+            const revenueChartEl = document.querySelector('#weeklyRevenueChart');
+            if (revenueChartEl) {
+                const options = {
+                    series: [{
+                        name: 'Gelir',
+                        data: revenueValues
+                    }],
+                    chart: {
+                        height: 250,
+                        type: 'area',
+                        toolbar: { show: false }
+                    },
+                    dataLabels: { enabled: false },
+                    stroke: { curve: 'smooth', width: 3 },
+                    colors: ['#696cff'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.7,
+                            opacityTo: 0.3,
+                            stops: [0, 90, 100]
+                        }
+                    },
+                    xaxis: {
+                        categories: revenueLabels
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function (value) {
+                                return value.toLocaleString('tr-TR') + " TL";
+                            }
+                        }
+                    }
+                };
+                const chart = new ApexCharts(revenueChartEl, options);
+                chart.render();
+            }
+
+            // 2. Weekly Appointments Chart Data
+            const appointmentLabels = [];
+            const appointmentValues = [];
+
+            @if (ViewBag.WeeklyAppointmentsLabels != null)
+            {
+                foreach (var label in (List<string>)ViewBag.WeeklyAppointmentsLabels)
+                {
+                    <text>appointmentLabels.push("@label");</text>
+                }
+            }
+            @if (ViewBag.WeeklyAppointmentsValues != null)
+            {
+                foreach (var val in (List<int>)ViewBag.WeeklyAppointmentsValues)
+                {
+                    <text>appointmentValues.push(@val);</text>
+                }
+            }
+
+            const appointmentChartEl = document.querySelector('#weeklyAppointmentsChart');
+            if (appointmentChartEl) {
+                const options = {
+                    series: [{
+                        name: 'Randevu Sayısı',
+                        data: appointmentValues
+                    }],
+                    chart: {
+                        height: 250,
+                        type: 'bar',
+                        toolbar: { show: false }
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 4,
+                            horizontal: false,
+                            columnWidth: '50%'
+                        }
+                    },
+                    dataLabels: { enabled: false },
+                    colors: ['#03c3ec'],
+                    xaxis: {
+                        categories: appointmentLabels
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function (val) {
+                                return parseInt(val);
+                            }
+                        }
+                    }
+                };
+                const chart = new ApexCharts(appointmentChartEl, options);
+                chart.render();
+            }
+        });
+    </script>
+}

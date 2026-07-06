@@ -1,0 +1,166 @@
+<!-- billboard start  -->
+<section id="billboard">
+    <div class="container">
+        <div class="row flex-lg-row-reverse align-items-center">
+
+            <div class="col-lg-6">
+                <img src="~/rentiz-1.0.0/images/billboard.png"
+                     class="img-fluid" alt="Emlak" />
+            </div>
+
+            <div class="col-lg-6">
+
+                <h1 class="lh-1 my-3">
+                    Hayalinizdeki Evi Bulmanın En Kolay Yolu
+                </h1>
+
+                <p class="lead">
+                    Satılık ve kiralık tüm ilanları tek yerde keşfedin.
+                </p>
+
+                <form asp-controller="Property" asp-action="Search" method="get">
+
+                    <div class="row g-2">
+
+                        <div class="col-md-3">
+                            <select name="purpose" class="form-select">
+                                <option value="">Amaç</option>
+                                <option value="Satılık">Satılık</option>
+                                <option value="Kiralık">Kiralık</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <select name="cityId" class="form-select">
+                                <option value="">Şehir</option>
+                                @foreach (var city in (ViewBag.Cities as List<City>))
+                                {
+                                    <option value="@city.Id">@city.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <select name="type" class="form-select">
+                                <option value="">Tip</option>
+                                <option value="Ev">Ev</option>
+                                <option value="Daire">Daire</option>
+                                <option value="Villa">Villa</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button class="btn btn-primary w-100">
+                                Ara
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Residence start  -->
+<section id="residence" class="py-5">
+    <div class="container my-5" style="position: relative;">
+
+        <h2 class="mb-4">İlanlar</h2>
+
+        <!-- Navigation Arrows -->
+        <div class="swiper-button-next residence-swiper-next residence-arrow"></div>
+        <div class="swiper-button-prev residence-swiper-prev residence-arrow"></div>
+
+        <!-- Unified Swiper Container -->
+        <div class="swiper residence-swiper">
+            <div class="swiper-wrapper">
+                @model List<Property>
+                @foreach (var item in Model)
+                {
+                    <div class="swiper-slide">
+                        <div class="card shadow-sm border-0" style="border-radius: 12px; overflow: hidden; margin-bottom: 10px;">
+                            <img src="@item.ImageUrl"
+                                 class="card-img-top"
+                                 style="height:220px; object-fit:cover;" />
+                            <div class="card-body">
+                                <h5>@item.Title</h5>
+                                <p class="text-muted text-truncate">@item.Address</p>
+                                <h4 class="text-primary">@item.Price.ToString("N0") ₺</h4>
+                                <div class="d-flex gap-2 small text-muted">
+                                    <span>@item.RoomCount oda</span>
+                                    <span>@item.BathCount banyo</span>
+                                    <span>@item.SquareMeter m²</span>
+                                </div>
+                                <a href="/Property/Details/@item.Id"
+                                   class="btn btn-sm btn-outline-primary mt-2">
+                                    Detay
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!--About us start  -->
+<section id="about-us" class="py-5">
+
+    <div class="container text-center">
+
+        <h2 class="mb-5">Neden Bizi Tercih Etmelisiniz?</h2>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <h4>Kolay Arama</h4>
+                <p>Gelişmiş filtreleme ile hızlı sonuç.</p>
+            </div>
+
+            <div class="col-md-4">
+                <h4>Uygun Fiyat</h4>
+                <p>Her bütçeye uygun ilanlar.</p>
+            </div>
+
+            <div class="col-md-4">
+                <h4>Güvenli İşlem</h4>
+                <p>Doğrulanmış emlak danışmanları.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+                <img src="~/rentiz-1.0.0/images/group.png"
+                     class="img-fluid" />
+            </div>
+
+            <div class="col-md-6">
+
+                <h2>Türkiye'nin Güvenilir Emlak Platformu</h2>
+
+                <p>
+                    Tüm ilanları tek noktadan inceleyin ve
+                    hızlıca iletişime geçin.
+                </p>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

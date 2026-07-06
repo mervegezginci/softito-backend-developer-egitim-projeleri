@@ -1,0 +1,30 @@
+@page
+@model OfisTasarim_RazorPagesProje.Pages.Categories.CreateModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Yeni Kategori";
+}
+
+<div class="card card-admin p-4" style="max-width: 600px;">
+    <h4 class="fw-bold mb-4 text-dark">Yeni Kategori Ekle</h4>
+
+    @if (!string.IsNullOrEmpty(Model.errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i> @Model.errorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="Name" class="form-label fw-semibold">Kategori Adı</label>
+            <input type="text" class="form-control" id="Name" name="Name" value="@Model.categorybilgi.Name" placeholder="Örn: Modern Ofis Tasarımları" required />
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-yavin-primary"><i class="fas fa-save me-1"></i> Kaydet</button>
+            <a href="/Categories/Index" class="btn btn-outline-secondary">İptal</a>
+        </div>
+    </form>
+</div>

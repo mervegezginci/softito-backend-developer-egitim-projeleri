@@ -1,0 +1,66 @@
+﻿
+.review-table-card {
+    background: white;
+    padding: 30px;
+    border: 1px solid #E7E2D8;
+    box-shadow: 0 10px 25px rgba(0,0,0,.05);
+}
+
+.review-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .review-table thead {
+        background: #F3F2EC;
+    }
+
+    .review-table th {
+        padding: 20px;
+        color: #74642F;
+    }
+
+    .review-table td {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+.rating {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+.page-title-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.add-btn {
+    background: #C5A992;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+}
+
+.edit-btn {
+    background: #C5A992;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.detail-btn {
+    background: #2f2f2f;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+}

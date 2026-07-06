@@ -1,0 +1,277 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Raporlar & Analitik";
+}
+
+<!-- KPI Metrik Kartları -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Raporlar & Analitik</h4>
+        <p class="text-muted small mb-0">Platform geneli istatistikler ve kurs analizleri</p>
+    </div>
+    <div class="no-print">
+        <button onclick="window.print()" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-print me-1"></i> Sayfayı Yazdır / PDF
+        </button>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-4 col-md-6">
+        <div class="card card-admin p-4 d-flex flex-row align-items-center gap-3 border-start border-4 border-primary">
+            <div class="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary" style="width:56px;height:56px;flex-shrink:0;">
+                <i class="fas fa-tags fs-4"></i>
+            </div>
+            <div>
+                <p class="text-muted small mb-1">Toplam Kategori</p>
+                <h2 class="fw-bold mb-0 text-dark">@ViewBag.CategoryCount</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="card card-admin p-4 d-flex flex-row align-items-center gap-3 border-start border-4 border-success">
+            <div class="rounded-circle d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success" style="width:56px;height:56px;flex-shrink:0;">
+                <i class="fas fa-book-open fs-4"></i>
+            </div>
+            <div>
+                <p class="text-muted small mb-1">Toplam Kurs</p>
+                <h2 class="fw-bold mb-0 text-dark">@ViewBag.CourseCount</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="card card-admin p-4 d-flex flex-row align-items-center gap-3 border-start border-4 border-warning">
+            <div class="rounded-circle d-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning" style="width:56px;height:56px;flex-shrink:0;">
+                <i class="fas fa-user-graduate fs-4"></i>
+            </div>
+            <div>
+                <p class="text-muted small mb-1">Toplam Başvuru</p>
+                <h2 class="fw-bold mb-0 text-dark">@ViewBag.EnrollmentCount</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Grafikler -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card card-admin p-4">
+            <div class="mb-3">
+                <h6 class="fw-bold text-dark mb-1">Kategori Bazlı Kurs Dağılımı</h6>
+                <p class="text-muted small mb-0">Kategorilere göre kayıtlı kurs sayısı</p>
+            </div>
+            <canvas id="categoryChart" height="160"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card card-admin p-4">
+            <div class="mb-3">
+                <h6 class="fw-bold text-dark mb-1">Kurs Başvuru Analizi</h6>
+                <p class="text-muted small mb-0">Kurslara göre başvuru sayıları</p>
+            </div>
+            <canvas id="courseChart" height="160"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Dinamik Rapor Seçici -->
+<div class="card card-admin p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h6 class="fw-bold text-dark mb-1">Detaylı Rapor Motoru</h6>
+            <p class="text-muted small mb-0">Rapor türü seçerek tabloyu anında güncelleyin</p>
+        </div>
+        <div class="d-flex gap-2 no-print">
+            <button onclick="exportReportCSV()" class="btn btn-success btn-sm">
+                <i class="fas fa-file-excel me-1"></i> Excel İndir
+            </button>
+            <button onclick="window.print()" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-print me-1"></i> PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Rapor Butonları (Seçici Kartlar) -->
+    <div class="d-flex flex-wrap gap-2 mb-4 no-print" id="reportButtons">
+        <button onclick="LoadReport('MostEnrollment')" class="btn btn-sm btn-outline-primary report-btn" data-type="MostEnrollment">
+            <i class="fas fa-trophy me-1"></i> En Çok Başvurulan
+        </button>
+        <button onclick="LoadReport('MostExpensive')" class="btn btn-sm btn-outline-secondary report-btn" data-type="MostExpensive">
+            <i class="fas fa-arrow-up me-1"></i> En Pahalı Kurs
+        </button>
+        <button onclick="LoadReport('Cheapest')" class="btn btn-sm btn-outline-secondary report-btn" data-type="Cheapest">
+            <i class="fas fa-arrow-down me-1"></i> En Ucuz Kurs
+        </button>
+        <button onclick="LoadReport('EnrollmentCount')" class="btn btn-sm btn-outline-secondary report-btn" data-type="EnrollmentCount">
+            <i class="fas fa-users me-1"></i> Toplam Başvuru
+        </button>
+        <button onclick="LoadReport('MostCategory')" class="btn btn-sm btn-outline-secondary report-btn" data-type="MostCategory">
+            <i class="fas fa-star me-1"></i> En Kalabalık Kategori
+        </button>
+        <button onclick="LoadReport('CategoryCourseCount')" class="btn btn-sm btn-outline-secondary report-btn" data-type="CategoryCourseCount">
+            <i class="fas fa-chart-bar me-1"></i> Kategori - Kurs Sayısı
+        </button>
+        <button onclick="LoadReport('Over40Hours')" class="btn btn-sm btn-outline-secondary report-btn" data-type="Over40Hours">
+            <i class="fas fa-clock me-1"></i> 40+ Saatlik Kurslar
+        </button>
+        <button onclick="LoadReport('LastCourses')" class="btn btn-sm btn-outline-secondary report-btn" data-type="LastCourses">
+            <i class="fas fa-history me-1"></i> Son 5 Eklenen
+        </button>
+    </div>
+
+    <!-- Rapor Yükleniyor -->
+    <div id="reportLoading" class="text-center py-3 text-muted d-none">
+        <div class="spinner-border spinner-border-sm me-2" role="status"></div> Yükleniyor...
+    </div>
+
+    <!-- Rapor Tablosu -->
+    <div class="table-responsive" id="reportTableWrapper">
+        <table class="table table-hover align-middle" id="reportTable">
+            <thead class="table-light">
+                <tr>
+                    <th width="60%">Bilgi</th>
+                    <th>Değer</th>
+                </tr>
+            </thead>
+            <tbody id="reportResult">
+                <tr>
+                    <td colspan="2" class="text-center py-4 text-muted">
+                        <i class="fas fa-chart-pie fs-2 d-block mb-2 text-secondary"></i>
+                        Yukarıdaki butonlardan rapor türü seçiniz.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Chart Data
+    var categoryNames = @Html.Raw(Json.Serialize(ViewBag.CategoryNames));
+    var categoryCounts = @Html.Raw(Json.Serialize(ViewBag.CategoryCounts));
+    var courseNames = @Html.Raw(Json.Serialize(ViewBag.CourseNames));
+    var enrollmentCounts = @Html.Raw(Json.Serialize(ViewBag.EnrollmentCounts));
+
+    Chart.defaults.font.family = 'Inter, sans-serif';
+    Chart.defaults.plugins.legend.display = false;
+
+    // Kategori Grafiği
+    new Chart(document.getElementById("categoryChart").getContext("2d"), {
+        type: "bar",
+        data: {
+            labels: categoryNames,
+            datasets: [{
+                data: categoryCounts,
+                backgroundColor: "#3b82f6",
+                borderRadius: 6,
+                barThickness: 28
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true, grid: { color: "#f1f5f9" } }
+            }
+        }
+    });
+
+    // Başvuru Grafiği
+    new Chart(document.getElementById("courseChart").getContext("2d"), {
+        type: "bar",
+        data: {
+            labels: courseNames,
+            datasets: [{
+                data: enrollmentCounts,
+                backgroundColor: "#10b981",
+                borderRadius: 6,
+                barThickness: 28
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true, grid: { color: "#f1f5f9" } }
+            }
+        }
+    });
+
+    // Rapor Yükle (AJAX - sayfa yenilenmeden)
+    function LoadReport(type) {
+        // Aktif buton vurgula
+        document.querySelectorAll('.report-btn').forEach(function(btn) {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-outline-secondary');
+        });
+        var activeBtn = document.querySelector('[data-type="' + type + '"]');
+        if (activeBtn) {
+            activeBtn.classList.remove('btn-outline-secondary');
+            activeBtn.classList.add('btn-primary');
+        }
+
+        document.getElementById('reportLoading').classList.remove('d-none');
+        document.getElementById('reportResult').innerHTML = '';
+
+        $.ajax({
+            url: '/Admin/GetReport',
+            type: 'GET',
+            data: { type: type },
+            success: function (data) {
+                document.getElementById('reportLoading').classList.add('d-none');
+                var html = '';
+                if (Array.isArray(data)) {
+                    $.each(data, function (i, item) {
+                        html += '<tr><td class="fw-semibold">' + item.name + '</td><td><span class="badge bg-primary px-3 py-2">' + item.value + '</span></td></tr>';
+                    });
+                } else if (data) {
+                    html += '<tr><td class="fw-semibold">' + data.name + '</td><td><span class="badge bg-primary px-3 py-2">' + data.value + '</span></td></tr>';
+                } else {
+                    html = '<tr><td colspan="2" class="text-center text-muted py-4">Sonuç bulunamadı.</td></tr>';
+                }
+                $('#reportResult').html(html);
+            },
+            error: function () {
+                document.getElementById('reportLoading').classList.add('d-none');
+                $('#reportResult').html('<tr><td colspan="2" class="text-center text-danger py-4">Rapor yüklenirken bir hata oluştu.</td></tr>');
+            }
+        });
+    }
+
+    // Otomatik ilk raporu yükle
+    $(document).ready(function () {
+        LoadReport('CategoryCourseCount');
+    });
+
+    // Rapor Tablosunu CSV olarak indir
+    function exportReportCSV() {
+        var csv = [];
+        var rows = document.querySelectorAll("#reportTable tr");
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            for (var j = 0; j < cols.length; j++) {
+                var text = cols[j].innerText.replace(/"/g, '""').replace(/\n/g, ' ');
+                row.push('"' + text + '"');
+            }
+            csv.push(row.join(";"));
+        }
+        var csvFile = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        var downloadLink = document.createElement("a");
+        downloadLink.download = "rapor.csv";
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+</script>
+
+<style>
+    @@media print {
+        #reportButtons, .no-print { display: none !important; }
+        .card-admin { box-shadow: none !important; border: 1px solid #ddd !important; }
+    }
+</style>

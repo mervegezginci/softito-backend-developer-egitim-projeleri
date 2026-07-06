@@ -1,0 +1,256 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+
+
+<!-- Introduction -->
+<div id="introduction" class="basic-1 bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9">
+                <h2>
+                    Ofis tasarımı bizim tutkumuzdur ve bunu tamamladığımız projelerde görebilirsiniz
+                </h2>
+
+                <p>
+                    Modern, işlevsel ve estetik çalışma alanları oluşturarak
+                    işletmelerin ihtiyaçlarına uygun profesyonel çözümler sunuyoruz.
+                </p>
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div> <!-- end of basic-1 -->
+<!-- end of introduction -->
+<!-- Details 1 -->
+<div id="details" class="basic-2">
+    <img class="decoration-star" src="images/decoration-star.svg" alt="alternative">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-xl-5">
+                <div class="image-container">
+                    <img class="img-fluid" src="~/yavin/images/details-1.png" alt="alternative">
+                </div> <!-- end of image-container -->
+            </div> <!-- end of col -->
+            <div class="col-lg-6 col-xl-7">
+                <div class="text-container">
+                    <h2>Her ofis kendine özgü olmalı, birbirinin aynısı olmak zorunda değildir</h2>
+
+                    <ul class="list-unstyled li-space-lg">
+                        <li class="d-flex">
+                            <i class="fas fa-square"></i>
+                            <div class="flex-grow-1">
+                                Kurumsal kimliğinize uygun modern ve özgün tasarımlar oluşturuyoruz.
+                            </div>
+                        </li>
+
+                        <li class="d-flex">
+                            <i class="fas fa-square"></i>
+                            <div class="flex-grow-1">
+                                Çalışan verimliliğini artıran ergonomik çalışma alanları tasarlıyoruz.
+                            </div>
+                        </li>
+
+                        <li class="d-flex">
+                            <i class="fas fa-square"></i>
+                            <div class="flex-grow-1">
+                                Mekân analizinden uygulama sürecine kadar profesyonel destek sağlıyoruz.
+                            </div>
+                        </li>
+
+                        <li class="d-flex">
+                            <i class="fas fa-square"></i>
+                            <div class="flex-grow-1">
+                                Estetik ve işlevselliği bir araya getirerek kalıcı çözümler sunuyoruz.
+                            </div>
+                        </li>
+                    </ul>
+
+                    <a class="btn-solid-reg" href="#contact">Teklif Al</a>
+                </div> <!-- end of text-container -->
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div> <!-- end of basic-2 -->
+<!-- end of details 1 -->
+<!-- Services -->
+<div id="services" class="cards-1 bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="text-container">
+                    <h2>Hizmetlerimiz</h2>
+                    <p>
+                        İşletmenizin ihtiyaçlarına uygun profesyonel ofis tasarım
+                        ve dekorasyon hizmetleri sunuyoruz.
+                    </p>
+
+                    <p>
+                        Tasarımdan uygulamaya kadar tüm süreçlerde yanınızdayız.
+                    </p>
+                    <ul class="list-unstyled li-space-lg">
+                        <div class="flex-grow-1">
+                            Profesyonel proje planlama ve alan analizi hizmetleri
+                        </div>
+
+                        <div class="flex-grow-1">
+                            Modern dekorasyon ve iç mimari çözümler
+                        </div>
+
+                        <div class="flex-grow-1">
+                            Anahtar teslim ofis tasarım ve uygulama hizmetleri
+                        </div>
+                    </ul>
+                </div> <!-- end of text-container -->
+            </div> <!-- end of col -->
+            <div class="col-lg-7">
+                <div class="card-container">
+
+                    @foreach (var i in Model.Services)
+                    {
+                        <div class="card">
+                            <div class="card-icon">
+                                <span class="@i.IconUrl"></span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@i.Title</h5>
+                                <p>@i.Description</p>
+                            </div>
+                        </div>
+
+                    }
+
+
+                </div> <!-- end of container -->
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div> <!-- end of cards-1 -->
+<!-- end of services -->
+<!-- Details 2 -->
+@* <div class="basic-3">
+    <img class="decoration-star" src="~/yavin/images/decoration-star.svg" alt="alternative">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-xl-7">
+                <div class="text-container">
+                    <h2>A beautiful and well organized office space increases productivity</h2>
+                    <p>On it differed repeated wandered required in. Then girl neat why yet knew rose spot. Moreover property we he kindness greatest be oh striking laughter. In me he at collecting affronting principles apartments. Has visitor law attacks pretend you calling own excited painted. Contented attending</p>
+                    <a class="btn-solid-reg" href="article.html">Get started</a>
+                </div> <!-- end of text-container -->
+            </div> <!-- end of col -->
+            <div class="col-lg-6 col-xl-5">
+                <div class="image-container">
+                    <img class="img-fluid" src="~/yavin/images/details-2.png" alt="alternative">
+                </div> <!-- end of image-container -->
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div>  *@
+<!-- end of basic-3 -->
+<!-- end of details 2 -->
+<!-- Projects -->
+<div id="projects" class="cards-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+<h2 class="h2-heading">Tamamladığımız Projeler</h2>
+</div> <!-- end of col -->
+        </div> <!-- end of row -->
+        <div class="row">
+            <div class="col-lg-12">
+
+                @foreach (var item in Model.Projects)
+                {
+                    <div class="card">
+                        <img class="img-fluid" src="@item.ImageUrl" alt="alternative">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                            <p class="card-text">@item.Description</p>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div> <!-- end of cards-2 -->
+<!-- end of projects -->
+<!-- Testimonials -->
+@* <div class="slider-1 bg-gray">
+    <img class="quotes-decoration" src="~/yavin/images/quotes.svg" alt="alternative">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <!-- Card Slider -->
+                <div class="slider-container">
+                    <div class="swiper-container card-slider">
+                        <div class="swiper-wrapper">
+
+                                <div class="swiper-slide">
+                                    <img class="testimonial-image" src="~/yavin/images/testimonial-1.jpg" alt="alternative">
+                                    <p class="testimonial-text">“Expense bed any sister depend changer off piqued one. Contented continued any happiness instantly objection yet her allowance. Use correct day new brought tedious. By come this been in. Kept easy or sons my it how about some words here done”</p>
+                                    <div class="testimonial-author">Marlene Visconte</div>
+                                    <div class="testimonial-position">General Manager - Scouter</div>
+                                </div>
+                     
+                       
+
+                        </div> <!-- end of swiper-wrapper -->
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <!-- end of add arrows -->
+
+                    </div> <!-- end of swiper-container -->
+                </div> <!-- end of slider-container -->
+                <!-- end of card slider -->
+
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div>  *@
+<!-- end of slider-1 -->
+<!-- end of testimonials -->
+<!-- Contact -->
+<div id="contact" class="form-1">
+    <img class="decoration-star" src="~/yavin/images/decoration-star.svg" alt="alternative">
+    <img class="decoration-star-2" src="~/yavin/images/decoration-star.svg" alt="alternative">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="image-container">
+                    <img class="img-fluid" src="~/yavin/images/contact.png" alt="alternative">
+                </div> <!-- end of image-container -->
+            </div> <!-- end of col -->
+            <div class="col-lg-6">
+                <div class="text-container">
+                    <h2>Bizimle İletişime Geçin</h2>
+
+                    <!-- Contact Form -->
+                    <form method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control-input" placeholder="Adınız" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control-input" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control-textarea" placeholder="Mesajınız" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="form-control-submit-button">Gönder</button>
+                        </div>
+                    </form>
+                    <!-- end of contact form -->
+                </div> <!-- end of text-container -->
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div> <!-- end of form-1 -->
+<!-- end of contact -->

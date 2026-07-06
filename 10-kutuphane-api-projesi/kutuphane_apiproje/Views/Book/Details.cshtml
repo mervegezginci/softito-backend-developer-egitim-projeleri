@@ -1,0 +1,87 @@
+﻿@model kutuphane_apiproje.Models.Book
+
+@{
+    ViewData["Title"] = "Detay";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="detail-card">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <img src="@Model.ImageUrl"
+                 class="detail-image">
+
+        </div>
+
+        <div class="col-md-8">
+
+            <span class="category">
+                @Model.Category?.CategoryName
+            </span>
+
+            <h2>
+                @Model.Title
+            </h2>
+
+            <h5>
+                @Model.Author?.FullName
+            </h5>
+
+            <p>
+                @Model.Description
+            </p>
+
+            <hr>
+
+            <div class="detail-info">
+
+                <div>
+                    <strong>Sayfa Sayısı</strong>
+                    <span>@Model.PageCount</span>
+                </div>
+
+                <div>
+                    <strong>Basım Yılı</strong>
+                    <span>@Model.PublishYear</span>
+                </div>
+
+                <div>
+                    <strong>Durum</strong>
+
+                    @if (Model.IsAvailable)
+                    {
+                        <span class="available">
+                            Müsait
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="notavailable">
+                            Ödünçte
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="detail-info">
+                <a asp-action="Edit"
+                   asp-route-id="@Model.Id"
+                   class="edit-btn mt-4">
+                    Düzenle
+                </a>
+
+
+                <a asp-action="Index" class="back-btn">
+                    Geri Dön
+                </a>
+</div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,56 @@
+﻿@model stok_codefirstmvcproje.model.Supplier
+
+<div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+            <h4>Tedarikçi Düzenle</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post"
+                  action="@Url.Action("Edit","Supplier")">
+
+                <input type="hidden"
+                       name="Id"
+                       value="@Model.Id" />
+
+                <div class="mb-3">
+                    <label>Firma Adı</label>
+                    <input type="text"
+                           name="CompanyName"
+                           value="@Model.CompanyName"
+                           class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Telefon</label>
+                    <input type="text"
+                           name="ContactPhone"
+                           value="@Model.ContactPhone"
+                           class="form-control" />
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Güncelle
+                    </button>
+
+                    <a href="@Url.Action("Index", "Supplier")"
+                       class="btn btn-secondary">
+                        Vazgeç
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

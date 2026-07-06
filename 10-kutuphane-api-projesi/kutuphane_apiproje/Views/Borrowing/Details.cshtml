@@ -1,0 +1,86 @@
+﻿@model kutuphane_apiproje.Models.Borrowing
+
+@{
+    ViewData["Title"] = "Ödünç Detayı";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="form-container">
+
+    <div class="form-card">
+
+        <div class="page-header">
+
+            <span>Ödünç İşlemleri</span>
+
+            <h2>Ödünç Detayı</h2>
+
+        </div>
+
+        <table class="table table-borderless">
+
+            <tr>
+                <th>Kullanıcı</th>
+                <td>@Model.User.Name</td>
+            </tr>
+
+            <tr>
+                <th>Kitap</th>
+                <td>@Model.Book.Title</td>
+            </tr>
+
+            <tr>
+                <th>Alış Tarihi</th>
+                <td>@Model.BorrowDate.ToString("dd.MM.yyyy")</td>
+            </tr>
+
+            <tr>
+                <th>Teslim Tarihi</th>
+                <td>@Model.DueDate.ToString("dd.MM.yyyy")</td>
+            </tr>
+
+            <tr>
+                <th>İade Tarihi</th>
+                <td>
+                    @(Model.ReturnDate.HasValue
+                                        ? Model.ReturnDate.Value.ToString("dd.MM.yyyy")
+                                        : "-")
+                </td>
+            </tr>
+
+            <tr>
+                <th>Durum</th>
+                <td>
+
+                    @if (Model.IsReturned)
+                    {
+                        <span class="status returned">
+                            Teslim Edildi
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="status waiting">
+                            Devam Ediyor
+                        </span>
+                    }
+
+                </td>
+            </tr>
+
+        </table>
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           class="save-btn">
+            Düzenle
+        </a>
+
+        <a asp-action="Index"
+           class="back-btn">
+            Geri Dön
+        </a>
+
+    </div>
+
+</div>

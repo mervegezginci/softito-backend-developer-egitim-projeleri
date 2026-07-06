@@ -1,0 +1,12 @@
+﻿@model List<kurs_javascriptcodefirstproje.Models.Category>
+
+<div class="container mt-5">
+    <h2>Kategoriler</h2>
+
+    @foreach (var item in Model)
+    {
+        <div class="card mb-2 p-3">
+            @item.CategoryName
+        </div>
+    }
+</div>

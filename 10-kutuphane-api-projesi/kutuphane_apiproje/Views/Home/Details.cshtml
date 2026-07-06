@@ -1,0 +1,321 @@
+﻿@model kutuphane_apiproje.Models.Book
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<style>
+    .book-detail-section {
+        background: #fff;
+        padding-top: 120px;
+        padding-bottom: 120px;
+    }
+
+    .book-image-box img {
+        width: 100%;
+        border: 1px solid #e8e8e8;
+        background: #f3f2ec;
+        padding: 30px;
+    }
+
+    .category-badge {
+        color: #74642F;
+        border-bottom: 2px solid #c5a992;
+        padding-bottom: 5px;
+        letter-spacing: 2px;
+        font-size: 13px;
+        text-transform: uppercase;
+    }
+
+    .book-title {
+        font-family: var(--heading-font);
+        font-size: 4.5rem;
+        color: #2f2f2f;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    .author-name {
+        color: #999;
+        font-size: 18px;
+        margin-bottom: 50px;
+    }
+
+    .book-meta {
+        display: flex;
+        gap: 80px;
+        margin-bottom: 70px;
+        flex-wrap: wrap;
+    }
+
+    .meta-item span {
+        display: block;
+        color: #aaa;
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+
+    .meta-item h5 {
+        font-size: 24px;
+        color: #74642F;
+        font-weight: 500;
+    }
+
+    .available {
+        color: #5b8c51 !important;
+    }
+
+    .notavailable {
+        color: #a54c4c !important;
+    }
+
+    .description-box {
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 50px 0;
+    }
+
+        .description-box h3 {
+            font-family: var(--heading-font);
+            color: #2f2f2f;
+            margin-bottom: 30px;
+        }
+
+        .description-box p {
+            color: #666;
+            line-height: 35px;
+            font-size: 16px;
+        }
+
+    .button-area {
+        margin-top: 50px;
+    }
+
+    .borrow-btn {
+        background: #c5a992;
+        color: white;
+        border: none;
+        padding: 18px 40px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: .3s;
+        margin-right: 20px;
+    }
+
+        .borrow-btn:hover {
+            background: #74642F;
+        }
+
+    .back-btn {
+        color: #666;
+        text-decoration: none;
+        border-bottom: 2px solid #c5a992;
+        padding-bottom: 5px;
+        transition: .3s;
+    }
+
+        .back-btn:hover {
+            color: #74642F;
+        }
+
+
+
+    .book-meta {
+        gap: 40px;
+    }
+
+    }
+</style>
+
+@if (TempData["Success"] != null)
+{
+    <div class="container mt-5 pt-5">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Başarılı!</strong> @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    </div>
+}
+
+
+<section class="book-detail-section py-5">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-4">
+
+                <div class="book-image-box">
+                    <img src="@Model.ImageUrl" alt="@Model.Title">
+                </div>
+
+            </div>
+
+            <div class="col-lg-8">
+
+                <span class="category-badge">
+                    @Model.Category?.CategoryName
+                </span>
+
+                <h1 class="book-title">
+                    @Model.Title
+                </h1>
+
+                <div class="author-name">
+                    @Model.Author?.FullName
+                </div>
+
+                <div class="book-meta">
+
+                    <div class="meta-item">
+                        <span>Yayın Yılı</span>
+                        <h5>@Model.PublishYear</h5>
+                    </div>
+
+                    <div class="meta-item">
+                        <span>Sayfa Sayısı</span>
+                        <h5>@Model.PageCount</h5>
+                    </div>
+
+                    <div class="meta-item">
+                        <span>Durum</span>
+
+                        @if (Model.IsAvailable)
+                        {
+                            <h5 class="available">
+                                Mevcut
+                            </h5>
+                        }
+                        else
+                        {
+                            <h5 class="notavailable">
+                                Ödünçte
+                            </h5>
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="description-box mt-5">
+
+                    <h3>Kitap Hakkında</h3>
+
+                    <p>
+                        @Model.Description
+                    </p>
+
+                    <div class="button-area mt-4">
+
+                        @if (Model.IsAvailable)
+                        {
+                            <button class="borrow-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#borrowModal">
+                                Kitabı Ödünç Al
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger" disabled>
+                                Bu kitap şu anda ödünçte.
+                            </button>
+                        }
+
+                        <a asp-action="Index" class="back-btn">
+                            Geri Dön
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="modal fade" id="borrowModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Kitap Ödünç Alma Talebi
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <form asp-controller="Borrowing"
+                  asp-action="Create"
+                  method="post">
+
+                <div class="modal-body">
+
+                    <input type="hidden"
+                           name="BookId"
+                           value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label>Kitap</label>
+
+                        <input class="form-control"
+                               value="@Model.Title"
+                               readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Alış Tarihi</label>
+
+                        <input type="date"
+                               name="BorrowDate"
+                               class="form-control"
+                               value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Teslim Tarihi</label>
+
+                        <input type="date"
+                               name="ReturnDate"
+                               class="form-control"
+                               value="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")" />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        İptal
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-success">
+                        Onayla
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

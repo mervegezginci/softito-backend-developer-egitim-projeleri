@@ -1,0 +1,73 @@
+@model List<Realtor>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4>Emlak Danışmanları</h4>
+    </div>
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a asp-action="Create" class="btn btn-primary">
+                Yeni Danışman
+            </a>
+            
+            <form method="get" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Danışman ara..." value="@Context.Request.Query["search"]" style="width: 250px;" />
+                <button type="submit" class="btn btn-secondary">Ara</button>
+                @if (!string.IsNullOrEmpty(Context.Request.Query["search"]))
+                {
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary">Temizle</a>
+                }
+            </form>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Fotoğraf</th>
+                    <th>Ad Soyad</th>
+                    <th>Telefon</th>
+                    <th>Email</th>
+                    <th width="200">İşlemler</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.ImageUrl"
+                                 width="60"
+                                 height="60"
+                                 style="object-fit:cover;border-radius:50%;" />
+                        </td>
+                        <td>@item.NameSurname</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Email</td>
+                        <td>
+                            <a asp-action="Edit"
+                               asp-route-id="@item.Id"
+                               class="btn btn-warning btn-sm">
+                                Düzenle
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@item.Id"
+                               class="btn btn-danger btn-sm">
+                                Sil
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

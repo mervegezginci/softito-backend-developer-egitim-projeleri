@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<Comment>
+
+<h2>Yorumlar</h2>
+
+<form method="get" action="@Url.Action("Index", "AdminComment")" class="mb-3">
+    <div class="input-group">
+        <input type="text"
+               name="search"
+               value="@Context.Request.Query["search"]"
+               class="form-control"
+               placeholder="Yorum / müşteri / ürün ara..." />
+
+    </div>
+</form>
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>Müşteri</th>
+        <th>Yorum</th>
+        <th>Yıldız</th>
+        <th>Ürün</th>
+        <th>Onay</th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @(item.Customer != null ? item.Customer.FullName : "Bilinmiyor")
+            </td>
+
+            <td>
+                @item.Text
+            </td>
+
+
+            <td>
+                @for (int i = 0; i < item.Rating; i++)
+                {
+                    <span>⭐</span>
+                }
+            </td>
+
+            <td>
+                @(item.Product != null ? item.Product.ProductName : "Bilinmiyor")
+            </td>
+
+            <td>
+                @if (item.IsApproved)
+                {
+                    <span class="badge bg-success">Onaylı</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">Beklemede</span>
+                }
+            </td>
+
+            <td>
+                <a class="btn btn-danger"
+                   href="@Url.Action("Delete", "AdminComment", new { id = item.Id })">
+                    Sil
+                </a>
+            </td>
+
+            <td>
+                <a class="btn btn-warning"
+                   href="@Url.Action("Update", "AdminComment", new { id = item.Id })">
+                    Güncelle
+                </a>
+            </td>
+
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,64 @@
+﻿@model kutuphane_apiproje.Models.Review
+
+@{
+    ViewData["Title"] = "Yorumu Düzenle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="form-container">
+
+    <div class="form-card">
+
+        <div class="page-header">
+            <span>Değerlendirme İşlemleri</span>
+            <h2>Yorumu Düzenle</h2>
+        </div>
+
+        <form asp-action="Edit">
+
+            <input type="hidden" asp-for="Id"/>
+
+            <div class="form-box">
+                <label>Puan</label>
+                <input asp-for="Rating" class="form-control"/>
+            </div>
+
+            <div class="form-box">
+                <label>Yorum</label>
+                <textarea asp-for="Comment"
+                          class="form-control area"></textarea>
+            </div>
+
+            <div class="form-box">
+                <label>Kitap</label>
+                <select asp-for="BookId"
+                        asp-items="ViewBag.Books"
+                        class="form-control">
+                </select>
+            </div>
+
+            <div class="form-box">
+                <label>Kullanıcı</label>
+                <select asp-for="UserId"
+                        asp-items="ViewBag.Users"
+                        class="form-control">
+                </select>
+            </div>
+
+            <button class="save-btn">
+                Güncelle
+            </button>
+
+            <a asp-action="Index" class="back-btn">
+                Geri Dön
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

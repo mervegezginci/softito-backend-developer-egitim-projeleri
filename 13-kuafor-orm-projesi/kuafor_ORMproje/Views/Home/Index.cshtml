@@ -1,0 +1,283 @@
+﻿@model kuafor_ORMproje.Models.HomeViewModel
+
+<div id="hakkimizda" class="container-fluid py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
+                <img class="img-fluid mb-3" src="~/salone-1.0.0/img/about.jpg" alt="Hakkımızda">
+                <div class="d-flex align-items-center bg-light">
+                    <div class="btn-square flex-shrink-0 bg-primary" style="width: 100px; height: 100px;">
+                        <i class="fa fa-phone fa-2x text-dark"></i>
+                    </div>
+                    <div class="px-3">
+                        <h3>+90 (555) 123 45 67</h3>
+                        <span>Randevu ve bilgi almak için bize 7/24 ulaşabilirsiniz.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <h1 class="font-dancing-script text-primary">Hakkımızda</h1>
+                <h1 class="mb-5">Neden Bizi Tercih Etmelisiniz?</h1>
+
+                <p class="mb-4">
+                    Modern ekipmanlarımız ve alanında uzman ekibimiz ile saç kesimi, saç boyama,
+                    bakım, fön, sakal tasarımı ve kişisel bakım hizmetlerini en yüksek kalite
+                    standartlarında sunuyoruz. Online randevu sistemi sayesinde istediğiniz tarih
+                    ve saatte kolayca randevu oluşturabilir, güvenilir ve profesyonel hizmet
+                    deneyimi yaşayabilirsiniz.
+                </p>
+
+
+                <a class="btn btn-primary text-uppercase px-5 py-3" href="/Home/About">
+                    Daha Fazla Bilgi
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="hizmetler" class="container-fluid service py-5">
+    <div class="container">
+        <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+            <h1 class="font-dancing-script text-primary">Hizmetlerimiz</h1>
+            <h1 class="mb-5">Sizlere Sunduğumuz Profesyonel Hizmetler</h1>
+        </div>
+
+        <div class="row g-4 g-md-0 text-center">
+
+            @foreach (var item in Model.Services)
+            {
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="service-item h-100 p-4 border-bottom border-end">
+
+                        <img class="img-fluid"
+                             src="@item.ImageUrl"
+                             alt="@item.ServiceName">
+
+                        <h3 class="mb-3">
+                            @item.ServiceName
+                        </h3>
+
+                        <p class="mb-3">
+                            @item.Description
+                        </p>
+
+                        <h5 class="text-primary mb-3">
+                            @item.Price.ToString("C")
+                        </h5>
+
+                        <p>
+                            Süre : @item.Duration Dakika
+                        </p>
+
+                        <a class="btn btn-sm btn-primary text-uppercase"
+                           asp-controller="Appointment"
+                           asp-action="Create">
+
+                            Randevu Al
+
+                        </a>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<div id="fiyatlar" class="container-fluid price px-0 py-5">
+    <div class="row g-0">
+
+        <div class="col-md-6">
+            <div class="d-flex align-items-center h-100 bg-primary p-5">
+
+                <div>
+
+                    <h1 class="font-dancing-script text-white">
+                        Fiyat Listemiz
+                    </h1>
+
+                    <h1>Profesyonel Kuaför Hizmetleri</h1>
+
+                    <h1 class="display-1 text-uppercase mb-5">
+                        FİYATLAR
+                    </h1>
+
+                    <p>
+                        Tüm hizmetlerimizi online olarak inceleyebilir,
+                        istediğiniz hizmet için hemen randevu oluşturabilirsiniz.
+                    </p>
+
+                    <a asp-controller="Appointment"
+                       asp-action="Create"
+                       class="btn btn-dark">
+
+                        Randevu Al
+
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="h-100 bg-dark p-5">
+
+                @foreach (var item in Model.Services)
+                {
+                    <div class="price-item mb-3">
+
+                        <img class="img-fluid flex-shrink-0"
+                             src="@item.ImageUrl"
+                             alt="@item.ServiceName">
+
+                        <div class="text-end px-4">
+
+                            <h6 class="text-uppercase text-primary">
+                                @item.ServiceName
+                            </h6>
+
+                            <h3 class="text-white">
+                                @item.Price.ToString("C")
+                            </h3>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Gallery Start -->
+<div id="galeri" class="container-fluid gallery py-5">
+    <div class="container">
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script text-primary">Galeri</h1>
+            <h1 class="mb-5">Galerimizi Keşfedin</h1>
+        </div>
+        <div class="row g-0">
+            <div class="col-md-6 wow fadeIn" data-wow-delay="0.2s">
+                <div class="gallery-item h-100">
+                    <img src="~/salone-1.0.0/img/gallery-1.jpg" class="img-fluid w-100 h-100" alt="">
+                    <div class="gallery-icon">
+                        <a href="~/salone-1.0.0/img/gallery-1.jpg" class="btn btn-primary btn-lg-square"
+                           data-lightbox="Gallery-1"><i class="fa fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 wow fadeIn" data-wow-delay="0.4s">
+                <div class="gallery-item h-100">
+                    <img src="~/salone-1.0.0/img/gallery-2.jpg" class="img-fluid w-100 h-100" alt="">
+                    <div class="gallery-icon">
+                        <a href="~/salone-1.0.0/img/gallery-2.jpg" class="btn btn-primary btn-lg-square"
+                           data-lightbox="Gallery-2"><i class="fa fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 wow fadeIn" data-wow-delay="0.6s">
+                <div class="gallery-item h-100">
+                    <img src="~/salone-1.0.0/img/gallery-3.jpg" class="img-fluid w-100 h-100" alt="">
+                    <div class="gallery-icon">
+                        <a href="~/salone-1.0.0/img/gallery-3.jpg" class="btn btn-primary btn-lg-square"
+                           data-lightbox="Gallery-3"><i class="fa fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 wow fadeIn" data-wow-delay="0.2s">
+                <div class="gallery-item h-100">
+                    <img src="~/salone-1.0.0/img/gallery-4.jpg" class="img-fluid w-100 h-100" alt="">
+                    <div class="gallery-icon">
+                        <a href="img/gallery-4.jpg" class="btn btn-primary btn-lg-square"
+                           data-lightbox="Gallery-4"><i class="fa fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 wow fadeIn" data-wow-delay="0.4s">
+                <div class="gallery-item h-100">
+                    <img src="~/salone-1.0.0/img/gallery-5.jpg" class="img-fluid w-100 h-100" alt="">
+                    <div class="gallery-icon">
+                        <a href="~/salone-1.0.0/img/gallery-5.jpg" class="btn btn-primary btn-lg-square"
+                           data-lightbox="Gallery-5"><i class="fa fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 wow fadeIn" data-wow-delay="0.6s">
+                <div class="gallery-item h-100">
+                    <img src="~/salone-1.0.0/img/gallery-6.jpg" class="img-fluid w-100 h-100" alt="">
+                    <div class="gallery-icon">
+                        <a href="~/salone-1.0.0/img/gallery-6.jpg" class="btn btn-primary btn-lg-square"
+                           data-lightbox="Gallery-6"><i class="fa fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ekibimiz" class="container-fluid overflow-hidden py-5">
+    <div class="container">
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script text-primary">Ekibimiz</h1>
+            <h1 class="mb-5">Uzman Personellerimiz</h1>
+        </div>
+        <div class="row g-4 team">
+
+            @foreach (var item in Model.Employees)
+            {
+                <div class="col-md-6 col-lg-3 wow fadeIn">
+
+                    <div class="team-item position-relative overflow-hidden">
+
+                        <img class="img-fluid w-100"
+                             src="@item.ImageUrl"
+                             alt="@item.FullName">
+
+                        <div class="team-overlay">
+
+                            <p class="text-primary mb-1">
+                                @item.Speciality
+                            </p>
+
+                            <h4>
+                                @item.FullName
+                            </h4>
+
+                            <div class="d-flex justify-content-center">
+
+                                <a class="btn btn-dark btn-sm-square border-2 me-2" href="#">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+
+                                <a class="btn btn-dark btn-sm-square border-2 me-2" href="#">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+
+                                <a class="btn btn-dark btn-sm-square border-2" href="#">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<Comment>
+
+<h2>Yorumlar</h2>
+
+<a href="@Url.Action("Create", "AdminComment")" class="btn btn-primary mb-3">
+    Yeni Yorum
+</a>
+
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>Müşteri</th>
+        <th>Ürün</th>
+        <th>Yorum</th>
+        <th>Durum</th>
+        <th>Onayla</th>
+        <th>Sil</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>@item.Customer.FullName</td>
+
+            <td>@item.Product.ProductName</td>
+
+            <td>@item.Text</td>
+
+            <td>
+                @(item.IsApproved ? "Onaylı" : "Bekliyor")
+            </td>
+
+            <td>
+                <a href="@Url.Action("Approve", "AdminComment", new { id = item.Id })"
+                   class="btn btn-success">
+                    Onayla
+                </a>
+            </td>
+
+            <td>
+                <a href="@Url.Action("Delete", "AdminComment", new { id = item.Id })"
+                   class="btn btn-danger">
+                    Sil
+                </a>
+            </td>
+
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,24 @@
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+## Publishing/Deployment
+publish/
+
+## Rider/VS Code
+.idea/
+.vscode/
+
+## Operating System files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

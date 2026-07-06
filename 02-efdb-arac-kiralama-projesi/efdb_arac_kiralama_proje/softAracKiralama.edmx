@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="softAracKiralamaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Araclar">
+          <Key>
+            <PropertyRef Name="AracNo" />
+          </Key>
+          <Property Name="AracNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model" Type="varchar" MaxLength="50" />
+          <Property Name="Yil" Type="int" />
+          <Property Name="Renk" Type="varchar" MaxLength="30" />
+          <Property Name="Plaka" Type="varchar" MaxLength="20" />
+          <Property Name="GunlukUcret" Type="money" />
+          <Property Name="Durum" Type="varchar" MaxLength="50" />
+          <Property Name="MarkaNo" Type="int" />
+          <Property Name="ResimYolu" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Kiralamalar">
+          <Key>
+            <PropertyRef Name="KiralamaNo" />
+          </Key>
+          <Property Name="KiralamaNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MusteriNo" Type="int" />
+          <Property Name="AracNo" Type="int" />
+          <Property Name="AlisTarihi" Type="date" />
+          <Property Name="TeslimTarihi" Type="date" />
+          <Property Name="ToplamUcret" Type="money" />
+        </EntityType>
+        <EntityType Name="Kullanicilar">
+          <Key>
+            <PropertyRef Name="KullaniciNo" />
+          </Key>
+          <Property Name="KullaniciNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="varchar" MaxLength="50" />
+          <Property Name="Sifre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Markalar">
+          <Key>
+            <PropertyRef Name="MarkaNo" />
+          </Key>
+          <Property Name="MarkaNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarkaAdi" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Musteriler">
+          <Key>
+            <PropertyRef Name="MusteriNo" />
+          </Key>
+          <Property Name="MusteriNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdSoyad" Type="varchar" MaxLength="100" />
+          <Property Name="Telefon" Type="varchar" MaxLength="20" />
+          <Property Name="Tc" Type="varchar" MaxLength="11" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__Araclar__MarkaNo__3B75D760">
+          <End Role="Markalar" Type="Self.Markalar" Multiplicity="0..1" />
+          <End Role="Araclar" Type="Self.Araclar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markalar">
+              <PropertyRef Name="MarkaNo" />
+            </Principal>
+            <Dependent Role="Araclar">
+              <PropertyRef Name="MarkaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kiralamal__AracN__412EB0B6">
+          <End Role="Araclar" Type="Self.Araclar" Multiplicity="0..1" />
+          <End Role="Kiralamalar" Type="Self.Kiralamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Araclar">
+              <PropertyRef Name="AracNo" />
+            </Principal>
+            <Dependent Role="Kiralamalar">
+              <PropertyRef Name="AracNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kiralamal__Muste__403A8C7D">
+          <End Role="Musteriler" Type="Self.Musteriler" Multiplicity="0..1" />
+          <End Role="Kiralamalar" Type="Self.Kiralamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteriler">
+              <PropertyRef Name="MusteriNo" />
+            </Principal>
+            <Dependent Role="Kiralamalar">
+              <PropertyRef Name="MusteriNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="softAracKiralamaModelStoreContainer">
+          <EntitySet Name="Araclar" EntityType="Self.Araclar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kiralamalar" EntityType="Self.Kiralamalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Markalar" EntityType="Self.Markalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Musteriler" EntityType="Self.Musteriler" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Araclar__MarkaNo__3B75D760" Association="Self.FK__Araclar__MarkaNo__3B75D760">
+            <End Role="Markalar" EntitySet="Markalar" />
+            <End Role="Araclar" EntitySet="Araclar" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kiralamal__AracN__412EB0B6" Association="Self.FK__Kiralamal__AracN__412EB0B6">
+            <End Role="Araclar" EntitySet="Araclar" />
+            <End Role="Kiralamalar" EntitySet="Kiralamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kiralamal__Muste__403A8C7D" Association="Self.FK__Kiralamal__Muste__403A8C7D">
+            <End Role="Musteriler" EntitySet="Musteriler" />
+            <End Role="Kiralamalar" EntitySet="Kiralamalar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="softAracKiralamaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Araclar">
+          <Key>
+            <PropertyRef Name="AracNo" />
+          </Key>
+          <Property Name="AracNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Yil" Type="Int32" />
+          <Property Name="Renk" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Plaka" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="GunlukUcret" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Durum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MarkaNo" Type="Int32" />
+          <Property Name="ResimYolu" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Markalar" Relationship="Self.FK__Araclar__MarkaNo__3B75D760" FromRole="Araclar" ToRole="Markalar" />
+          <NavigationProperty Name="Kiralamalars" Relationship="Self.FK__Kiralamal__AracN__412EB0B6" FromRole="Araclar" ToRole="Kiralamalar" />
+        </EntityType>
+        <EntityType Name="Kiralamalar">
+          <Key>
+            <PropertyRef Name="KiralamaNo" />
+          </Key>
+          <Property Name="KiralamaNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MusteriNo" Type="Int32" />
+          <Property Name="AracNo" Type="Int32" />
+          <Property Name="AlisTarihi" Type="DateTime" Precision="0" />
+          <Property Name="TeslimTarihi" Type="DateTime" Precision="0" />
+          <Property Name="ToplamUcret" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Araclar" Relationship="Self.FK__Kiralamal__AracN__412EB0B6" FromRole="Kiralamalar" ToRole="Araclar" />
+          <NavigationProperty Name="Musteriler" Relationship="Self.FK__Kiralamal__Muste__403A8C7D" FromRole="Kiralamalar" ToRole="Musteriler" />
+        </EntityType>
+        <EntityType Name="Kullanicilar">
+          <Key>
+            <PropertyRef Name="KullaniciNo" />
+          </Key>
+          <Property Name="KullaniciNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Markalar">
+          <Key>
+            <PropertyRef Name="MarkaNo" />
+          </Key>
+          <Property Name="MarkaNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarkaAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Araclars" Relationship="Self.FK__Araclar__MarkaNo__3B75D760" FromRole="Markalar" ToRole="Araclar" />
+        </EntityType>
+        <EntityType Name="Musteriler">
+          <Key>
+            <PropertyRef Name="MusteriNo" />
+          </Key>
+          <Property Name="MusteriNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdSoyad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Telefon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Tc" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Kiralamalars" Relationship="Self.FK__Kiralamal__Muste__403A8C7D" FromRole="Musteriler" ToRole="Kiralamalar" />
+        </EntityType>
+        <Association Name="FK__Araclar__MarkaNo__3B75D760">
+          <End Role="Markalar" Type="Self.Markalar" Multiplicity="0..1" />
+          <End Role="Araclar" Type="Self.Araclar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markalar">
+              <PropertyRef Name="MarkaNo" />
+            </Principal>
+            <Dependent Role="Araclar">
+              <PropertyRef Name="MarkaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kiralamal__AracN__412EB0B6">
+          <End Role="Araclar" Type="Self.Araclar" Multiplicity="0..1" />
+          <End Role="Kiralamalar" Type="Self.Kiralamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Araclar">
+              <PropertyRef Name="AracNo" />
+            </Principal>
+            <Dependent Role="Kiralamalar">
+              <PropertyRef Name="AracNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kiralamal__Muste__403A8C7D">
+          <End Role="Musteriler" Type="Self.Musteriler" Multiplicity="0..1" />
+          <End Role="Kiralamalar" Type="Self.Kiralamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteriler">
+              <PropertyRef Name="MusteriNo" />
+            </Principal>
+            <Dependent Role="Kiralamalar">
+              <PropertyRef Name="MusteriNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="softAracKiralamaEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Araclars" EntityType="Self.Araclar" />
+          <EntitySet Name="Kiralamalars" EntityType="Self.Kiralamalar" />
+          <EntitySet Name="Kullanicilars" EntityType="Self.Kullanicilar" />
+          <EntitySet Name="Markalars" EntityType="Self.Markalar" />
+          <EntitySet Name="Musterilers" EntityType="Self.Musteriler" />
+          <AssociationSet Name="FK__Araclar__MarkaNo__3B75D760" Association="Self.FK__Araclar__MarkaNo__3B75D760">
+            <End Role="Markalar" EntitySet="Markalars" />
+            <End Role="Araclar" EntitySet="Araclars" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kiralamal__AracN__412EB0B6" Association="Self.FK__Kiralamal__AracN__412EB0B6">
+            <End Role="Araclar" EntitySet="Araclars" />
+            <End Role="Kiralamalar" EntitySet="Kiralamalars" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kiralamal__Muste__403A8C7D" Association="Self.FK__Kiralamal__Muste__403A8C7D">
+            <End Role="Musteriler" EntitySet="Musterilers" />
+            <End Role="Kiralamalar" EntitySet="Kiralamalars" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="softAracKiralamaModelStoreContainer" CdmEntityContainer="softAracKiralamaEntities1">
+          <EntitySetMapping Name="Araclars">
+            <EntityTypeMapping TypeName="softAracKiralamaModel.Araclar">
+              <MappingFragment StoreEntitySet="Araclar">
+                <ScalarProperty Name="AracNo" ColumnName="AracNo" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Yil" ColumnName="Yil" />
+                <ScalarProperty Name="Renk" ColumnName="Renk" />
+                <ScalarProperty Name="Plaka" ColumnName="Plaka" />
+                <ScalarProperty Name="GunlukUcret" ColumnName="GunlukUcret" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="MarkaNo" ColumnName="MarkaNo" />
+                <ScalarProperty Name="ResimYolu" ColumnName="ResimYolu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kiralamalars">
+            <EntityTypeMapping TypeName="softAracKiralamaModel.Kiralamalar">
+              <MappingFragment StoreEntitySet="Kiralamalar">
+                <ScalarProperty Name="KiralamaNo" ColumnName="KiralamaNo" />
+                <ScalarProperty Name="MusteriNo" ColumnName="MusteriNo" />
+                <ScalarProperty Name="AracNo" ColumnName="AracNo" />
+                <ScalarProperty Name="AlisTarihi" ColumnName="AlisTarihi" />
+                <ScalarProperty Name="TeslimTarihi" ColumnName="TeslimTarihi" />
+                <ScalarProperty Name="ToplamUcret" ColumnName="ToplamUcret" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kullanicilars">
+            <EntityTypeMapping TypeName="softAracKiralamaModel.Kullanicilar">
+              <MappingFragment StoreEntitySet="Kullanicilar">
+                <ScalarProperty Name="KullaniciNo" ColumnName="KullaniciNo" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Markalars">
+            <EntityTypeMapping TypeName="softAracKiralamaModel.Markalar">
+              <MappingFragment StoreEntitySet="Markalar">
+                <ScalarProperty Name="MarkaNo" ColumnName="MarkaNo" />
+                <ScalarProperty Name="MarkaAdi" ColumnName="MarkaAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Musterilers">
+            <EntityTypeMapping TypeName="softAracKiralamaModel.Musteriler">
+              <MappingFragment StoreEntitySet="Musteriler">
+                <ScalarProperty Name="MusteriNo" ColumnName="MusteriNo" />
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Tc" ColumnName="Tc" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

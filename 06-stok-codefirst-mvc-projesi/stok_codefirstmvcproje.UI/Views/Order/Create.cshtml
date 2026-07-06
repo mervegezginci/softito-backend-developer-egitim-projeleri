@@ -1,0 +1,47 @@
+﻿<div class="card">
+
+    <div class="card-header">
+        <h4>Yeni Sipariş</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form method="post">
+
+            <label>Ürün</label>
+
+            <select name="ProductId" class="form-control">
+
+                @foreach (var item in ViewBag.Products)
+                {
+                    <option value="@item.Id">
+                        @item.Name
+                    </option>
+                }
+
+            </select>
+
+            <br />
+
+            <label>Adet</label>
+
+            <input type="number"
+                   name="Quantity"
+                   class="form-control" />
+
+            <br />
+
+            <button class="btn btn-success">
+                Sipariş Ver
+            </button>
+
+            <a href="@Url.Action("Index", "Order")"
+               class="btn btn-secondary">
+                Vazgeç
+            </a>
+
+        </form>
+
+    </div>
+
+</div>

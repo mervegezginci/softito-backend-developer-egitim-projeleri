@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Kütüphane Admin</title>
+
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- Admin CSS dosyaları -->
+    <link rel="stylesheet" href="~/css/admin.css">
+    <link rel="stylesheet" href="~/css/author-admin.css" />
+    <link rel="stylesheet" href="~/css/book-admin.css" />
+    <link rel="stylesheet" href="~/css/borrow-admin.css">    <!-- DÜZELTME: barrow → borrow -->
+    <link rel="stylesheet" href="~/css/category-admin.css">
+    <link rel="stylesheet" href="~/css/review-admin.css">
+
+    <style>
+        /* === Global Override === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #f8fafc; }
+
+        /* === Sidebar === */
+        .sidebar {
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            border-right: 1px solid #1e293b;
+        }
+
+        .logo {
+            padding: 1.5rem 1.5rem 1.25rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo h3 {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h3::before {
+            content: '📚';
+            font-size: 1.3rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 1rem 0.75rem;
+            flex-grow: 1;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: #1e293b;
+            color: #ffffff;
+        }
+
+        .sidebar ul li a.active-nav {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .sidebar ul li a i {
+            width: 18px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-bottom {
+            padding: 1rem 0.75rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        .sidebar-bottom a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.875rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .sidebar-bottom a:hover {
+            background: #1e293b;
+            color: #ffffff;
+        }
+
+        /* === Main Content === */
+        .main-content {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        /* === Topbar === */
+        .topbar {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-user span {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #ef4444;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* === Content === */
+        .content {
+            padding: 2rem;
+        }
+
+        /* === Dashboard Card Overrides === */
+        .dashboard-card {
+            border-radius: 14px !important;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05) !important;
+        }
+
+        .dashboard-card h2 {
+            color: #2563eb !important;
+            font-size: 2.5rem !important;
+        }
+
+        /* === Print === */
+        @@media print {
+            .sidebar, .topbar { display: none !important; }
+            .main-content { margin-left: 0 !important; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">
+            <h3>Kütüphane</h3>
+        </div>
+
+        <ul>
+            <li>
+                <a asp-controller="Admin" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active-nav" : "")">
+                    <i class="fa-solid fa-chart-line"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Book" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Book" ? "active-nav" : "")">
+                    <i class="fa-solid fa-book"></i> Kitaplar
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Author" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Author" ? "active-nav" : "")">
+                    <i class="fa-solid fa-pen"></i> Yazarlar
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Category" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active-nav" : "")">
+                    <i class="fa-solid fa-folder"></i> Kategoriler
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Borrowing" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Borrowing" ? "active-nav" : "")">
+                    <i class="fa-solid fa-repeat"></i> Ödünçler
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Review" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Review" ? "active-nav" : "")">
+                    <i class="fa-solid fa-star"></i> Yorumlar
+                </a>
+            </li>
+            <li>
+                <a asp-controller="User" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "User" ? "active-nav" : "")">
+                    <i class="fa-solid fa-users"></i> Kullanıcılar
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-bottom">
+            <a asp-controller="Home" asp-action="Index">
+                <i class="fa-solid fa-house"></i> Siteye Git
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <h4><i class="fa-solid fa-shield-halved me-2 text-primary"></i> Admin Paneli</h4>
+
+            <div class="admin-user">
+                <span>
+                    <i class="fa-regular fa-circle-user me-1 text-muted"></i>
+                    Hoşgeldiniz, <strong>@User.Identity?.Name</strong>
+                </span>
+
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="logout-btn">
+                        <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

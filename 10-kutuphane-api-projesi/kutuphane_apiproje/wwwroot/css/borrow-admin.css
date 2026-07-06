@@ -1,0 +1,231 @@
+﻿.borrowing-page {
+    padding: 20px;
+}
+
+/* Başlık */
+
+.page-title-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+    .page-title-area span {
+        color: #afafaf;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+    }
+
+    .page-title-area h2 {
+        font-size: 42px;
+        font-family: var(--heading-font);
+        margin: 0;
+    }
+
+/* Kart */
+
+.borrowing-card {
+    background: #fff;
+    border: 1px solid #E7E2D8;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.05);
+}
+
+/* Tablo */
+
+.borrowing-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .borrowing-table thead {
+        background: #F3F2EC;
+    }
+
+    .borrowing-table th {
+        padding: 18px;
+        color: #74642F;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .borrowing-table td {
+        padding: 20px 18px;
+        border-bottom: 1px solid #efefef;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .borrowing-table tbody tr:hover {
+        background: #faf9f5;
+    }
+
+/* Butonlar */
+
+.add-btn {
+    background: #C5A992;
+    color: #fff;
+    padding: 14px 28px;
+    text-decoration: none;
+    transition: .3s;
+}
+
+    .add-btn:hover {
+        background: #74642F;
+        color: #fff;
+    }
+
+.edit-btn {
+    background: #C5A992;
+    color: white;
+    padding: 9px 18px;
+    text-decoration: none;
+    transition: .3s;
+    margin-right: 6px;
+}
+
+    .edit-btn:hover {
+        background: #74642F;
+        color: white;
+    }
+
+.detail-btn {
+    background: #5b7c99;
+    color: white;
+    padding: 9px 18px;
+    text-decoration: none;
+    transition: .3s;
+}
+
+    .detail-btn:hover {
+        background: #40596e;
+        color: white;
+    }
+
+/* Durum */
+
+.status {
+    display: inline-block;
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.returned {
+    background: #d8f3dc;
+    color: #2d6a4f;
+}
+
+.waiting {
+    background: #fff3cd;
+    color: #8a6d00;
+}
+
+/* ===========================
+   Form Sayfası
+=========================== */
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+.form-card {
+    width: 650px;
+    background: #fff;
+    border: 1px solid #E7E2D8;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    padding: 35px;
+}
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+    .page-header span {
+        color: #afafaf;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .page-header h2 {
+        font-size: 34px;
+        font-family: var(--heading-font);
+        margin-top: 5px;
+    }
+
+.form-box {
+    margin-bottom: 20px;
+}
+
+    .form-box label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        color: #555;
+    }
+
+.form-control {
+    height: 48px;
+    border-radius: 4px;
+}
+
+    .form-control:focus {
+        border-color: #C5A992;
+        box-shadow: none;
+    }
+
+.form-check {
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+.save-btn {
+    background: #C5A992;
+    color: white;
+    border: none;
+    padding: 13px 28px;
+    transition: .3s;
+    text-decoration: none;
+}
+
+    .save-btn:hover {
+        background: #74642F;
+        color: white;
+    }
+
+.back-btn {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #74642F;
+    font-weight: 600;
+}
+
+    .back-btn:hover {
+        color: #C5A992;
+    }
+
+/* ===========================
+   Details Sayfası
+=========================== */
+
+.borrowing-detail-table {
+    width: 100%;
+}
+
+    .borrowing-detail-table th {
+        width: 220px;
+        padding: 18px 10px;
+        color: #74642F;
+        border-bottom: 1px solid #ececec;
+    }
+
+    .borrowing-detail-table td {
+        padding: 18px 10px;
+        border-bottom: 1px solid #ececec;
+    }

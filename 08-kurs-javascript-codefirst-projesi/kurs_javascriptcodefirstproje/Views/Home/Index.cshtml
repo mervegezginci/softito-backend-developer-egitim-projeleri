@@ -1,0 +1,130 @@
+@model kurs_javascriptcodefirstproje.Models.HomeIndexViewModel
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+<!-- HERO SECTION -->
+<section class="hero py-5 text-center text-white d-flex align-items-center justify-content-center" 
+         style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 480px; position: relative; overflow: hidden;">
+    <!-- Dekoratif Işık Efekti -->
+    <div style="position: absolute; width: 350px; height: 350px; background: rgba(37, 99, 235, 0.15); filter: blur(80px); border-radius: 50%; top: -50px; left: 10%;"></div>
+    <div style="position: absolute; width: 350px; height: 350px; background: rgba(79, 70, 229, 0.15); filter: blur(80px); border-radius: 50%; bottom: -50px; right: 10%;"></div>
+
+    <div class="container hero-content" style="position: relative; z-index: 2;">
+        <span class="badge bg-primary px-3 py-2 rounded-pill fw-semibold text-uppercase mb-3" style="font-size: 0.75rem; letter-spacing: 1px;">
+            🎓 Kariyerini Zirveye Taşı
+        </span>
+        <h1 class="display-4 fw-extrabold mb-3" style="letter-spacing: -1.5px; font-weight: 800;">
+            Online Eğitim Platformu
+        </h1>
+        <p class="lead text-muted mb-4 mx-auto" style="max-width: 600px; color: #94a3b8 !important;">
+            Sektör lideri eğitmenlerden JavaScript, React ve modern backend geliştirme eğitimleri alın, yeni bir kariyere güvenle başlayın.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="#courses" class="btn btn-primary btn-lg px-4 rounded-pill fw-semibold text-white">
+                <i class="fas fa-play me-2"></i> Kursları İncele
+            </a>
+            <a href="#categories" class="btn btn-outline-light btn-lg px-4 rounded-pill fw-semibold">
+                Kategoriler
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES SECTION -->
+<section id="categories" class="py-5 bg-white border-bottom">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-2">Eğitim Kategorileri</h2>
+        <p class="text-muted mb-4">İlgi alanınıza göre uzmanlık kategorisini seçin</p>
+
+        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+            @if (Model.Categories != null && Model.Categories.Any())
+            {
+                foreach (var item in Model.Categories)
+                {
+                    <a href="#courses" class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-semibold text-dark shadow-sm" style="transition: all 0.2s ease;">
+                        <i class="fas fa-folder text-primary me-2"></i> @item.CategoryName
+                    </a>
+                }
+            }
+            else
+            {
+                <p class="text-muted">Kategori bulunamadı.</p>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- COURSES SECTION -->
+<section id="courses" class="py-5" style="background-color: #f8fafc;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-2">Eğitimlerimiz</h2>
+            <p class="text-muted">En çok tercih edilen, sıfırdan uzmanlığa hazırlayan müfredatlarımız.</p>
+        </div>
+
+        <div class="row g-4">
+            @if (Model.Courses != null && Model.Courses.Any())
+            {
+                foreach (var item in Model.Courses)
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card h-100 shadow-sm border-0 overflow-hidden" style="border-radius: 16px; transition: transform 0.25s ease, box-shadow 0.25s ease;">
+                            <!-- Resim Container (Hover Zoom) -->
+                            <div class="position-relative overflow-hidden" style="aspect-ratio: 16/9;">
+                                <img src="@item.ImageUrl" class="w-100 h-100" style="object-fit: cover;" 
+                                     onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80'" />
+                                <span class="position-absolute top-3 start-3 badge bg-dark text-white rounded-pill px-3 py-2 fw-bold" style="background-color: rgba(15,23,42,0.85) !important;">
+                                    @item.Category?.CategoryName
+                                </span>
+                            </div>
+
+                            <div class="card-body p-4 d-flex flex-column">
+                                <h5 class="card-title fw-bold text-dark mb-2" style="font-size: 1.15rem;">@item.CourseName</h5>
+                                <p class="card-text text-muted small flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.6;">
+                                    @item.Description
+                                </p>
+
+                                <div class="border-top pt-3 mt-3 d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center text-muted small">
+                                        <i class="far fa-clock me-1 text-primary"></i>
+                                        <span>@item.Duration Saat İçerik</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="d-block small text-muted text-decoration-line-through" style="font-size: 0.8rem;">
+                                            @((item.Price * 1.5m).ToString("N0")) ₺
+                                        </span>
+                                        <span class="fw-bold text-primary fs-5">
+                                            @item.Price.ToString("N0") ₺
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <a asp-controller="BuyUserCourse"
+                                   asp-action="Buy"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-primary w-100 mt-3 rounded-pill py-2 fw-semibold text-white shadow-sm">
+                                    <i class="fas fa-shopping-cart me-1"></i> Kursa Katıl
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <p class="text-center text-muted py-5">Kayıtlı kurs bulunamadı.</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Hover Efekti için CSS -->
+<style>
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
+    }
+</style>

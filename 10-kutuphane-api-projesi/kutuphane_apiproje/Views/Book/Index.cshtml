@@ -1,0 +1,103 @@
+﻿@model IEnumerable<kutuphane_apiproje.Models.Book>
+
+@{
+    ViewData["Title"] = "Kitaplar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="book-section">
+
+    <div class="top-area">
+
+        <div>
+            <span>Kütüphane Yönetimi</span>
+            <h2>Kitaplar</h2>
+        </div>
+
+        <a asp-action="Create" class="add-btn">
+            + Yeni Kitap
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+
+                <div class="book-card">
+
+                    <div class="book-image">
+
+                        <img src="@item.ImageUrl">
+
+                    </div>
+
+                    <div class="book-body">
+
+                        <h4>
+                            @item.Title
+                        </h4>
+
+                        <span class="author">
+                            @item.Author?.FullName
+                        </span>
+
+                        <div class="category">
+                            @item.Category?.CategoryName
+                        </div>
+
+                        <div class="info">
+
+                            <div>
+                                <strong>Sayfa</strong>
+                                <span>@item.PageCount</span>
+                            </div>
+
+                            <div>
+                                <strong>Yıl</strong>
+                                <span>@item.PublishYear</span>
+                            </div>
+
+                        </div>
+
+                        <div class="buttons">
+
+                            <a asp-action="Edit"
+                               asp-route-id="@item.Id"
+                               class="edit-btn">
+                                Düzenle
+                            </a>
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="detail-btn">
+                                Detay
+                            </a>
+
+                            <form asp-action="Delete"
+                                  asp-route-id="@item.Id"
+                                  method="post">
+
+                                @Html.AntiForgeryToken()
+
+                                <button class="delete-btn"
+                                        onclick="return confirm('Kitap silinsin mi ?')">
+                                    Sil
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>
