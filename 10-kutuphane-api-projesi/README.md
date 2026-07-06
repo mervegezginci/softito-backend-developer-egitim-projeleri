@@ -49,16 +49,16 @@ Uygulamaya ait arayüz ekran görüntüleri aşağıda yer almaktadır:
   <tr>
     <td width="50%" align="center">
       <b>3. Kitap Ödünç Alma Talebi (Modal)</b><br/>
-      <img src="images/03_odunc_alma_modal.png" width="100%" alt="Ödünç Alma Modalı"/>
+      <img src="images/03_odunc_talep_modal.png" width="100%" alt="Ödünç Alma Modalı"/>
     </td>
     <td width="50%" align="center">
       <b>4. Ödünç Aldığım Kitaplar (Kullanıcı Paneli)</b><br/>
-      <img src="images/04_odunc_aldiklarim.png" width="100%" alt="Ödünç Alınan Kitaplar"/>
+      <img src="images/04_kullanici_odunc_paneli.png" width="100%" alt="Ödünç Alınan Kitaplar"/>
     </td>
   </tr>
 </table>
 
-### 🛡️ Yönetici (Admin) Paneli & API Arayüzü
+### 🛡️ Yönetici (Admin) Paneli & CRUD Yönetimi
 
 <table width="100%">
   <tr>
@@ -67,15 +67,41 @@ Uygulamaya ait arayüz ekran görüntüleri aşağıda yer almaktadır:
       <img src="images/05_admin_dashboard.png" width="100%" alt="Yönetici Dashboard"/>
     </td>
     <td width="50%" align="center">
-      <b>6. Swagger Web API Dokümantasyonu</b><br/>
-      <img src="images/06_swagger_api.png" width="100%" alt="Swagger Kitap API"/>
+      <b>6. Kitap Yönetim Paneli (CRUD)</b><br/>
+      <img src="images/06_admin_kitap_yonetimi.png" width="100%" alt="Kitap Yönetimi"/>
     </td>
   </tr>
   <tr>
-    <td colspan="2" align="center">
-      <b>7. Kullanıcı & Yetkilendirme Yönetimi</b><br/>
-      <img src="images/07_admin_kullanicilar.png" width="80%" alt="Kullanıcı Yönetimi"/>
+    <td width="50%" align="center">
+      <b>7. Yazar Yönetim Paneli (CRUD)</b><br/>
+      <img src="images/07_admin_yazar_yonetimi.png" width="100%" alt="Yazar Yönetimi"/>
+    </td>
+    <td width="50%" align="center">
+      <b>8. Kategori Yönetim Paneli (CRUD)</b><br/>
+      <img src="images/08_admin_kategori_yonetimi.png" width="100%" alt="Kategori Yönetimi"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>9. Ödünç İşlemleri & Takip Paneli</b><br/>
+      <img src="images/09_admin_odunc_yonetimi.png" width="100%" alt="Ödünç Yönetimi"/>
+    </td>
+    <td width="50%" align="center">
+      <b>10. Kullanıcı & Rol Yönetimi</b><br/>
+      <img src="images/10_admin_kullanici_yonetimi.png" width="100%" alt="Kullanıcı Yönetimi"/>
     </td>
   </tr>
 </table>
+
+### 🔌 Web API Dokümantasyonu
+
+<table width="100%">
+  <tr>
+    <td width="100%" align="center">
+      <b>11. Swagger Web API Dokümantasyonu</b><br/>
+      <img src="images/11_swagger_api_dokumantasyonu.png" width="90%" alt="Swagger API Dokümantasyonu"/>
+    </td>
+  </tr>
+</table>
+
 
