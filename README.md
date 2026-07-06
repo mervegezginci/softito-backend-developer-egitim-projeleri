@@ -154,32 +154,19 @@ Kuaför salonları için randevu ve hizmet yönetim sistemi. Müşterilerin çal
 
 ---
 
-### ✈️ Proje 14 — [seyahat_projesi](./14-seyahat-projesi/)
-**Teknoloji:** ASP.NET Core MVC · ASP.NET Core Web API · EF Core · Dapper · Identity · PDFsharp · SQL Server
 
-Arkadaşımla ortak geliştirdiğimiz **VoyagerTravel Seyahat, Tur ve Rezervasyon Yönetim Portalı**. Yüksek performanslı okuma işlemleri için Dapper, ilişkisel veri yönetimi ve üyelik işlemleri için EF Core kullanan hibrit (hybrid) veri katmanına sahiptir. PDFsharp entegrasyonu ile Türkçe karakter uyumlu rezervasyon belgeleri üretir, özel loglama servisi ile kullanıcı hareketlerini IP bazlı takip eder.
-
-* **Öne Çıkan Özellikler:**
-  - EF Core & Dapper hibrit veri katmanı (`DapperRepository`)
-  - PDFsharp ile Türkçe karakter uyumlu PDF fatura üretimi (`MyFontResolver`)
-  - LogService ile detaylı istemci IP adresi ve işlem loglama
-  - ASP.NET Core Identity (Role-based yetkilendirme: Admin & Customer)
-  - RESTful API uç noktaları (`BookingsApi`, `ToursApi`)
-
----
 
 ## 🛠️ Kullanılan Teknolojiler Matrisi
 
 | Teknoloji | Kullanıldığı Projeler |
 | :--- | :--- |
-| **ASP.NET Core MVC** | Proje 4, 5, 6, 8, 14, 13 |
+| **ASP.NET Core MVC** | Proje 4, 5, 6, 8, 13 |
 | **ASP.NET Core Razor Pages** | Proje 7 |
-| **ASP.NET Core Web API** | Proje 9, 10, 14 |
+| **ASP.NET Core Web API** | Proje 9, 10 |
 | **Windows Forms** | Proje 1, 2, 3 |
-| **EF Core Code-First** | Proje 4, 6, 8, 14 |
+| **EF Core Code-First** | Proje 4, 6, 8 |
 | **EF Core Db-First** | Proje 2, 5 |
-| **EF Core (Genel/ORM)** | Proje 7, 9, 10, 14, 13 |
-| **Dapper** | Proje 14 |
+| **EF Core (Genel/ORM)** | Proje 7, 9, 10, 13 |
 | **ADO.NET** | Proje 1, 3 |
 | **Chart.js (Raporlama)** | Proje 4, 5 |
 | **SQL Server** | Tüm projeler |
