@@ -43,38 +43,15 @@ app.MapControllerRoute(
 
 using (var scope = app.Services.CreateScope())
 {
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-    // Admin rolü oluştur
-    if (!await roleManager.RoleExistsAsync("Admin"))
-    {
-        await roleManager.CreateAsync(new IdentityRole("Admin"));
-    }
+    // Veritabanını otomatik olarak migrate et
+    await context.Database.MigrateAsync();
 
-    // Admin kullanıcı oluştur
-    string email = "merve@gmail.com";
-    string password = "123456Zz.";
-
-    var adminUser = await userManager.FindByEmailAsync(email);
-
-    if (adminUser == null)
-    {
-        adminUser = new ApplicationUser
-        {
-            UserName = email,
-            Email = email,
-            Name = "Sistem Admini",
-            EmailConfirmed = true
-        };
-
-        var result = await userManager.CreateAsync(adminUser, password);
-
-        if (result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
-    }
+    // Veritabanını tohumla (Seed)
+    await kuafor_ORMproje.Models.DbSeeder.SeedAsync(context, roleManager, userManager);
 }
 
 

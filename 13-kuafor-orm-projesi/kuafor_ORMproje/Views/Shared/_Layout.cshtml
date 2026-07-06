@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -128,6 +128,22 @@
         </div>
     </div>
     <!-- Hero End -->
+    <div class="container mt-3">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    </div>
 
     @RenderBody()
 
@@ -183,7 +199,7 @@
 
                             <a class="btn btn-link" href="#iletisim">Bize Ulaşın</a>
 
-                            <a class="btn btn-link" asp-controller="Appointment" asp-action="Create">
+                            <a class="btn btn-link" asp-controller="Appointment" asp-action="Book">
                                 Randevu Oluştur
                             </a>
                         </div>

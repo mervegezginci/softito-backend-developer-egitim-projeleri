@@ -1,0 +1,106 @@
+@model kuafor_ORMproje.Model.Appointment
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Randevu Al";
+}
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('/salone-1.0.0/img/about.jpg') center center no-repeat; background-size: cover;">
+    <div class="container text-center py-5">
+        <h1 class="display-3 text-white text-uppercase mb-3 animated slideInDown">Randevu Al</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center text-uppercase mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="/">Anasayfa</a></li>
+                <li class="breadcrumb-item text-primary active" aria-current="page">Randevu Oluştur</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Booking Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 justify-content-center">
+            <div class="col-lg-8 wow fadeIn" data-wow-delay="0.1s">
+                <div class="bg-light p-5 rounded shadow-sm">
+                    <h1 class="font-dancing-script text-primary text-center">Hızlı Rezervasyon</h1>
+                    <h2 class="text-center mb-4">Randevu Formu</h2>
+                    
+                    <form asp-action="Book" method="post">
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Adınız Soyadınız *</label>
+                                <input type="text" name="fullName" class="form-control border-0 py-3" placeholder="Adınız Soyadınız" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Telefon Numaranız *</label>
+                                <input type="tel" name="phone" class="form-control border-0 py-3" placeholder="05XX XXX XX XX" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">E-posta Adresiniz *</label>
+                                <input type="email" name="email" class="form-control border-0 py-3" placeholder="ornek@mail.com" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Cinsiyetiniz *</label>
+                                <select name="gender" class="form-select border-0 py-3" required>
+                                    <option value="">-- Cinsiyet Seçin --</option>
+                                    <option value="Kadın">Kadın</option>
+                                    <option value="Erkek">Erkek</option>
+                                    <option value="Diğer">Diğer</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Hizmet / İşlem *</label>
+                                <select name="serviceId" class="form-select border-0 py-3" asp-items="ViewBag.ServiceId" required>
+                                    <option value="">-- Yapılacak İşlem --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Çalışan Uzman *</label>
+                                <select name="employeeId" class="form-select border-0 py-3" asp-items="ViewBag.EmployeeId" required>
+                                    <option value="">-- Uzman Seçin --</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Tarih Seçin *</label>
+                                <input type="date" name="appointmentDate" class="form-control border-0 py-3" required value="@DateTime.Today.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Saat Seçin *</label>
+                                <select name="appointmentTime" class="form-select border-0 py-3" required>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                    <option value="19:00">19:00</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Ek Notlar</label>
+                                <textarea name="note" class="form-control border-0 py-3" style="height: 100px; resize: none;" placeholder="Bize iletmek istediğiniz özel bir not veya istek..."></textarea>
+                            </div>
+                            
+                            <div class="col-12 text-center mt-4">
+                                <button class="btn btn-primary w-100 py-3 text-uppercase fw-bold" type="submit">Randevu Talebini Gönder</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Booking End -->

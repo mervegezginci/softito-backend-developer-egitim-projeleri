@@ -1,4 +1,4 @@
-﻿@model kuafor_ORMproje.Models.HomeViewModel
+@model kuafor_ORMproje.Models.HomeViewModel
 
 <div id="hakkimizda" class="container-fluid py-5">
     <div class="container">
@@ -75,7 +75,8 @@
 
                         <a class="btn btn-sm btn-primary text-uppercase"
                            asp-controller="Appointment"
-                           asp-action="Create">
+                           asp-action="Book"
+                           asp-route-serviceId="@item.Id">
 
                             Randevu Al
 
@@ -115,7 +116,7 @@
                     </p>
 
                     <a asp-controller="Appointment"
-                       asp-action="Create"
+                       asp-action="Book"
                        class="btn btn-dark">
 
                         Randevu Al

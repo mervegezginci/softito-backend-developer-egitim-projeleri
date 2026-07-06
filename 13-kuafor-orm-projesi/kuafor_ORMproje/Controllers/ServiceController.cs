@@ -1,10 +1,12 @@
-﻿using kuafor_ORMproje.Model;
+using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace kuafor_ORMproje.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ServiceController : Controller
     {
         private readonly ApplicationDbContext _context;

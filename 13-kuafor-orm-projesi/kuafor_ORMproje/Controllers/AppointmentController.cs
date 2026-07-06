@@ -1,11 +1,14 @@
-﻿using kuafor_ORMproje.Data;
+using kuafor_ORMproje.Data;
 using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Microsoft.AspNetCore.Authorization;
+
 namespace kuafor_ORMproje.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AppointmentController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -115,6 +118,62 @@ namespace kuafor_ORMproje.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        // GET: Appointment/Book
+        [AllowAnonymous]
+        public async Task<IActionResult> Book(int? serviceId)
+        {
+            ViewData["EmployeeId"] = new SelectList(await _context.Employees.Where(e => e.IsActive).OrderBy(e => e.FullName).ToListAsync(), "Id", "FullName");
+            ViewData["ServiceId"] = new SelectList(await _context.Services.OrderBy(s => s.ServiceName).ToListAsync(), "Id", "ServiceName", serviceId);
+            return View();
+        }
+
+        // POST: Appointment/Book
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Book(string fullName, string phone, string email, string gender, int employeeId, int serviceId, DateTime appointmentDate, string appointmentTime, string note)
+        {
+            // Parse appointmentTime from string to TimeSpan
+            if (!TimeSpan.TryParse(appointmentTime, out var timeSpan))
+            {
+                timeSpan = new TimeSpan(9, 0, 0); // default 09:00
+            }
+
+            // Find or create customer
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == email || c.Phone == phone);
+            if (customer == null)
+            {
+                customer = new Customer
+                {
+                    FullName = fullName,
+                    Phone = phone,
+                    Email = email,
+                    Gender = gender,
+                    CreatedDate = DateTime.Now
+                };
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
+            }
+
+            // Create appointment
+            var appointment = new Appointment
+            {
+                CustomerId = customer.Id,
+                EmployeeId = employeeId,
+                ServiceId = serviceId,
+                AppointmentDate = appointmentDate,
+                AppointmentTime = timeSpan,
+                Status = "Bekliyor",
+                Note = note
+            };
+
+            _context.Appointments.Add(appointment);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Randevunuz başarıyla oluşturuldu! Onay sürecinden sonra sizinle iletişime geçilecektir.";
+            return RedirectToAction("Index", "Home");
+        }
+
         private bool AppointmentExists(int id)
         {
             return _context.Appointments.Any(e => e.Id == id);
