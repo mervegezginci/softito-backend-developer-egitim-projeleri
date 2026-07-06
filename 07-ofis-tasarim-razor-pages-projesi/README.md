@@ -8,15 +8,19 @@ Proje kapsamında; Razor Pages mimarisi, ADO.NET veri komutları, SQL Server ver
 
 ## 📸 Ekran Görüntüleri
 
-Projenize ait ekran görüntülerinin dizilimini ve görsellerini aşağıda bulabilirsiniz. Bu ekran görüntülerini GitHub'a yüklerken projenin kök dizinindeki `images/` klasörüne aşağıdaki isimlerle kaydetmeniz önerilir:
+Projenize ait ekran görüntülerinin dizilimini ve görsellerini aşağıda bulabilirsiniz:
 
 ### 🏠 Kamu & Portfolyo Arayüzü
 
 <table width="100%">
   <tr>
-    <td width="100%" align="center">
+    <td width="50%" align="center">
       <b>1. Kurumsal Açılış & Portfolyo Sayfası</b><br/>
       <img src="images/01_public_landing.png" width="100%" alt="Kurumsal Karşılama Sayfası"/>
+    </td>
+    <td width="50%" align="center">
+      <b>2. İletişim Sayfası</b><br/>
+      <img src="images/02_public_contact.png" width="100%" alt="İletişim Sayfası"/>
     </td>
   </tr>
 </table>
@@ -26,28 +30,28 @@ Projenize ait ekran görüntülerinin dizilimini ve görsellerini aşağıda bul
 <table width="100%">
   <tr>
     <td width="50%" align="center">
-      <b>2. Admin Panel Özeti (Dashboard)</b><br/>
-      <img src="images/02_admin_dashboard.png" width="100%" alt="Admin Panel Özeti"/>
+      <b>3. Admin Panel Özeti (Dashboard)</b><br/>
+      <img src="images/03_admin_dashboard.png" width="100%" alt="Admin Panel Özeti"/>
     </td>
     <td width="50%" align="center">
-      <b>3. Kategori Yönetim Paneli (CRUD)</b><br/>
-      <img src="images/03_kategori_yonetimi.png" width="100%" alt="Kategori Yönetimi"/>
+      <b>4. Kategori Yönetim Paneli (CRUD)</b><br/>
+      <img src="images/04_kategori_yonetimi.png" width="100%" alt="Kategori Yönetimi"/>
     </td>
   </tr>
   <tr>
     <td width="50%" align="center">
-      <b>4. Hizmet Yönetim Paneli (CRUD)</b><br/>
-      <img src="images/04_hizmet_yonetimi.png" width="100%" alt="Hizmet Yönetimi"/>
+      <b>5. Hizmet Yönetim Paneli (CRUD)</b><br/>
+      <img src="images/05_hizmet_yonetimi.png" width="100%" alt="Hizmet Yönetimi"/>
     </td>
     <td width="50%" align="center">
-      <b>5. Proje Yönetim Paneli (CRUD)</b><br/>
-      <img src="images/05_proje_yonetimi.png" width="100%" alt="Proje Yönetimi"/>
+      <b>6. Proje Yönetim Paneli (CRUD)</b><br/>
+      <img src="images/06_proje_yonetimi.png" width="100%" alt="Proje Yönetimi"/>
     </td>
   </tr>
   <tr>
-    <td width="100%" align="center">
-      <b>6. Gelen Müşteri Talepleri (İletişim Talepleri Paneli)</b><br/>
-      <img src="images/06_iletisim_talepleri.png" width="100%" alt="Gelen Mesajlar"/>
+    <td colspan="2" align="center">
+      <b>7. Gelen Müşteri Talepleri (İletişim Talepleri Paneli)</b><br/>
+      <img src="images/07_iletisim_talepleri.png" width="80%" alt="Gelen Mesajlar"/>
     </td>
   </tr>
 </table>
