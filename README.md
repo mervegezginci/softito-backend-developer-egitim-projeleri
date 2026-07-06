@@ -1,181 +1,204 @@
-# 🚀 Softito 2026 — Backend Developer Eğitim Projeleri
+# 🚀 Softito 2026 — Backend Developer Eğitim Projelerim
 
-Bu repo, **Softito Akademi Backend Developer** eğitim sürecinde geliştirilen 12 adet C# ve .NET tabanlı backend projesini içermektedir. Projeler; temel veritabanı bağlantılarından (ADO.NET) başlayarak, modern ORM araçlarına (Dapper, Entity Framework Core), katmanlı mimarilerden (N-Layer), RESTful Web API servislerine ve gelişmiş raporlama panellerine kadar uzanan geniş bir teknoloji yelpazesini kapsamaktadır.
+Bu repo, **İstanbul Ticaret Odası - SoftITo Yazılım Bilişim Akademisi** Backend Developer eğitiminde online ve yüz yüze geliştirdiğim C# ve .NET tabanlı projelerimi içermektedir. ADO.NET'ten başlayarak Entity Framework Core, ASP.NET Core MVC, Razor Pages ve RESTful Web API'ye uzanan geniş bir teknoloji yelpazesini kapsamaktadır.
 
 ---
 
 ## 📁 Proje Listesi
 
 ### 📗 Proje 1 — [adonet_hastaneproje](./01-adonet-hastane-projesi/)
-**Teknoloji:** Windows Forms · ADO.NET · SQL Server · Stored Procedure
+**Teknoloji:** Windows Forms · ADO.NET · SQL Server · Stored Procedure · .NET Framework 4.7.2
 
-ADO.NET veri erişim mimarisi ve SQL Server Saklı Yordamları (Stored Procedures) kullanılarak geliştirilmiş Windows Forms tabanlı **Hastane Yönetim Sistemi**. Doktor, hasta, poliklinik ve randevu kayıtlarının yönetimi parametreli sorgularla güvenli bir şekilde gerçekleştirilir.
+ADO.NET veri erişim mimarisi ve SQL Server Saklı Yordamları (Stored Procedures) kullanılarak geliştirilmiş **Hastane Yönetim Sistemi**. Kullanıcı girişi ve kaydı, doktor/hasta/poliklinik/sağlık kayıtlarının tümü parametreli SP'ler üzerinden yönetilir.
 
-* **Öne Çıkan Özellikler:**
-  - SQL Server Stored Procedure entegrasyonu (CRUD ve Arama)
-  - ADO.NET (`SqlConnection`, `SqlCommand`, `SqlDataReader`)
-  - Parametreli SQL sorguları (SQL Injection Koruması)
-  - Kullanıcı yetkilendirme (Giriş Yap / Üye Ol)
+**Öne Çıkan Özellikler:**
+- Tüm CRUD işlemleri Stored Procedure ile (`HastaEkle`, `HastaGuncelle`, `HastaSil`, `HastaAra` vb.)
+- Referans bütünlüğü koruması: Hastaya ait kayıt varsa silme engellenir
+- Hasta ve doktor formlarında ComboBox FK seçimi (`DisplayMember`/`ValueMember`)
+- 10 farklı SP ile rapor ekranı (`sp_KilosuYuksekHastalar`, `sp_DoktorMaasSirala` vb.)
+- Kullanıcı girişi ve kayıt formu (Login & Register)
 
 ---
 
 ### 📘 Proje 2 — [efdb_arac_kiralama_proje](./02-efdb-arac-kiralama-projesi/)
-**Teknoloji:** Windows Forms · EF Core Database First · SQL Server
+**Teknoloji:** Windows Forms · Entity Framework 6 · Database First (EDMX) · SQL Server · .NET Framework 4.7.2
 
-Entity Framework Core Database First yaklaşımıyla geliştirilmiş **Araç Kiralama Takip Sistemi**. Önceden tasarlanan SQL Server veritabanı şeması `Scaffold` araçlarıyla modellere dönüştürülmüş ve araç müsaitlik durumları, kiralama sözleşmeleri ve müşteri kayıtları EF Core ORM yetenekleriyle yönetilmiştir.
+Entity Framework 6 Database First yaklaşımıyla geliştirilmiş **Araç Kiralama Takip Sistemi**. Veritabanı modeli EDMX Designer ile görsel olarak tasarlanmış, araç/marka/müşteri ve kiralama işlemleri EF 6 ORM ile yönetilmiştir.
 
-* **Öne Çıkan Özellikler:**
-  - EF Core Database First & Scaffolding
-  - Linq-to-Entities ile araç filtreleme ve listeleme
-  - Fluent API veritabanı ilişkilendirmeleri
-  - Müşteri ve araç bazlı kiralama geçmişi takibi
+**Öne Çıkan Özellikler:**
+- EF 6 Database First — EDMX Designer ile model oluşturma
+- Araç, Marka, Müşteri, Kiralama tam CRUD işlemleri
+- Alış ve teslim tarihine göre toplam ücret hesaplama
+- Müşteri ve araç bazlı kiralama geçmişi listeleme
+- Kullanıcı girişi ve kayıt formu
 
 ---
 
 ### 📙 Proje 3 — [adonetPastaneProje](./03-adonet-pastane-projesi/)
-**Teknoloji:** Windows Forms · ADO.NET · SQL Server
+**Teknoloji:** Windows Forms · ADO.NET · SQL Server · .NET Framework 4.7.2
 
-ADO.NET bağlantılı veri tabanı modeli üzerine inşa edilmiş **Pastane Sipariş ve Stok Takip Sistemi**. Ham madde envanter kontrolü, ürün reçeteleri (maliyet hesabı), sipariş fişleri ve anlık stok durumları Windows Forms arayüzünden veritabanına doğrudan yansıtılır.
+ADO.NET ile doğrudan SQL sorguları kullanılarak geliştirilmiş **Pastane Sipariş ve Stok Yönetim Sistemi**. Master-Detail sipariş yapısı ve dinamik ürün seçim arayüzü öne çıkan özelliklerdir.
 
-* **Öne Çıkan Özellikler:**
-  - ADO.NET veri komutları ve veri tablosu (DataTable) haritalama
-  - Kritik stok uyarıları ve ham madde takibi
-  - Sipariş ve satış tutarı hesaplama mantığı
+**Öne Çıkan Özellikler:**
+- Master-Detail sipariş yapısı (`Siparis` + `SiparisDetay`, `SCOPE_IDENTITY()` ile FK yönetimi)
+- Dinamik ürün seçim arayüzü: Her ürün için `FlowLayoutPanel` içinde `CheckBox + NumericUpDown` otomatik oluşturuluyor
+- `LIKE @p` ile müşteri adına göre sipariş arama
+- Sipariş güncelleme: önce detaylar temizlenir, sonra yeniden eklenir (delete-insert pattern)
+- Stok, fiyat ve satış ciro raporları (10 farklı SQL raporu)
 
 ---
 
 ### 📕 Proje 4 — [cafe_codefirstmvcproje](./04-cafe-codefirst-mvc-projesi/)
-**Teknoloji:** ASP.NET Core MVC · EF Core Code-First · SQL Server · Chart.js
+**Teknoloji:** ASP.NET Core MVC · EF Core 9 Code First · SQL Server · .NET 9
 
-Entity Framework Core Code-First yaklaşımıyla veritabanı modellenmiş **Kafe Sipariş Yönetimi ve Müşteri Raporlama Sistemi**. Admin paneline entegre edilen dual-axis Chart.js grafik modülleri ve KPI metrik kartları ile ürün kategorileri ve müşteri yorum puanı dağılımları görselleştirilmiştir.
+Entity Framework Core Code First yaklaşımıyla geliştirilmiş **Kafe Sipariş Yönetimi ve Admin Raporlama Sistemi**. Hem kullanıcı tarafı (ürün görüntüleme, yorum yapma) hem de admin paneli (ürün/kategori/yorum yönetimi ve istatistik dashboard) içermektedir.
 
-* **Öne Çıkan Özellikler:**
-  - EF Core Code-First & Migration
-  - Raporlar ekranında Chart.js entegrasyonu
-  - Excel/CSV biçiminde veri indirme motoru
-  - Strongly-typed (`ReportsViewModel`) raporlama yapısı
+**Öne Çıkan Özellikler:**
+- EF Core 9 Code First — Migration ile veritabanı yönetimi
+- Yorum ve puan sistemi (`Rating` 1–5 arası, `IsApproved` moderasyon)
+- Admin dashboard: LINQ ile gruplandırma, `Average`, `Count`, `GroupBy` kombinasyonları
+- `ReportsViewModel` ile strongly-typed raporlama
+- Ürün, kategori ve yorum adı üzerinde dinamik `Contains()` arama filtresi
+- ASP.NET Core DI (`AddDbContext`) ile temiz mimari
 
 ---
 
 ### 🏠 Proje 5 — [emlak_dbfirstmvcproje](./05-emlak-dbfirst-mvc-projesi/)
-**Teknoloji:** ASP.NET Core MVC · EF Core Database First · SQL Server · Chart.js
+**Teknoloji:** ASP.NET Core MVC · EF Core 9 Database First · SQL Server · .NET 9
 
-Database First yaklaşımıyla scaffold edilmiş modeller üzerine kurulu **Rentiz Emlak İlan & Raporlama Portalı**. Kullanıcı tarafında çoklu parametreli ilan arama motoru ve ilan detay sayfaları, admin tarafında ise Chart.js grafik modülleri ile zenginleştirilmiş analiz paneli ve CRUD arama formları sunar.
+EF Core Database First (Scaffold) ile mevcut veritabanından model üretilerek geliştirilmiş **Rentiz Emlak İlan ve Raporlama Portalı**. Kullanıcı tarafında çoklu filtreli ilan arama, admin tarafında AJAX tabanlı dinamik raporlama sunmaktadır.
 
-* **Öne Çıkan Özellikler:**
-  - EF Core Database First & Dinamik Arama Motoru
-  - Chart.js ile Fiyat Trendi, Şehir Dağılımı ve İlan Türü grafikleri
-  - Fotoğraflı Emlak Danışmanı (Realtor) iletişim kartı entegrasyonu
-  - Admin CRUD sayfalarında sunucu taraflı arama kutuları
+**Öne Çıkan Özellikler:**
+- EF Core 9 Database First — `Scaffold-DbContext` ile model oluşturma
+- Çoklu parametre ile ilan filtreleme (şehir, tip, amaç)
+- Admin dashboard: KPI metrikleri (toplam ilan, ortalama fiyat, toplam değer)
+- 5 farklı AJAX JSON raporu: şehir/tip bazlı dağılım, yüksek fiyatlı ilanlar, büyük ilanlar, danışman bazlı ilanlar
+- Şehir, İlan Tipi, Danışman ve İlan tam CRUD yönetimi
 
 ---
 
 ### 🛒 Proje 6 — [stok_codefirstmvcproje](./06-stok-codefirst-mvc-projesi/)
-**Teknoloji:** ASP.NET Core MVC · EF Core Code-First · SQL Server
+**Teknoloji:** ASP.NET Core MVC · EF Core 9 Code First · SQL Server · .NET 9 · 3 Katmanlı Mimari
 
-Ürün envanteri ve depo hareketlerini yönetmek üzere tasarlanmış **Stok Takip Sistemi**. Code-First yaklaşımı kullanılarak ürünler, kategoriler ve tedarikçiler ilişkilendirilmiş; stok giriş/çıkış hareketleri ile kritik stok seviyeleri kontrol altında tutulmuştur.
+3 katmanlı proje mimarisi (UI / Data / Model) ile geliştirilmiş **Stok Takip ve Sipariş Yönetim Sistemi**. Gerçek stok giriş/çıkış mantığı, kritik stok uyarısı ve async/await pattern ile öne çıkmaktadır.
 
-* **Öne Çıkan Özellikler:**
-  - EF Core Code-First & İlişkisel Veritabanı Modeli
-  - Kritik stok uyarı limiti filtreleme
-  - Tedarikçi bazlı ürün envanteri raporlama
+**Öne Çıkan Özellikler:**
+- 3 katmanlı mimari: `stok_codefirstmvcproje.UI` + `.Data` + `.Model`
+- Stok giriş: `product.StockQty += stockEntry.Quantity` ile otomatik güncelleme
+- Sipariş kontrolü: `if (product.StockQty < order.Quantity)` yetersiz stok engeli
+- Kritik stok uyarısı: stok ≤ 15 olan ürünler dashboard'da listeleniyor
+- Fluent API: `OnDelete(DeleteBehavior.NoAction)` ile cascade silme engeli
+- 3 aşamalı Migration geçmişi (`Init` → `AddOrderTable` → `AddStockEntry`)
+- 5 AJAX raporu + async/await pattern
+- Sneat 1.0.0 Bootstrap Admin Teması
 
 ---
 
 ### 🏢 Proje 7 — [OfisTasarim_RazorPagesProje](./07-ofis-tasarim-razor-pages-projesi/)
-**Teknoloji:** ASP.NET Core Razor Pages · EF Core · SQL Server
+**Teknoloji:** ASP.NET Core Razor Pages · ADO.NET · SQL Server · .NET 9
 
-ASP.NET Core Razor Pages mimarisi kullanılarak geliştirilmiş **Ofis ve Toplantı Odası Rezervasyon Portalı**. Sayfa odaklı (Page-focused) Razor yapısı sayesinde modüler rezervasyon yönetimi ve tarih aralığı bazlı müsaitlik filtrelemesi sunar.
+ASP.NET Core Razor Pages mimarisi ile geliştirilmiş **Ofis Tasarım Şirketi Kurumsal Web Sitesi ve Yönetim Paneli**. EF Core kullanılmadan saf ADO.NET ile Razor Pages'ın nasıl kullanılabileceğini göstermektedir.
 
-* **Öne Çıkan Özellikler:**
-  - ASP.NET Core Razor Pages mimarisi ile temiz sayfa yapıları
-  - Tarih aralığı bazlı oda doluluk algoritması
-  - Sayfa tabanlı hızlı form ve rezervasyon CRUD işlemleri
+**Öne Çıkan Özellikler:**
+- ASP.NET Core Razor Pages — EF Core **kullanılmadan** saf ADO.NET ile
+- `SqlConnection` → `SqlCommand` → `SqlDataReader` ile doğrudan veri erişimi
+- SQL Injection'a karşı parametreli sorgular (`AddWithValue("@Search", "%" + SearchTerm + "%")`)
+- Hizmet, Proje, Kategori tam CRUD + İletişim mesajı yönetimi
+- Admin dashboard: kategori bazlı proje sayısı, son 5 mesaj
+- 5 AJAX JSON raporu
+- Yavin Bootstrap UI Teması
 
 ---
 
 ### 🎓 Proje 8 — [kurs_javascriptcodefirstproje](./08-kurs-javascript-codefirst-projesi/)
-**Teknoloji:** ASP.NET Core MVC · EF Core Code-First · SQL Server
+**Teknoloji:** ASP.NET Core MVC · EF Core 9 Code First · SQL Server · jQuery AJAX · .NET 9
 
-JavaScript eğitimleri ve yazılım geliştirme kursları için hazırlanmış **Eğitim & Kurs Portalı**. Kurs kategorileri, eğitmen profilleri, kurs içerikleri ve üye kayıt modüllerinin yönetimi Code-First veritabanı altyapısıyla çalışmaktadır.
+Kurs/Kategori/Kayıt (Enrollment) yönetimi içeren **Online Kurs Platformu**. Tüm CRUD işlemleri `JsonResult` döndürerek **jQuery AJAX** ile frontend'e entegre edilmiştir.
 
-* **Öne Çıkan Özellikler:**
-  - Kurs ve eğitmen ilişkisel veritabanı tasarımı
-  - Arama motoru ve seviye bazlı kurs filtreleme
-  - Eğitmen & Kurs yönetim modülleri
+**Öne Çıkan Özellikler:**
+- Tüm CRUD controller'ları `JsonResult` döndürür — jQuery AJAX ile çalışır
+- Son kullanıcı kurs satın alma akışı (`BuyUserCourseController`)
+- 8 farklı admin raporu: en çok kayıt olan kurs, en pahalı/ucuz kurslar, kategori bazlı kurs sayısı, 40 saat üzeri kurslar vb.
+- EF Core 9 Code First Migration
+- `HomeIndexViewModel` ile strongly-typed anasayfa
 
 ---
 
-### 🐱 Proje 9 — [pet_apiproje](./09-pet-api-projesi/)
-**Teknoloji:** ASP.NET Core Web API · EF Core · SQL Server · Swagger
+### 🐾 Proje 9 — [pet_apiproje](./09-pet-api-projesi/)
+**Teknoloji:** ASP.NET Core Web API · EF Core 9 · SQL Server · Swagger/OpenAPI · .NET 9
 
-RESTful API standartlarında tasarlanmış **Hayvan Sahiplendirme ve Veteriner Klinik Yönetim API'si**. Dış istemcilerin tüketebileceği HTTP GET, POST, PUT, DELETE uç noktalarını barındırır ve Swagger entegrasyonu ile test edilebilir.
+RESTful API standartlarında tasarlanmış **Evcil Hayvan Yönetim API'si**. Pet, Owner, Food ve Toy entity'leri üzerinde tam CRUD endpoint'leri sunar.
 
-* **Öne Çıkan Özellikler:**
-  - RESTful Web API Standartları (Controller-based)
-  - Swagger UI Entegrasyonu & API Dokümantasyonu
-  - İlişkili tablolarda JSON döngülerini (circular reference) engellemek için serileştirme ayarları
+**Öne Çıkan Özellikler:**
+- `[ApiController]` + `[Route("api/[controller]")]` standart RESTful yapısı
+- Swagger UI ile tam API dokümantasyonu ve test ortamı
+- Pet, Owner, Food, Toy entity'leri için GET/POST/PUT/DELETE endpoint'leri
+- `async/await` + `ToListAsync`, `SaveChangesAsync` pattern
+- `EntityState.Modified` ve `EntityState.Deleted` ile güncelleme/silme
 
 ---
 
 ### 📚 Proje 10 — [kutuphane_apiproje](./10-kutuphane-api-projesi/)
-**Teknoloji:** ASP.NET Core Web API · EF Core · SQL Server · Swagger
+**Teknoloji:** ASP.NET Core MVC · EF Core 8 · ASP.NET Core Identity · SQL Server · Swagger · .NET 8
 
-Kütüphane Kitap, Üye ve Ödünç Takip Sistemi **Web API Servisi**. Kitapların ödünç verilme süreleri, üye geçmişleri ve popüler kitap istatistikleri API uç noktaları üzerinden yönetilir ve dış platformlara veri servisi sağlar.
+ASP.NET Core Identity entegrasyonlu **Kütüphane Yönetim Sistemi**. Kullanıcı kimlik doğrulama, kitap ödünç alma/iade takibi, yorum sistemi ve kapsamlı admin raporlama içermektedir.
 
-* **Öne Çıkan Özellikler:**
-  - ASP.NET Core Web API & DTO (Data Transfer Object) kullanımı
-  - Ödünç alma süre kontrolü ve gecikme cezası hesabı mantığı
-  - Dış servis entegrasyonu için optimize edilmiş JSON çıktıları
-
----
-
-### 🛠️ Proje 11 — Yakında Eklenecek
-**Teknoloji:** -
-* **Durum:** Yapım Aşamasında 🚧
-
----
-
-### 🛠️ Proje 12 — Yakında Eklenecek
-**Teknoloji:** -
-* **Durum:** Yapım Aşamasında 🚧
+**Öne Çıkan Özellikler:**
+- ASP.NET Core Identity: Login, Register, Email doğrulama, şifre değişikliği
+- `[Authorize]` korumalı ödünç alma: Otomatik `DueDate = DateTime.Now.AddDays(15)` hesaplama
+- Kitap iade: `borrowing.IsReturned = true` + `book.IsAvailable = true` flag yönetimi
+- `ClaimTypes.NameIdentifier` ile giriş yapan kullanıcının ID'si alınıyor
+- EF Core `Include()` ile eager loading (Kitap → Yazar, Kategori)
+- 10 farklı admin raporu: en çok ödünç alınan kitaplar, aktif okuyucular, kategori dağılımı vb.
+- Swagger UI entegrasyonu
 
 ---
 
 ### ✂️ Proje 13 — [kuafor_ORMproje](./13-kuafor-orm-projesi/)
-**Teknoloji:** ASP.NET Core MVC · EF Core ORM · SQL Server
+**Teknoloji:** ASP.NET Core MVC · EF Core 9 · ASP.NET Core Identity · IMemoryCache · ILogger · SQL Server · .NET 9 · 3 Katmanlı Mimari
 
-Kuaför salonları için randevu ve hizmet yönetim sistemi. Müşterilerin çalışan müsaitlik takvimine göre randevu oluşturması, hizmet kategorilerinin yönetimi ve admin onay mekanizması EF Core ORM altyapısıyla modellenmiştir.
+3 katmanlı mimaride geliştirilmiş, **rol tabanlı kimlik doğrulama**, **bellek önbellekleme** ve **loglama** içeren **Kuaför Salonu Randevu ve Ödeme Yönetim Sistemi**.
 
-* **Öne Çıkan Özellikler:**
-  - EF Core ORM Randevu takvim modellemesi
-  - Müşteri randevu oluşturma ve onay süreçleri
-  - Hizmet & Fiyat listesi CRUD yönetimi
+**Öne Çıkan Özellikler:**
+- 3 katmanlı mimari: `kuafor_ORMproje` + `.Data` + `.Model`
+- ASP.NET Core Identity — Rol tabanlı yetkilendirme (`[Authorize(Roles = "Admin")]`)
+- Uygulama başlarken otomatik Admin rolü ve yönetici kullanıcı seed
+- Fluent API: Customer/Employee/Service → Appointment One-to-Many, Appointment → Payment **One-to-One** (Cascade Delete)
+- `IMemoryCache` ile rapor önbellekleme (5 dk sliding + 1 saat absolute expiration)
+- `ILogger<ReportController>` ile raporlama erişim logları
+- Admin dashboard: bugünkü randevular, toplam gelir, haftalık gelir ve randevu grafik verisi (son 7 gün)
+- Sadece ödemesiz randevular listelenerek ödeme oluşturulabilir
+- `DbUpdateConcurrencyException` yönetimi
+- Sneat 1.0.0 Bootstrap Admin Teması
 
 ---
-
-
 
 ## 🛠️ Kullanılan Teknolojiler Matrisi
 
 | Teknoloji | Kullanıldığı Projeler |
 | :--- | :--- |
-| **ASP.NET Core MVC** | Proje 4, 5, 6, 8, 13 |
+| **ASP.NET Core MVC** | Proje 4, 5, 6, 8, 10, 13 |
 | **ASP.NET Core Razor Pages** | Proje 7 |
-| **ASP.NET Core Web API** | Proje 9, 10 |
+| **ASP.NET Core Web API** | Proje 9 |
 | **Windows Forms** | Proje 1, 2, 3 |
-| **EF Core Code-First** | Proje 4, 6, 8 |
-| **EF Core Db-First** | Proje 2, 5 |
-| **EF Core (Genel/ORM)** | Proje 7, 9, 10, 13 |
-| **ADO.NET** | Proje 1, 3 |
-| **Chart.js (Raporlama)** | Proje 4, 5 |
-| **SQL Server** | Tüm projeler |
+| **EF Core Code First** | Proje 4, 6, 8, 9, 10, 13 |
+| **EF Core Database First** | Proje 5 |
+| **Entity Framework 6 (EDMX)** | Proje 2 |
+| **ADO.NET** | Proje 1, 3, 7 |
+| **Stored Procedure** | Proje 1 |
+| **ASP.NET Core Identity** | Proje 10, 13 |
+| **Swagger / OpenAPI** | Proje 9, 10 |
+| **IMemoryCache** | Proje 13 |
+| **ILogger** | Proje 13 |
+| **jQuery AJAX** | Proje 8 |
+| **3 Katmanlı Mimari** | Proje 6, 13 |
+| **SQL Server** | Tüm Projeler |
 
 ---
 
 ## ⚙️ Gereksinimler
 
-- **.NET SDK:** .NET 8.0 veya .NET 9.0 SDK
+- **.NET SDK:** .NET 8.0 veya .NET 9.0 (.NET Framework 4.7.2 — Proje 1, 2, 3 için)
 - **Veritabanı:** MS SQL Server / LocalDB
 - **IDE:** Visual Studio 2022+ veya Visual Studio Code (C# Dev Kit eklentisi yüklü)
 
@@ -183,9 +206,8 @@ Kuaför salonları için randevu ve hizmet yönetim sistemi. Müşterilerin çal
 
 ## 🚀 Çalıştırma
 
-Her proje bağımsız olarak kendi klasörü altındaki `.sln` veya `.csproj` dosyası üzerinden çalıştırılabilir. 
+Her proje bağımsız olarak kendi klasörü altındaki `.sln` veya `.csproj` dosyası üzerinden çalıştırılabilir.
 
-Terminal üzerinden çalıştırmak için:
 ```bash
 # Proje dizinine gidin (Örn: Proje 4)
 cd "04-cafe-codefirst-mvc-projesi/cafe_codefirstmvcproje"
