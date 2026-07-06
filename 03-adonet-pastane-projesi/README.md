@@ -26,9 +26,25 @@ Uygulama, SQL Server üzerindeki `softPastane` veritabanını kullanır:
 
 ## 📸 Ekran Görüntüleri
 
-*Ekran görüntülerinizi bu klasör altındaki `images/` klasörüne ekleyip aşağıdaki linkleri güncelleyebilirsiniz:*
+Uygulamaya ait arayüz ekran görüntüleri aşağıda yer almaktadır:
 
-```markdown
-![Sipariş Girişi](images/siparis_girisi.png)
+### 1. Giriş ve Kayıt Ekranı (`Giris.cs`)
+Sisteme güvenli giriş yapmayı veya yeni kullanıcı kaydetmeyi sağlayan giriş ekranı:
+![Giriş Yap ve Kayıt Ol](images/giris_ekrani.png)
+
+### 2. Ürün Yönetimi Ekranı (`Urunler.cs`)
+Menüdeki ürünlerin (ekler, baklava, börek vb.) listelenmesi, yeni ürün ekleme, güncelleme ve silme işlemlerinin yapıldığı arayüz:
 ![Ürün Yönetimi](images/urun_yonetimi.png)
-```
+
+### 3. Müşteri Yönetimi Ekranı (`Musteriler.cs`)
+Müşteri kaydetme, bilgilerini güncelleme, silme ve arama işlemlerinin yapıldığı arayüz:
+![Müşteri Yönetimi](images/musteri_yonetimi.png)
+
+### 4. Sipariş Yönetimi Ekranı (`Siparisler.cs`)
+FlowLayoutPanel yapısı sayesinde veritabanındaki aktif ürünlerin dinamik CheckBox ve NumericUpDown kontrolleriyle listelendiği, sipariş adeti ve toplam tutarının dinamik olarak hesaplanarak sisteme kaydedildiği ekran:
+![Sipariş Yönetimi](images/siparis_yonetimi.png)
+
+### 5. Raporlar Ekranı (`Rapor.cs`)
+Toplam ürün sayısı, ortalama ürün fiyatı, en yüksek/düşük fiyatlı ürünler, toplam müşteri/sipariş sayıları ve toplam satış geliri gibi veritabanı istatistiklerinin listelendiği raporlama ekranı:
+![Raporlar](images/raporlar.png)
+
