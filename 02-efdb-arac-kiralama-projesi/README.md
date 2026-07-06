@@ -29,10 +29,10 @@ Veritabanı tasarımı SQL Server tarafında yapılmış ve ADO.NET Entity Data 
 
 ## 📸 Ekran Görüntüleri
 
-*Ekran görüntülerinizi bu klasör altındaki `images/` klasörüne ekleyip aşağıdaki linkleri güncelleyebilirsiniz:*
-
-```markdown
-![Giriş Ekranı](images/login.png)
-![Araç Yönetimi](images/arac_yonetimi.png)
-![Kiralama Ekranı](images/kiralama_ekrani.png)
-```
+![Giriş Ekranı](images/01-login.png)
+![Menü](images/02-menu.png)
+![Araç Markaları](images/03-markalar.png)
+![Müşteriler](images/04-musteriler.png)
+![Kiralama İşlemleri](images/05-kiralama.png)
+![Raporlar](images/06-rapor.png)
+![Araçlar](images/07-araclar.png)
