@@ -1,9 +1,8 @@
-using System.Security.Cryptography;
 using System.Text;
-using Dapper;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using ogrenciyonetimi_proje.Data;
 using ogrenciyonetimi_proje.Models;
 
@@ -17,54 +16,61 @@ namespace ogrenciyonetimi_proje.Services
 
     public class AuthService : IAuthService
     {
-        private readonly DbConnectionFactory _db;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _config;
 
-        public AuthService(DbConnectionFactory db, IConfiguration config)
+        public AuthService(UserManager<ApplicationUser> userManager, IConfiguration config)
         {
-            _db = db;
+            _userManager = userManager;
             _config = config;
-        }
-
-        private static string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToHexString(bytes);
         }
 
         public async Task<(bool Success, string Message)> RegisterAsync(RegisterDto dto)
         {
-            var hash = HashPassword(dto.Password);
-            using var conn = _db.CreateConnection();
-            var result = await conn.QueryFirstOrDefaultAsync<dynamic>(
-                "sp_Register",
-                new { dto.Username, dto.Email, PasswordHash = hash, Role = "User" },
-                commandType: System.Data.CommandType.StoredProcedure);
+            var user = new ApplicationUser
+            {
+                UserName = dto.Username,
+                Email = dto.Email,
+                Role = "User"
+            };
 
-            int resultCode = (int)(result?.Result ?? -1);
-            string message = (string)(result?.Message ?? "Hata oluştu.");
+            var result = await _userManager.CreateAsync(user, dto.Password);
+            if (!result.Succeeded)
+            {
+                var errorMsg = string.Join(" ", result.Errors.Select(e => e.Description));
+                return (false, errorMsg);
+            }
 
-            return (resultCode > 0, message);
+            return (true, "Kayıt başarılı.");
         }
 
         public async Task<(bool Success, string Token, User? User)> LoginAsync(LoginDto dto)
         {
-            var hash = HashPassword(dto.Password);
-            using var conn = _db.CreateConnection();
-            var user = await conn.QueryFirstOrDefaultAsync<User>(
-                "sp_Login",
-                new { dto.Email, PasswordHash = hash },
-                commandType: System.Data.CommandType.StoredProcedure);
-
+            var user = await _userManager.FindByEmailAsync(dto.Email);
             if (user == null)
+            {
                 return (false, string.Empty, null);
+            }
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+            if (!isPasswordValid)
+            {
+                return (false, string.Empty, null);
+            }
+
+            var mappedUser = new User
+            {
+                UserId = user.Id,
+                Username = user.UserName ?? string.Empty,
+                Email = user.Email ?? string.Empty,
+                Role = user.Role
+            };
 
             var token = GenerateJwtToken(user);
-            return (true, token, user);
+            return (true, token, mappedUser);
         }
 
-        private string GenerateJwtToken(User user)
+        private string GenerateJwtToken(ApplicationUser user)
         {
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
@@ -72,9 +78,9 @@ namespace ogrenciyonetimi_proje.Services
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+                new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
                 new Claim(ClaimTypes.Role, user.Role)
             };
 

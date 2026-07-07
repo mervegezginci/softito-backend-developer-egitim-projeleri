@@ -1,6 +1,6 @@
 # 🎓 Proje 12 — Öğrenci Yönetim Sistemi (Web API & MVC)
 
-Bu proje, **Dapper ORM** ve **SQL Server Stored Procedure** mimarisi kullanılarak geliştirilmiş, Web API ile MVC katmanları arasında veri alışverişi yapan rol tabanlı bir **Öğrenci Yönetim Sistemi**'dir.
+ASP .NET CORE İLE DAPPER KÜTÜPHANESİ KULLANILARAK STORE PROCEDÜR VE ADO .NET TEKNOLOJİSİYLE API VE MVC PROJESİ YAPILMIŞTIR. PROJEDE KULLANICI ARAYÜZDEN API ARACILIĞI İLE CRUD İŞLEMLERİ, ARAMA ,PDF ,EXCEL,LOGİN ,REGİSTER İŞLEMLERİ GERÇEKLEŞTİRİLMİŞTİR.
 
 ---
 

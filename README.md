@@ -163,7 +163,7 @@ Bu proje yapım aşamasındadır.
 ### 🎓 Proje 12 — [ogrenciyonetimi](./12-ogrenci-yonetimi-dapper-projesi/)
 **Teknoloji:** ASP.NET Core Web API · ASP.NET Core MVC · Dapper · Stored Procedure · SQL Server · Cookie Auth & JWT · iTextSharp · EPPlus · .NET 8
 
-Dapper ve Stored Procedure kullanılarak geliştirilmiş, Web API ve MVC mimarisine sahip **Öğrenci Yönetim Sistemi**. Sistemde CRUD işlemleri, arama, PDF/Excel raporlama ve kullanıcı kimlik doğrulama API aracılığıyla gerçekleştirilmektedir.
+ASP .NET CORE İLE DAPPER KÜTÜPHANESİ KULLANILARAK STORE PROCEDÜR VE ADO .NET TEKNOLOJİSİYLE API VE MVC PROJESİ YAPILMIŞTIR. PROJEDE KULLANICI ARAYÜZDEN API ARACILIĞI İLE CRUD İŞLEMLERİ, ARAMA ,PDF ,EXCEL,LOGİN ,REGİSTER İŞLEMLERİ GERÇEKLEŞTİRİLMİŞTİR.
 
 **Öne Çıkan Özellikler:**
 - **Web API + MVC Mimarisi:** MVC istemcisi veriye erişimi doğrudan değil, güvenli bir şekilde Web API katmanı üzerinden gerçekleştirir.
