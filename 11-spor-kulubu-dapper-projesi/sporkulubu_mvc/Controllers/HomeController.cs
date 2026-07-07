@@ -10,7 +10,6 @@ using sporkulubu_mvc.Services;
 
 namespace sporkulubu_mvc.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApiService _api;
@@ -22,7 +21,15 @@ namespace sporkulubu_mvc.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index()
+        {
+            _logger.LogInformation("Landing page görüntüleniyor.");
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Dashboard()
         {
             _logger.LogInformation("Dashboard sayfası görüntüleniyor.");
 
@@ -42,6 +49,7 @@ namespace sporkulubu_mvc.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetReportData(string reportType)
         {
             _logger.LogInformation("Dashboard AJAX Rapor İstendi. Tür: {Type}", reportType);

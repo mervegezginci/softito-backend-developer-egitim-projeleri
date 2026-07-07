@@ -1,0 +1,328 @@
+@{
+    ViewData["Title"] = "Gösterge Paneli";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="fw-bold text-dark m-0">Gösterge Paneli</h2>
+        <p class="text-muted">Spor kulübü, antrenör, üye ve antrenman seanslarına ait anlık istatistikler ve özet rapor.</p>
+    </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #6366f1;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-muted text-uppercase small">Toplam Üye</h6>
+                    <h3 class="fw-bold m-0 text-dark">@ViewBag.TotalStudents</h3>
+                </div>
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #eef2ff; color: #6366f1; width: 55px; height: 55px;">
+                    <i class="fa-solid fa-users" style="font-size: 1.5rem;"></i>
+                </div>
+            </div>
+            <div class="mt-3 text-muted small">
+                <span class="text-success fw-semibold">@ViewBag.ActiveStudents aktif</span> / @ViewBag.InactiveStudents pasif
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #10b981;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-muted text-uppercase small">Spor Branşı</h6>
+                    <h3 class="fw-bold m-0 text-dark">@ViewBag.TotalDepartments</h3>
+                </div>
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #ecfdf5; color: #10b981; width: 55px; height: 55px;">
+                    <i class="fa-solid fa-basketball" style="font-size: 1.5rem;"></i>
+                </div>
+            </div>
+            <div class="mt-3 text-muted small">
+                Aktif yönetilen spor branşları
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #f59e0b;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-muted text-uppercase small">Toplam Seans</h6>
+                    <h3 class="fw-bold m-0 text-dark">@ViewBag.TotalGrades</h3>
+                </div>
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #fffbeb; color: #f59e0b; width: 55px; height: 55px;">
+                    <i class="fa-solid fa-calendar-check" style="font-size: 1.5rem;"></i>
+                </div>
+            </div>
+            <div class="mt-3 text-muted small">
+                Yapılan toplam antrenman dersi
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #ef4444;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-muted text-uppercase small">Ortalama Seans Ücreti</h6>
+                    <h3 class="fw-bold m-0 text-dark">@ViewBag.AverageScore TL</h3>
+                </div>
+                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #fef2f2; color: #ef4444; width: 55px; height: 55px;">
+                    <i class="fa-solid fa-turkish-lira-sign" style="font-size: 1.5rem;"></i>
+                </div>
+            </div>
+            <div class="mt-3 text-muted small">
+                Planlanan antrenman ortalaması
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Dinamik Raporlar ve Analizler Paneli -->
+    <div class="col-lg-8">
+        <div class="card border-0 bg-white shadow-sm">
+            <div class="card-header border-0 bg-white pt-4 px-4 pb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h5 class="text-dark fw-bold m-0">
+                        <i class="fa-solid fa-chart-line me-2 text-primary"></i>Dinamik Analizler ve Raporlama
+                    </h5>
+                    <p class="text-muted small mb-0">Kulüp veritabanındaki verileri analiz etmek için aşağıdaki listeden bir rapor türü seçin.</p>
+                </div>
+                <div>
+                    <select id="reportSelector" class="form-select border-primary-subtle" style="width: auto; min-width: 280px; border-radius: 10px;">
+                        <option value="topgpa" selected>1. En Çok Ücret Ödeyen 5 Üye (Toplam)</option>
+                        <option value="graduating">2. En Popüler 5 Antrenör (Seans Sayısı)</option>
+                        <option value="failing">3. Yüksek Ücretli Seanslar (Tutar > 300 TL)</option>
+                        <option value="deptgpa">4. Spor Branşlarına Göre Seans ve Toplam Gelir</option>
+                        <option value="gradesbyclass">5. Üye Durum Dağılımları (Aktif / Pasif)</option>
+                        <option value="mostgradedcourses">6. Antrenörlerin Ortalama Seans Ücretleri</option>
+                        <option value="inactivestudents">7. Pasif Durumdaki Kulüp Üyeleri</option>
+                        <option value="topcourses">8. En Popüler Spor Branşları (Gelir Ortalaması)</option>
+                        <option value="nogrades">9. Hiç Antrenman Seansı Almayan Üyeler</option>
+                        <option value="recentregistrations">10. Son 30 Günde Kaydolan Yeni Üyeler</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-body p-0 mt-3">
+                <div id="reportLoader" class="text-center py-5 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
+                    <p class="text-muted mt-2 small">Rapor oluşturuluyor, lütfen bekleyin...</p>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="reportTable">
+                        <thead class="table-light">
+                            <!-- JS ile Dinamik Doldurulur -->
+                        </thead>
+                        <tbody id="reportTableBody">
+                            <!-- JS ile Dinamik Doldurulur -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noDataAlert" class="text-center py-5 d-none">
+                    <i class="fa-regular fa-folder-open text-muted" style="font-size: 2.5rem;"></i>
+                    <p class="text-muted mt-2 small">Bu rapor türü için gösterilecek kayıt bulunamadı.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hızlı Bilgi Paneli -->
+    <div class="col-lg-4">
+        <div class="card border-0 bg-white shadow-sm h-100">
+            <div class="card-title-bar">
+                <span class="text-dark fw-bold"><i class="fa-solid fa-circle-info me-2 text-primary"></i>Hızlı İşlemler</span>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-3">
+                    <a href="/Member/Create" class="btn btn-primary text-start">
+                        <i class="fa-solid fa-user-plus me-2"></i>Yeni Üye Kaydı Yap
+                    </a>
+                    <a href="/Branch/Create" class="btn btn-light text-start text-dark">
+                        <i class="fa-solid fa-folder-plus me-2 text-success"></i>Yeni Branş Tanımla
+                    </a>
+                    <a href="/Training/Create" class="btn btn-light text-start text-dark">
+                        <i class="fa-solid fa-square-plus me-2 text-warning"></i>Yeni Antrenman Seansı Planla
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const selector = document.getElementById("reportSelector");
+            
+            selector.addEventListener("change", function () {
+                loadReport(this.value);
+            });
+
+            // Initial load
+            loadReport("topgpa");
+
+            function loadReport(reportType) {
+                const loader = document.getElementById("reportLoader");
+                const table = document.getElementById("reportTable");
+                const tableBody = document.getElementById("reportTableBody");
+                const noData = document.getElementById("noDataAlert");
+
+                loader.classList.remove("d-none");
+                table.classList.add("d-none");
+                noData.classList.add("d-none");
+                tableBody.innerHTML = "";
+
+                fetch(`/Home/GetReportData?reportType=${reportType}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        loader.classList.add("d-none");
+                        
+                        if (!data || data.length === 0) {
+                            noData.classList.remove("d-none");
+                            return;
+                        }
+
+                        // Normalize dynamic database field keys to lowercase
+                        const normalizedData = data.map(item => {
+                            const normalized = {};
+                            for (let key in item) {
+                                normalized[key.toLowerCase()] = item[key];
+                            }
+                            return normalized;
+                        });
+
+                        table.classList.remove("d-none");
+                        generateTableHeaders(reportType);
+                        generateTableRows(reportType, normalizedData);
+                    })
+                    .catch(err => {
+                        console.error("Rapor hatası:", err);
+                        loader.classList.add("d-none");
+                        noData.classList.remove("d-none");
+                    });
+            }
+
+            function generateTableHeaders(reportType) {
+                const thead = document.querySelector("#reportTable thead");
+                let headers = [];
+
+                switch (reportType) {
+                    case "topgpa":
+                        headers = ["Kulüp Üyesi", "Ana Spor Branşı", "Toplam Seans", "Toplam Ödenen Ücret"];
+                        break;
+                    case "graduating":
+                        headers = ["Antrenör", "Spor Branşı", "Planlanan Seans Sayısı", "Toplam Üretilen Hasılat"];
+                        break;
+                    case "failing":
+                        headers = ["Kulüp Üyesi", "Spor Branşı", "Detay (Antrenör & Tarih)", "Seans Ücreti"];
+                        break;
+                    case "deptgpa":
+                        headers = ["Spor Branş Adı", "Yapılan Toplam Seans Sayısı", "Branş Toplam Geliri"];
+                        break;
+                    case "gradesbyclass":
+                        headers = ["Üyelik Tipi", "Üye Sayısı", "Aktif Üye Sayısı"];
+                        break;
+                    case "mostgradedcourses":
+                        headers = ["Antrenör Adı Soyadı", "Verdiği Toplam Seans Sayısı", "Ortalama Seans Ücreti"];
+                        break;
+                    case "topcourses":
+                        headers = ["Spor Branşı", "Toplam Seans Sayısı", "Ortalama Seans Ücreti"];
+                        break;
+                    case "inactivestudents":
+                    case "nogrades":
+                        headers = ["Kulüp Üyesi", "Durum", "Seans Alımı", "E-posta Adresi"];
+                        break;
+                    case "recentregistrations":
+                        headers = ["Kulüp Üyesi", "Durum", "Seans Alımı", "Kulübe Katılım Tarihi"];
+                        break;
+                }
+
+                let html = "<tr>";
+                headers.forEach((h, index) => {
+                    let className = index === 0 ? "ps-4" : (index === headers.length - 1 ? "pe-4 text-end" : "");
+                    html += `<th class="${className}">${h}</th>`;
+                });
+                html += "</tr>";
+                thead.innerHTML = html;
+            }
+
+            function generateTableRows(reportType, data) {
+                const tbody = document.getElementById("reportTableBody");
+                let html = "";
+
+                data.forEach(item => {
+                    html += "<tr>";
+                    
+                    if (reportType === "topgpa" || reportType === "graduating" || reportType === "recentregistrations") {
+                        html += `
+                            <td class="ps-4">
+                                <div class="fw-semibold text-dark">${item.studentname}</div>
+                            </td>
+                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentname}</span></td>
+                            <td class="fw-semibold">${item.gradelevel} Seans</td>
+                            <td class="pe-4 text-end fw-bold text-dark">${item.value} TL</td>
+                        `;
+                    }
+                    else if (reportType === "failing") {
+                        html += `
+                            <td class="ps-4">
+                                <div class="fw-semibold text-dark">${item.studentname}</div>
+                            </td>
+                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentname}</span></td>
+                            <td><span class="text-success fw-semibold"><i class="fa-solid fa-clock me-1"></i>${item.coursedetail}</span></td>
+                            <td class="pe-4 text-end fw-bold text-success">${item.value} TL</td>
+                        `;
+                    }
+                    else if (reportType === "deptgpa") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.departmentname}</td>
+                            <td class="fw-semibold">${item.studentcount} Seans</td>
+                            <td class="pe-4 text-end fw-bold text-dark">${item.value} TL</td>
+                        `;
+                    }
+                    else if (reportType === "gradesbyclass") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.gradelevelname}</td>
+                            <td class="fw-semibold">${item.studentcount} Üye</td>
+                            <td class="pe-4 text-end fw-semibold text-success">${item.value} Aktif</td>
+                        `;
+                    }
+                    else if (reportType === "mostgradedcourses") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.coursename}</td>
+                            <td class="fw-semibold"><span class="badge bg-light text-warning border border-warning-subtle text-dark">${item.gradecount} Seans</span></td>
+                            <td class="pe-4 text-end fw-bold text-dark">${item.value} TL</td>
+                        `;
+                    }
+                    else if (reportType === "topcourses") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.coursename}</td>
+                            <td class="fw-bold text-success">${item.value} TL</td>
+                            <td class="pe-4 text-end fw-semibold">${item.studentcount} Seans</td>
+                        `;
+                    }
+                    else if (reportType === "inactivestudents" || reportType === "nogrades") {
+                        html += `
+                            <td class="ps-4">
+                                <div class="fw-semibold text-dark">${item.studentname}</div>
+                            </td>
+                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentname}</span></td>
+                            <td class="fw-semibold">${item.gradelevel} Seans</td>
+                            <td class="pe-4 text-end text-muted small">${item.value}</td>
+                        `;
+                    }
+                    
+                    html += "</tr>";
+                });
+
+                tbody.innerHTML = html;
+            }
+        });
+    </script>
+}
