@@ -42,7 +42,28 @@ Proje temiz kod prensiplerine ve gevşek bağlılığa (loose coupling) uygun ol
 
 ## 📸 Proje Ekran Görüntüleri
 
-Ekran görüntülerine ve detaylı kullanım adımlarına projenin kök dizinindeki [README.md](../README.md#-ekran-görüntüleri) dosyasından ulaşabilirsiniz.
+1. **Yönetici Paneli - İstatistik Paneli (Dashboard):**
+   ![İstatistik Paneli](./kuafor_ORMproje/wwwroot/img/01_admin_dashboard.png)
+2. **Yönetici Paneli - Randevu Listesi:**
+   ![Randevu Listesi](./kuafor_ORMproje/wwwroot/img/02_admin_randevular.png)
+3. **Yönetici Paneli - Randevu Listesi (Güncel):**
+   ![Randevu Listesi Güncel](./kuafor_ORMproje/wwwroot/img/03_admin_randevular_guncel.png)
+4. **Yönetici Paneli - Müşteri Listesi:**
+   ![Müşteri Listesi](./kuafor_ORMproje/wwwroot/img/04_admin_musteriler.png)
+5. **Yönetici Paneli - Çalışan Uzman Listesi:**
+   ![Çalışan Uzman Listesi](./kuafor_ORMproje/wwwroot/img/05_admin_calisanlar.png)
+6. **Yönetici Paneli - Hizmet Kataloğu:**
+   ![Hizmet Kataloğu](./kuafor_ORMproje/wwwroot/img/06_admin_hizmetler.png)
+7. **Yönetici Paneli - Ödeme Kayıtları:**
+   ![Ödeme Kayıtları](./kuafor_ORMproje/wwwroot/img/07_admin_odemeler.png)
+8. **Yönetici Paneli - Gelişmiş Raporlama & Analiz:**
+   ![Gelişmiş Raporlama](./kuafor_ORMproje/wwwroot/img/08_admin_raporlar.png)
+9. **Müşteri Paneli - Anasayfa:**
+   ![Müşteri Anasayfa](./kuafor_ORMproje/wwwroot/img/09_kullanici_anasayfa.png)
+10. **Müşteri Paneli - Hizmetler Alanı:**
+    ![Müşteri Hizmetler](./kuafor_ORMproje/wwwroot/img/10_kullanici_hizmetler.png)
+11. **Müşteri Paneli - Randevu Talep Formu:**
+    ![Randevu Talep Formu](./kuafor_ORMproje/wwwroot/img/11_kullanici_randevu_formu.png)
 
 ---
 
