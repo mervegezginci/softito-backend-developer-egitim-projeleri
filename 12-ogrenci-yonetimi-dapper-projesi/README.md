@@ -54,6 +54,26 @@ Tüm CRUD ve kimlik doğrulama işlemleri SQL tarafında güvenli ve performansl
 
 ---
 
+## 📸 Ekran Görüntüleri
+
+> [!NOTE]
+> Bu proje için henüz ekran görüntüleri eklenmemiştir. Ekran görüntülerinizi aldığınızda `images/` klasörüne aşağıdaki isimlerle kaydetmeniz durumunda dökümanda otomatik olarak görüntülenecektir:
+> * Giriş Ekranı: `images/01_giris_ekrani.png`
+> * Öğrenci Listesi & Arama: `images/02_ogrenci_listesi.png`
+> * Öğrenci Ekle/Düzenle: `images/03_ogrenci_ekle_duzenle.png`
+> * Swagger UI API Dökümantasyonu: `images/04_swagger_api_dokumantasyonu.png`
+
+1. **Kullanıcı Giriş Ekranı (Login):**
+   ![Giriş Ekranı](./images/01_giris_ekrani.png)
+2. **Öğrenci Listesi ve Dinamik Filtreleme Arayüzü:**
+   ![Öğrenci Listesi](./images/02_ogrenci_listesi.png)
+3. **Öğrenci Kayıt ve Güncelleme Formu:**
+   ![Öğrenci Formu](./images/03_ogrenci_ekle_duzenle.png)
+4. **Web API - Swagger Arayüzü:**
+   ![Swagger API Dökümantasyonu](./images/04_swagger_api_dokumantasyonu.png)
+
+---
+
 ## 🚀 Kurulum ve Çalıştırma
 
 ### 1. Veritabanını Hazırlayın

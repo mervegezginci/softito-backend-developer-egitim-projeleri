@@ -188,22 +188,26 @@ Dapper ve Stored Procedure kullanılarak geliştirilmiş, Web API ve MVC mimaris
 - Fluent API: Customer/Employee/Service → Appointment One-to-Many, Appointment → Payment **One-to-One** (Cascade Delete)
 - `IMemoryCache` ile rapor önbellekleme (5 dk sliding + 1 saat absolute expiration)
 - `ILogger<ReportController>` ile raporlama erişim logları
-- Admin dashboard: bugünkü randevular, toplam gelir, haftalık gelir ve randevu grafik verisi (son 7 gün)
+- Admin dashboard: bugünkü randevular, toplam gelir, haftalık gelir and randevu grafik verisi (son 7 gün)
 - Sadece ödemesiz randevular listelenerek ödeme oluşturulabilir
 - Sneat 1.0.0 Bootstrap Admin Teması
 
 **📸 Ekran Görüntüleri:**
-1. **Yönetici Paneli - İstatistik Paneli (Dashboard):** ![İstatistik Paneli](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/01_admin_dashboard.png)
-2. **Yönetici Paneli - Randevu Listesi:** ![Randevu Listesi](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/02_admin_randevular.png)
-3. **Yönetici Paneli - Randevu Listesi (Güncel):** ![Randevu Listesi Güncel](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/03_admin_randevular_guncel.png)
-4. **Yönetici Paneli - Müşteri Listesi:** ![Müşteri Listesi](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/04_admin_musteriler.png)
-5. **Yönetici Paneli - Çalışan Uzman Listesi:** ![Çalışan Uzman Listesi](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/05_admin_calisanlar.png)
-6. **Yönetici Paneli - Hizmet Kataloğu:** ![Hizmet Kataloğu](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/06_admin_hizmetler.png)
-7. **Yönetici Paneli - Ödeme Kayıtları:** ![Ödeme Kayıtları](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/07_admin_odemeler.png)
-8. **Yönetici Paneli - Gelişmiş Raporlama & Analiz:** ![Gelişmiş Raporlama](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/08_admin_raporlar.png)
-9. **Müşteri Paneli - Anasayfa:** ![Müşteri Anasayfa](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/09_kullanici_anasayfa.png)
-10. **Müşteri Paneli - Hizmetler Alanı:** ![Müşteri Hizmetler](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/10_kullanici_hizmetler.png)
-11. **Müşteri Paneli - Randevu Talep Formu:** ![Randevu Talep Formu](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/11_kullanici_randevu_formu.png)
+
+* **Müşteri Arayüzü (Customer Panel):**
+  1. **Anasayfa:** ![Müşteri Anasayfa](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/09_kullanici_anasayfa.png)
+  2. **Hizmetler Alanı:** ![Müşteri Hizmetler](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/10_kullanici_hizmetler.png)
+  3. **Randevu Talep Formu:** ![Randevu Talep Formu](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/11_kullanici_randevu_formu.png)
+
+* **Yönetici Paneli (Admin Panel):**
+  4. **İstatistik Paneli (Dashboard):** ![İstatistik Paneli](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/01_admin_dashboard.png)
+  5. **Randevu Listesi:** ![Randevu Listesi](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/02_admin_randevular.png)
+  6. **Randevu Listesi (Güncel):** ![Randevu Listesi Güncel](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/03_admin_randevular_guncel.png)
+  7. **Müşteri Listesi:** ![Müşteri Listesi](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/04_admin_musteriler.png)
+  8. **Çalışan Uzman Listesi:** ![Çalışan Uzman Listesi](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/05_admin_calisanlar.png)
+  9. **Hizmet Kataloğu:** ![Hizmet Kataloğu](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/06_admin_hizmetler.png)
+  10. **Ödeme Kayıtları:** ![Ödeme Kayıtları](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/07_admin_odemeler.png)
+  11. **Gelişmiş Raporlama & Analiz:** ![Gelişmiş Raporlama](./13-kuafor-orm-projesi/kuafor_ORMproje/wwwroot/img/08_admin_raporlar.png)
 
 ---
 
