@@ -1,8 +1,7 @@
-﻿using kuafor_ORMproje.Model;
-using Microsoft.AspNetCore.Http;
+using kuafor_ORMproje.Data.Repository.IRepository;
+using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 
 namespace kuafor_ORMproje.Controllers.Api
 {
@@ -10,92 +9,78 @@ namespace kuafor_ORMproje.Controllers.Api
     [ApiController]
     public class AppointmentController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public AppointmentController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AppointmentController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
-        // GET: api/AppointmentsApi
+
+        // GET: api/Appointment
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointments()
+        public ActionResult<IEnumerable<Appointment>> GetAppointments()
         {
-            return await _context.Appointments
-                .Include(a => a.Customer)
-                .Include(a => a.Employee)
-                .Include(a => a.Service)
-                .Include(a => a.Payment)
-                .ToListAsync();
+            return Ok(_unitOfWork.Appointment.GetAll(includeProperties: "Customer,Employee,Service,Payment"));
         }
-        // GET: api/AppointmentsApi/5
+
+        // GET: api/Appointment/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Appointment>> GetAppointment(int id)
+        public ActionResult<Appointment> GetAppointment(int id)
         {
-            var appointment = await _context.Appointments
-                .Include(a => a.Customer)
-                .Include(a => a.Employee)
-                .Include(a => a.Service)
-                .Include(a => a.Payment)
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var appointment = _unitOfWork.Appointment.GetFirstOrDefault(
+                a => a.Id == id, 
+                includeProperties: "Customer,Employee,Service,Payment"
+            );
             if (appointment == null)
             {
                 return NotFound(new { message = $"Randevu (ID: {id}) bulunamadı." });
             }
-            return appointment;
+            return Ok(appointment);
         }
-        // PUT: api/AppointmentsApi/5
+
+        // PUT: api/Appointment/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppointment(int id, Appointment appointment)
+        public IActionResult PutAppointment(int id, Appointment appointment)
         {
             if (id != appointment.Id)
             {
                 return BadRequest(new { message = "Kimlik bilgileri eşleşmiyor." });
             }
-            _context.Entry(appointment).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AppointmentExists(id))
-                {
-                    return NotFound(new { message = $"Randevu (ID: {id}) bulunamadı." });
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            _unitOfWork.Appointment.Update(appointment);
+            _unitOfWork.Save();
+
             return NoContent();
         }
-        // POST: api/AppointmentsApi
+
+        // POST: api/Appointment
         [HttpPost]
-        public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
+        public ActionResult<Appointment> PostAppointment(Appointment appointment)
         {
-            _context.Appointments.Add(appointment);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Appointment.Add(appointment);
+            _unitOfWork.Save();
+
             // Load related data
-            await _context.Entry(appointment).Reference(a => a.Customer).LoadAsync();
-            await _context.Entry(appointment).Reference(a => a.Employee).LoadAsync();
-            await _context.Entry(appointment).Reference(a => a.Service).LoadAsync();
-            return CreatedAtAction(nameof(GetAppointment), new { id = appointment.Id }, appointment);
+            var savedAppointment = _unitOfWork.Appointment.GetFirstOrDefault(
+                a => a.Id == appointment.Id,
+                includeProperties: "Customer,Employee,Service"
+            );
+
+            return CreatedAtAction(nameof(GetAppointment), new { id = appointment.Id }, savedAppointment);
         }
-        // DELETE: api/AppointmentsApi/5
+
+        // DELETE: api/Appointment/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAppointment(int id)
+        public IActionResult DeleteAppointment(int id)
         {
-            var appointment = await _context.Appointments.FindAsync(id);
+            var appointment = _unitOfWork.Appointment.GetFirstOrDefault(u => u.Id == id);
             if (appointment == null)
             {
                 return NotFound(new { message = $"Randevu (ID: {id}) bulunamadı." });
             }
-            _context.Appointments.Remove(appointment);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Appointment.Remove(appointment);
+            _unitOfWork.Save();
             return Ok(new { message = "Randevu başarıyla silindi." });
-        }
-        private bool AppointmentExists(int id)
-        {
-            return _context.Appointments.Any(e => e.Id == id);
         }
     }
 }

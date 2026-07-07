@@ -1,8 +1,7 @@
-﻿using kuafor_ORMproje.Model;
-using Microsoft.AspNetCore.Http;
+using kuafor_ORMproje.Data.Repository.IRepository;
+using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 
 namespace kuafor_ORMproje.Controllers.Api
 {
@@ -10,78 +9,68 @@ namespace kuafor_ORMproje.Controllers.Api
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public EmployeeController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public EmployeeController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
-        // GET: api/EmployeesApi
+
+        // GET: api/Employee
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public ActionResult<IEnumerable<Employee>> GetEmployees()
         {
-            return await _context.Employees.ToListAsync();
+            return Ok(_unitOfWork.Employee.GetAll());
         }
-        // GET: api/EmployeesApi/5
+
+        // GET: api/Employee/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public ActionResult<Employee> GetEmployee(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = _unitOfWork.Employee.GetFirstOrDefault(u => u.Id == id);
             if (employee == null)
             {
                 return NotFound(new { message = $"Çalışan (ID: {id}) bulunamadı." });
             }
-            return employee;
+            return Ok(employee);
         }
-        // PUT: api/EmployeesApi/5
+
+        // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public IActionResult PutEmployee(int id, Employee employee)
         {
             if (id != employee.Id)
             {
                 return BadRequest(new { message = "Kimlik bilgileri eşleşmiyor." });
             }
-            _context.Entry(employee).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound(new { message = $"Çalışan (ID: {id}) bulunamadı." });
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            _unitOfWork.Employee.Update(employee);
+            _unitOfWork.Save();
+
             return NoContent();
         }
-        // POST: api/EmployeesApi
+
+        // POST: api/Employee
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public ActionResult<Employee> PostEmployee(Employee employee)
         {
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Employee.Add(employee);
+            _unitOfWork.Save();
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
         }
-        // DELETE: api/EmployeesApi/5
+
+        // DELETE: api/Employee/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
+        public IActionResult DeleteEmployee(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = _unitOfWork.Employee.GetFirstOrDefault(u => u.Id == id);
             if (employee == null)
             {
                 return NotFound(new { message = $"Çalışan (ID: {id}) bulunamadı." });
             }
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Employee.Remove(employee);
+            _unitOfWork.Save();
             return Ok(new { message = "Çalışan başarıyla silindi." });
-        }
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employees.Any(e => e.Id == id);
         }
     }
 }

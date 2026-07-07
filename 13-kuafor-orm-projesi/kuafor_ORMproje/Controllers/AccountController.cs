@@ -1,4 +1,4 @@
-﻿using kuafor_ORMproje.Model;
+using kuafor_ORMproje.Model;
 using kuafor_ORMproje.Models;
 using kuafor_ORMproje.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -42,7 +42,12 @@ namespace kuafor_ORMproje.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Admin");
+                    var user = await userManager.FindByEmailAsync(model.Email);
+                    if (user != null && await userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
 
                 ModelState.AddModelError("", "Email veya parola yanlış.");

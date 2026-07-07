@@ -1,44 +1,41 @@
-﻿using kuafor_ORMproje.Model;
+using kuafor_ORMproje.Data.Repository.IRepository;
+using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace kuafor_ORMproje.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var totalCustomers = await _context.Customers.CountAsync();
-            var totalEmployees = await _context.Employees.CountAsync(e => e.IsActive);
-            var totalServices = await _context.Services.CountAsync();
+            var totalCustomers = _unitOfWork.Customer.GetAll().Count();
+            var totalEmployees = _unitOfWork.Employee.GetAll(e => e.IsActive).Count();
+            var totalServices = _unitOfWork.Service.GetAll().Count();
 
             var today = DateTime.Today;
-            var todayAppointments = await _context.Appointments
-                .CountAsync(a => a.AppointmentDate.Date == today);
+            var todayAppointments = _unitOfWork.Appointment
+                .GetAll(a => a.AppointmentDate.Date == today).Count();
 
-            var totalRevenue = await _context.Payments
-                .Where(p => p.PaymentStatus)
-                .SumAsync(p => p.Amount);
+            var totalRevenue = _unitOfWork.Payment
+                .GetAll(p => p.PaymentStatus)
+                .Sum(p => p.Amount);
 
-            var recentAppointments = await _context.Appointments
-                .Include(a => a.Customer)
-                .Include(a => a.Service)
-                .Include(a => a.Employee)
+            var recentAppointments = _unitOfWork.Appointment
+                .GetAll(includeProperties: "Customer,Service,Employee")
                 .OrderByDescending(a => a.AppointmentDate)
                 .Take(5)
-                .ToListAsync();
+                .ToList();
 
             ViewBag.TotalCustomers = totalCustomers;
             ViewBag.TotalEmployees = totalEmployees;
@@ -50,9 +47,9 @@ namespace kuafor_ORMproje.Controllers
             // Weekly Revenue & Appointments charts data
             var sevenDaysAgo = DateTime.Today.AddDays(-6);
             
-            var weeklyRevenueData = await _context.Payments
-                .Where(p => p.PaymentStatus && p.PaymentDate >= sevenDaysAgo)
-                .ToListAsync();
+            var weeklyRevenueData = _unitOfWork.Payment
+                .GetAll(p => p.PaymentStatus && p.PaymentDate >= sevenDaysAgo)
+                .ToList();
 
             var weeklyRevenueList = Enumerable.Range(0, 7)
                 .Select(offset => sevenDaysAgo.AddDays(offset))
@@ -65,9 +62,9 @@ namespace kuafor_ORMproje.Controllers
             ViewBag.WeeklyRevenueLabels = weeklyRevenueList.Select(r => r.DateLabel).ToList();
             ViewBag.WeeklyRevenueValues = weeklyRevenueList.Select(r => r.Amount).ToList();
 
-            var weeklyAppointmentsData = await _context.Appointments
-                .Where(a => a.AppointmentDate >= sevenDaysAgo)
-                .ToListAsync();
+            var weeklyAppointmentsData = _unitOfWork.Appointment
+                .GetAll(a => a.AppointmentDate >= sevenDaysAgo)
+                .ToList();
 
             var weeklyAppointmentsList = Enumerable.Range(0, 7)
                 .Select(offset => sevenDaysAgo.AddDays(offset))

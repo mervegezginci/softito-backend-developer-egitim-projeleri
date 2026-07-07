@@ -1,34 +1,36 @@
+using kuafor_ORMproje.Data.Repository.IRepository;
 using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using Microsoft.AspNetCore.Authorization;
 
 namespace kuafor_ORMproje.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class ServiceController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public ServiceController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ServiceController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
+
         // GET: Service
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var services = await _context.Services.ToListAsync();
+            var services = _unitOfWork.Service.GetAll();
             return View(services);
         }
+
         // GET: Service/Create
         public IActionResult Create()
         {
             return View();
         }
+
         // POST: Service/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ServiceName,Price,Duration,Description,ImageUrl")] Service service)
+        public IActionResult Create([Bind("Id,ServiceName,Price,Duration,Description,ImageUrl")] Service service)
         {
             if (ModelState.IsValid)
             {
@@ -36,31 +38,33 @@ namespace kuafor_ORMproje.Controllers
                 {
                     service.ImageUrl = "/img/default-service.jpg";
                 }
-                _context.Add(service);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Service.Add(service);
+                _unitOfWork.Save();
                 TempData["SuccessMessage"] = "Hizmet başarıyla eklendi.";
                 return RedirectToAction(nameof(Index));
             }
             return View(service);
         }
+
         // GET: Service/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var service = await _context.Services.FindAsync(id);
+            var service = _unitOfWork.Service.GetFirstOrDefault(u => u.Id == id);
             if (service == null)
             {
                 return NotFound();
             }
             return View(service);
         }
+
         // POST: Service/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ServiceName,Price,Duration,Description,ImageUrl")] Service service)
+        public IActionResult Edit(int id, [Bind("Id,ServiceName,Price,Duration,Description,ImageUrl")] Service service)
         {
             if (id != service.Id)
             {
@@ -68,48 +72,31 @@ namespace kuafor_ORMproje.Controllers
             }
             if (ModelState.IsValid)
             {
-                try
+                if (string.IsNullOrWhiteSpace(service.ImageUrl))
                 {
-                    if (string.IsNullOrWhiteSpace(service.ImageUrl))
-                    {
-                        service.ImageUrl = "/img/default-service.jpg";
-                    }
-                    _context.Update(service);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Hizmet başarıyla güncellendi.";
+                    service.ImageUrl = "/img/default-service.jpg";
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ServiceExists(service.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _unitOfWork.Service.Update(service);
+                _unitOfWork.Save();
+                TempData["SuccessMessage"] = "Hizmet başarıyla güncellendi.";
                 return RedirectToAction(nameof(Index));
             }
             return View(service);
         }
+
         // POST: Service/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var service = await _context.Services.FindAsync(id);
+            var service = _unitOfWork.Service.GetFirstOrDefault(u => u.Id == id);
             if (service != null)
             {
-                _context.Services.Remove(service);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Service.Remove(service);
+                _unitOfWork.Save();
                 TempData["SuccessMessage"] = "Hizmet başarıyla silindi.";
             }
             return RedirectToAction(nameof(Index));
-        }
-        private bool ServiceExists(int id)
-        {
-            return _context.Services.Any(e => e.Id == id);
         }
     }
 }

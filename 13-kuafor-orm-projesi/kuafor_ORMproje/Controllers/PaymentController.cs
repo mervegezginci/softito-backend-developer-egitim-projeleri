@@ -1,100 +1,100 @@
+using kuafor_ORMproje.Data.Repository.IRepository;
 using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using System;
-using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace kuafor_ORMproje.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class PaymentController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public PaymentController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public PaymentController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
+
         // GET: Payment
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var payments = await _context.Payments
-                .Include(p => p.Appointment)
-                    .ThenInclude(a => a!.Customer)
-                .Include(p => p.Appointment)
-                    .ThenInclude(a => a!.Service)
+            var payments = _unitOfWork.Payment
+                .GetAll(includeProperties: "Appointment,Appointment.Customer,Appointment.Service")
                 .OrderByDescending(p => p.PaymentDate)
-                .ToListAsync();
+                .ToList();
             return View(payments);
         }
+
         // GET: Payment/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            // We want to list appointments that don't have a payment yet
-            var unpaidAppointments = await _context.Appointments
-                .Include(a => a.Customer)
-                .Include(a => a.Service)
-                .Where(a => !_context.Payments.Any(p => p.AppointmentId == a.Id))
+            var paidAppointmentIds = _unitOfWork.Payment.GetAll().Select(p => p.AppointmentId).ToList();
+            var unpaidAppointments = _unitOfWork.Appointment
+                .GetAll(a => !paidAppointmentIds.Contains(a.Id) && a.Status != "İptal Edildi", includeProperties: "Customer,Service")
                 .Select(a => new {
                     Id = a.Id,
-                    DisplayText = $"{a.Customer!.FullName} - {a.Service!.ServiceName} ({a.AppointmentDate:dd.MM.yyyy})"
+                    DisplayText = $"{a.Customer!.FullName} - {a.Service!.ServiceName} ({a.AppointmentDate:dd.MM.yyyy})",
+                    Price = a.Service!.Price
                 })
-                .ToListAsync();
-            ViewData["AppointmentId"] = new SelectList(unpaidAppointments, "Id", "DisplayText");
+                .ToList();
+            ViewBag.UnpaidAppointments = unpaidAppointments;
             return View();
         }
+
         // POST: Payment/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AppointmentId,Amount,PaymentMethod,PaymentStatus")] Payment payment)
+        public IActionResult Create([Bind("Id,AppointmentId,Amount,PaymentMethod,PaymentStatus")] Payment payment)
         {
             if (ModelState.IsValid)
             {
                 payment.PaymentDate = DateTime.Now;
-                _context.Add(payment);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Payment.Add(payment);
+                _unitOfWork.Save();
                 TempData["SuccessMessage"] = "Ödeme başarıyla kaydedildi.";
                 return RedirectToAction(nameof(Index));
             }
-            var unpaidAppointments = await _context.Appointments
-                .Include(a => a.Customer)
-                .Include(a => a.Service)
-                .Where(a => !_context.Payments.Any(p => p.AppointmentId == a.Id) || a.Id == payment.AppointmentId)
+            var paidAppointmentIds = _unitOfWork.Payment.GetAll().Select(p => p.AppointmentId).ToList();
+            var unpaidAppointments = _unitOfWork.Appointment
+                .GetAll(a => (!paidAppointmentIds.Contains(a.Id) || a.Id == payment.AppointmentId) && a.Status != "İptal Edildi", includeProperties: "Customer,Service")
                 .Select(a => new {
                     Id = a.Id,
-                    DisplayText = $"{a.Customer!.FullName} - {a.Service!.ServiceName} ({a.AppointmentDate:dd.MM.yyyy})"
+                    DisplayText = $"{a.Customer!.FullName} - {a.Service!.ServiceName} ({a.AppointmentDate:dd.MM.yyyy})",
+                    Price = a.Service!.Price
                 })
-                .ToListAsync();
-            ViewData["AppointmentId"] = new SelectList(unpaidAppointments, "Id", "DisplayText", payment.AppointmentId);
+                .ToList();
+            ViewBag.UnpaidAppointments = unpaidAppointments;
             return View(payment);
         }
+
         // GET: Payment/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var payment = await _context.Payments.FindAsync(id);
+            var payment = _unitOfWork.Payment.GetFirstOrDefault(u => u.Id == id);
             if (payment == null)
             {
                 return NotFound();
             }
-            var appointments = await _context.Appointments
-                .Include(a => a.Customer)
-                .Include(a => a.Service)
+            var appointments = _unitOfWork.Appointment
+                .GetAll(includeProperties: "Customer,Service")
                 .Select(a => new {
                     Id = a.Id,
                     DisplayText = $"{a.Customer!.FullName} - {a.Service!.ServiceName} ({a.AppointmentDate:dd.MM.yyyy})"
                 })
-                .ToListAsync();
+                .ToList();
             ViewData["AppointmentId"] = new SelectList(appointments, "Id", "DisplayText", payment.AppointmentId);
             return View(payment);
         }
+
         // POST: Payment/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AppointmentId,Amount,PaymentMethod,PaymentDate,PaymentStatus")] Payment payment)
+        public IActionResult Edit(int id, [Bind("Id,AppointmentId,Amount,PaymentMethod,PaymentDate,PaymentStatus")] Payment payment)
         {
             if (id != payment.Id)
             {
@@ -102,53 +102,35 @@ namespace kuafor_ORMproje.Controllers
             }
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(payment);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Ödeme bilgileri güncellendi.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PaymentExists(payment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _unitOfWork.Payment.Update(payment);
+                _unitOfWork.Save();
+                TempData["SuccessMessage"] = "Ödeme bilgileri güncellendi.";
                 return RedirectToAction(nameof(Index));
             }
-            var appointments = await _context.Appointments
-                .Include(a => a.Customer)
-                .Include(a => a.Service)
+            var appointments = _unitOfWork.Appointment
+                .GetAll(includeProperties: "Customer,Service")
                 .Select(a => new {
                     Id = a.Id,
                     DisplayText = $"{a.Customer!.FullName} - {a.Service!.ServiceName} ({a.AppointmentDate:dd.MM.yyyy})"
                 })
-                .ToListAsync();
+                .ToList();
             ViewData["AppointmentId"] = new SelectList(appointments, "Id", "DisplayText", payment.AppointmentId);
             return View(payment);
         }
+
         // POST: Payment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var payment = await _context.Payments.FindAsync(id);
+            var payment = _unitOfWork.Payment.GetFirstOrDefault(u => u.Id == id);
             if (payment != null)
             {
-                _context.Payments.Remove(payment);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Payment.Remove(payment);
+                _unitOfWork.Save();
                 TempData["SuccessMessage"] = "Ödeme başarıyla silindi.";
             }
             return RedirectToAction(nameof(Index));
-        }
-        private bool PaymentExists(int id)
-        {
-            return _context.Payments.Any(e => e.Id == id);
         }
     }
 }

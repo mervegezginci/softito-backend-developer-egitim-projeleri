@@ -1,6 +1,7 @@
 
 using kuafor_ORMproje.Model;
 using kuafor_ORMproje.Data.Repository;
+using kuafor_ORMproje.Data.Repository.IRepository;
 using kuafor_ORMproje.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
@@ -51,7 +54,7 @@ using (var scope = app.Services.CreateScope())
     await context.Database.MigrateAsync();
 
     // Veritabanını tohumla (Seed)
-    await kuafor_ORMproje.Models.DbSeeder.SeedAsync(context, roleManager, userManager);
+    await DbSeeder.SeedAsync(context, roleManager, userManager);
 }
 
 

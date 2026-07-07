@@ -1,0 +1,65 @@
+@model ogrenciyonetimi_mvc.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Giriş Yap - Öğrenci Yönetim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <style>
+        body { background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%); min-height: 100vh; display: flex; align-items: center; }
+        .card { border: none; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .brand-icon { font-size: 3rem; color: #2980b9; }
+        .btn-brand { background: linear-gradient(135deg, #3498db, #2980b9); border: none; }
+        .btn-brand:hover { background: linear-gradient(135deg, #2980b9, #1a5276); }
+        .form-control:focus { border-color: #3498db; box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.25); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card p-4">
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-graduation-cap brand-icon"></i>
+                    <h4 class="mt-2 fw-bold">Öğrenci Yönetimi</h4>
+                    <p class="text-muted">Hesabınıza giriş yapın</p>
+                </div>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        { <div>@error.ErrorMessage</div> }
+                    </div>
+                }
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Success"]</div>
+                }
+                <form asp-action="Login" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">E-posta</label>
+                        <input asp-for="Email" class="form-control" placeholder="ornek@mail.com"/>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Şifre</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="••••••••"/>
+                    </div>
+                    <button type="submit" class="btn btn-brand btn-lg w-100 text-white fw-bold">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i>Giriş Yap
+                    </button>
+                </form>
+                <hr/>
+                <div class="text-center">
+                    <small>Hesabınız yok mu? <a asp-action="Register" class="text-primary fw-bold">Kayıt Ol</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

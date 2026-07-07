@@ -57,7 +57,9 @@ namespace kuafor_ORMproje.Models
                 {
                     new Employee { FullName = "Ahmet Yılmaz", Speciality = "Erkek Saç Tasarım & Sakal", Phone = "0532 111 2233", IsActive = true, ImageUrl = "/img/default-employee.jpg" },
                     new Employee { FullName = "Elif Demir", Speciality = "Bayan Saç Kesim & Boyama", Phone = "0533 222 3344", IsActive = true, ImageUrl = "/img/default-employee.jpg" },
-                    new Employee { FullName = "Can Kaya", Speciality = "Cilt Bakımı & Masaj", Phone = "0535 333 4455", IsActive = true, ImageUrl = "/img/default-employee.jpg" }
+                    new Employee { FullName = "Can Kaya", Speciality = "Cilt Bakımı & Masaj", Phone = "0535 333 4455", IsActive = true, ImageUrl = "/img/default-employee.jpg" },
+                    new Employee { FullName = "Merve Çetin", Speciality = "Manikür & Pedikür", Phone = "0536 444 5566", IsActive = true, ImageUrl = "/img/default-employee.jpg" },
+                    new Employee { FullName = "Hakan Bakır", Speciality = "Saç Kesim & Sakal", Phone = "0537 555 6677", IsActive = true, ImageUrl = "/img/default-employee.jpg" }
                 };
                 await context.Employees.AddRangeAsync(employees);
                 await context.SaveChangesAsync();
@@ -71,7 +73,8 @@ namespace kuafor_ORMproje.Models
                     new Customer { FullName = "Mustafa Şen", Phone = "0542 444 5566", Email = "mustafa@gmail.com", Gender = "Erkek", CreatedDate = DateTime.Now.AddDays(-15) },
                     new Customer { FullName = "Ayşe Kaya", Phone = "0543 555 6677", Email = "ayse@gmail.com", Gender = "Kadın", CreatedDate = DateTime.Now.AddDays(-10) },
                     new Customer { FullName = "Mehmet Öztürk", Phone = "0544 666 7788", Email = "mehmet@gmail.com", Gender = "Erkek", CreatedDate = DateTime.Now.AddDays(-7) },
-                    new Customer { FullName = "Zeynep Çelik", Phone = "0545 777 8899", Email = "zeynep@gmail.com", Gender = "Kadın", CreatedDate = DateTime.Now.AddDays(-5) }
+                    new Customer { FullName = "Zeynep Çelik", Phone = "0545 777 8899", Email = "zeynep@gmail.com", Gender = "Kadın", CreatedDate = DateTime.Now.AddDays(-5) },
+                    new Customer { FullName = "Fatma Demir", Phone = "0546 888 9900", Email = "fatma@gmail.com", Gender = "Kadın", CreatedDate = DateTime.Now.AddDays(-3) }
                 };
                 await context.Customers.AddRangeAsync(customers);
                 await context.SaveChangesAsync();

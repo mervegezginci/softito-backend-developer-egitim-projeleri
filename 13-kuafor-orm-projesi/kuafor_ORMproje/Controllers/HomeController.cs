@@ -1,29 +1,26 @@
-﻿
-using kuafor_ORMproje.Data.Repository;
+using kuafor_ORMproje.Data.Repository.IRepository;
 using kuafor_ORMproje.Model;
 using kuafor_ORMproje.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace kuafor_ORMproje.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var services = await _context.Services.ToListAsync();
-            var employees = await _context.Employees.Where(e => e.IsActive).ToListAsync();
-            var customers = await _context.Customers.ToListAsync();
+            var services = _unitOfWork.Service.GetAll().ToList();
+            var employees = _unitOfWork.Employee.GetAll(e => e.IsActive).ToList();
+            var customers = _unitOfWork.Customer.GetAll().ToList();
 
             var viewModel = new HomeViewModel
             {

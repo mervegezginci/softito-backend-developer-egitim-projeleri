@@ -1,8 +1,8 @@
-﻿using kuafor_ORMproje.Model;
-using Microsoft.AspNetCore.Http;
+using kuafor_ORMproje.Data.Repository.IRepository;
+using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace kuafor_ORMproje.Controllers.Api
 {
@@ -10,96 +10,79 @@ namespace kuafor_ORMproje.Controllers.Api
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public PaymentController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public PaymentController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
-        // GET: api/PaymentsApi
+
+        // GET: api/Payment
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
+        public ActionResult<IEnumerable<Payment>> GetPayments()
         {
-            return await _context.Payments
-                .Include(p => p.Appointment)
-                    .ThenInclude(a => a!.Customer)
-                .Include(p => p.Appointment)
-                    .ThenInclude(a => a!.Service)
-                .ToListAsync();
+            return Ok(_unitOfWork.Payment.GetAll(includeProperties: "Appointment,Appointment.Customer,Appointment.Service"));
         }
-        // GET: api/PaymentsApi/5
+
+        // GET: api/Payment/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Payment>> GetPayment(int id)
+        public ActionResult<Payment> GetPayment(int id)
         {
-            var payment = await _context.Payments
-                .Include(p => p.Appointment)
-                    .ThenInclude(a => a!.Customer)
-                .Include(p => p.Appointment)
-                    .ThenInclude(a => a!.Service)
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var payment = _unitOfWork.Payment.GetFirstOrDefault(
+                p => p.Id == id,
+                includeProperties: "Appointment,Appointment.Customer,Appointment.Service"
+            );
             if (payment == null)
             {
                 return NotFound(new { message = $"Ödeme (ID: {id}) bulunamadı." });
             }
-            return payment;
+            return Ok(payment);
         }
-        // PUT: api/PaymentsApi/5
+
+        // PUT: api/Payment/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPayment(int id, Payment payment)
+        public IActionResult PutPayment(int id, Payment payment)
         {
             if (id != payment.Id)
             {
                 return BadRequest(new { message = "Kimlik bilgileri eşleşmiyor." });
             }
-            _context.Entry(payment).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentExists(id))
-                {
-                    return NotFound(new { message = $"Ödeme (ID: {id}) bulunamadı." });
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            _unitOfWork.Payment.Update(payment);
+            _unitOfWork.Save();
+
             return NoContent();
         }
-        // POST: api/PaymentsApi
+
+        // POST: api/Payment
         [HttpPost]
-        public async Task<ActionResult<Payment>> PostPayment(Payment payment)
+        public ActionResult<Payment> PostPayment(Payment payment)
         {
             payment.PaymentDate = DateTime.Now;
-            _context.Payments.Add(payment);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Payment.Add(payment);
+            _unitOfWork.Save();
+
             // Load related data
-            await _context.Entry(payment).Reference(p => p.Appointment).LoadAsync();
-            if (payment.Appointment != null)
-            {
-                await _context.Entry(payment.Appointment).Reference(a => a.Customer).LoadAsync();
-                await _context.Entry(payment.Appointment).Reference(a => a.Service).LoadAsync();
-            }
-            return CreatedAtAction(nameof(GetPayment), new { id = payment.Id }, payment);
+            var savedPayment = _unitOfWork.Payment.GetFirstOrDefault(
+                p => p.Id == payment.Id,
+                includeProperties: "Appointment,Appointment.Customer,Appointment.Service"
+            );
+
+            return CreatedAtAction(nameof(GetPayment), new { id = payment.Id }, savedPayment);
         }
-        // DELETE: api/PaymentsApi/5
+
+        // DELETE: api/Payment/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePayment(int id)
+        public IActionResult DeletePayment(int id)
         {
-            var payment = await _context.Payments.FindAsync(id);
+            var payment = _unitOfWork.Payment.GetFirstOrDefault(u => u.Id == id);
             if (payment == null)
             {
                 return NotFound(new { message = $"Ödeme (ID: {id}) bulunamadı." });
             }
-            _context.Payments.Remove(payment);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Payment.Remove(payment);
+            _unitOfWork.Save();
             return Ok(new { message = "Ödeme başarıyla silindi." });
-        }
-        private bool PaymentExists(int id)
-        {
-            return _context.Payments.Any(e => e.Id == id);
         }
     }
 }

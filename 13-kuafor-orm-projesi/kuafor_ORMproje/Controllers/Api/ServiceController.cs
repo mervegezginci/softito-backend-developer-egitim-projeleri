@@ -1,8 +1,7 @@
-﻿using kuafor_ORMproje.Model;
-using Microsoft.AspNetCore.Http;
+using kuafor_ORMproje.Data.Repository.IRepository;
+using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 
 namespace kuafor_ORMproje.Controllers.Api
 {
@@ -10,78 +9,68 @@ namespace kuafor_ORMproje.Controllers.Api
     [ApiController]
     public class ServiceController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public ServiceController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ServiceController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
-        // GET: api/ServicesApi
+
+        // GET: api/Service
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Service>>> GetServices()
+        public ActionResult<IEnumerable<Service>> GetServices()
         {
-            return await _context.Services.ToListAsync();
+            return Ok(_unitOfWork.Service.GetAll());
         }
-        // GET: api/ServicesApi/5
+
+        // GET: api/Service/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Service>> GetService(int id)
+        public ActionResult<Service> GetService(int id)
         {
-            var service = await _context.Services.FindAsync(id);
+            var service = _unitOfWork.Service.GetFirstOrDefault(u => u.Id == id);
             if (service == null)
             {
                 return NotFound(new { message = $"Hizmet (ID: {id}) bulunamadı." });
             }
-            return service;
+            return Ok(service);
         }
-        // PUT: api/ServicesApi/5
+
+        // PUT: api/Service/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutService(int id, Service service)
+        public IActionResult PutService(int id, Service service)
         {
             if (id != service.Id)
             {
                 return BadRequest(new { message = "Kimlik bilgileri eşleşmiyor." });
             }
-            _context.Entry(service).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ServiceExists(id))
-                {
-                    return NotFound(new { message = $"Hizmet (ID: {id}) bulunamadı." });
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            _unitOfWork.Service.Update(service);
+            _unitOfWork.Save();
+
             return NoContent();
         }
-        // POST: api/ServicesApi
+
+        // POST: api/Service
         [HttpPost]
-        public async Task<ActionResult<Service>> PostService(Service service)
+        public ActionResult<Service> PostService(Service service)
         {
-            _context.Services.Add(service);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Service.Add(service);
+            _unitOfWork.Save();
             return CreatedAtAction(nameof(GetService), new { id = service.Id }, service);
         }
-        // DELETE: api/ServicesApi/5
+
+        // DELETE: api/Service/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteService(int id)
+        public IActionResult DeleteService(int id)
         {
-            var service = await _context.Services.FindAsync(id);
+            var service = _unitOfWork.Service.GetFirstOrDefault(u => u.Id == id);
             if (service == null)
             {
                 return NotFound(new { message = $"Hizmet (ID: {id}) bulunamadı." });
             }
-            _context.Services.Remove(service);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Service.Remove(service);
+            _unitOfWork.Save();
             return Ok(new { message = "Hizmet başarıyla silindi." });
-        }
-        private bool ServiceExists(int id)
-        {
-            return _context.Services.Any(e => e.Id == id);
         }
     }
 }

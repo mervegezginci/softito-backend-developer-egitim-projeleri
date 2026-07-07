@@ -1,8 +1,8 @@
-﻿using kuafor_ORMproje.Model;
-using Microsoft.AspNetCore.Http;
+using kuafor_ORMproje.Data.Repository.IRepository;
+using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace kuafor_ORMproje.Controllers.Api
 {
@@ -10,94 +10,74 @@ namespace kuafor_ORMproje.Controllers.Api
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CustomerController(ApplicationDbContext context)
+        public CustomerController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
-        // GET: api/CustomersApi
+        // GET: api/Customer
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public ActionResult<IEnumerable<Customer>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            return Ok(_unitOfWork.Customer.GetAll());
         }
 
-        // GET: api/CustomersApi/5
+        // GET: api/Customer/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public ActionResult<Customer> GetCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _unitOfWork.Customer.GetFirstOrDefault(u => u.Id == id);
 
             if (customer == null)
             {
                 return NotFound(new { message = $"Müşteri (ID: {id}) bulunamadı." });
             }
 
-            return customer;
+            return Ok(customer);
         }
 
-        // PUT: api/CustomersApi/5
+        // PUT: api/Customer/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public IActionResult PutCustomer(int id, Customer customer)
         {
             if (id != customer.Id)
             {
                 return BadRequest(new { message = "Kimlik bilgileri eşleşmiyor." });
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(id))
-                {
-                    return NotFound(new { message = $"Müşteri (ID: {id}) bulunamadı." });
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _unitOfWork.Customer.Update(customer);
+            _unitOfWork.Save();
 
             return NoContent();
         }
 
-        // POST: api/CustomersApi
+        // POST: api/Customer
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public ActionResult<Customer> PostCustomer(Customer customer)
         {
             customer.CreatedDate = DateTime.Now;
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Customer.Add(customer);
+            _unitOfWork.Save();
 
             return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
 
-        // DELETE: api/CustomersApi/5
+        // DELETE: api/Customer/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
+        public IActionResult DeleteCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _unitOfWork.Customer.GetFirstOrDefault(u => u.Id == id);
             if (customer == null)
             {
                 return NotFound(new { message = $"Müşteri (ID: {id}) bulunamadı." });
             }
 
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Customer.Remove(customer);
+            _unitOfWork.Save();
 
             return Ok(new { message = "Müşteri başarıyla silindi." });
-        }
-
-        private bool CustomerExists(int id)
-        {
-            return _context.Customers.Any(e => e.Id == id);
         }
     }
 }

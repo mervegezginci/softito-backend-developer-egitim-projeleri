@@ -1,63 +1,68 @@
+using kuafor_ORMproje.Data.Repository.IRepository;
 using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace kuafor_ORMproje.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class CustomerController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public CustomerController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CustomerController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
+
         // GET: Customer
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var customers = await _context.Customers.OrderByDescending(c => c.CreatedDate).ToListAsync();
+            var customers = _unitOfWork.Customer.GetAll().OrderByDescending(c => c.CreatedDate).ToList();
             return View(customers);
         }
+
         // GET: Customer/Create
         public IActionResult Create()
         {
             return View();
         }
+
         // POST: Customer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,Phone,Email,Gender")] Customer customer)
+        public IActionResult Create([Bind("Id,FullName,Phone,Email,Gender")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 customer.CreatedDate = DateTime.Now;
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Customer.Add(customer);
+                _unitOfWork.Save();
                 TempData["SuccessMessage"] = "Müşteri başarıyla eklendi.";
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
         }
+
         // GET: Customer/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _unitOfWork.Customer.GetFirstOrDefault(u => u.Id == id);
             if (customer == null)
             {
                 return NotFound();
             }
             return View(customer);
         }
+
         // POST: Customer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Phone,Email,Gender,CreatedDate")] Customer customer)
+        public IActionResult Edit(int id, [Bind("Id,FullName,Phone,Email,Gender,CreatedDate")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -65,44 +70,27 @@ namespace kuafor_ORMproje.Controllers
             }
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Müşteri bilgileri güncellendi.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _unitOfWork.Customer.Update(customer);
+                _unitOfWork.Save();
+                TempData["SuccessMessage"] = "Müşteri bilgileri güncellendi.";
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
         }
+
         // POST: Customer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _unitOfWork.Customer.GetFirstOrDefault(u => u.Id == id);
             if (customer != null)
             {
-                _context.Customers.Remove(customer);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Customer.Remove(customer);
+                _unitOfWork.Save();
                 TempData["SuccessMessage"] = "Müşteri başarıyla silindi.";
             }
             return RedirectToAction(nameof(Index));
-        }
-        private bool CustomerExists(int id)
-        {
-            return _context.Customers.Any(e => e.Id == id);
         }
     }
 }

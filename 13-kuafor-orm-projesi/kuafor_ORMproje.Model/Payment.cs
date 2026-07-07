@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +12,7 @@ namespace kuafor_ORMproje.Model
 
         public int AppointmentId { get; set; }
 
-        public Appointment Appointment { get; set; }
+        public Appointment? Appointment { get; set; }
 
         public decimal Amount { get; set; }
 

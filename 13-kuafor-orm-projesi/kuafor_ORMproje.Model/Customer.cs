@@ -1,4 +1,4 @@
-﻿namespace kuafor_ORMproje.Model
+namespace kuafor_ORMproje.Model
 {
     public class Customer
     {
@@ -14,6 +14,6 @@
 
         public DateTime CreatedDate { get; set; }
 
-        public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<Appointment>? Appointments { get; set; }
     }
 }

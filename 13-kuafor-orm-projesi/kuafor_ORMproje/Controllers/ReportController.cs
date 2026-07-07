@@ -1,38 +1,35 @@
+using kuafor_ORMproje.Data.Repository.IRepository;
 using kuafor_ORMproje.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
-
 
 namespace kuafor_ORMproje.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class ReportController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMemoryCache _cache;
         private readonly ILogger<ReportController> _logger;
 
         private const string CacheKeyPrefix = "ReportData_";
 
         public ReportController(
-            ApplicationDbContext context,
+            IUnitOfWork unitOfWork,
             IMemoryCache cache,
-            ILogger<ReportController> _logger)
+            ILogger<ReportController> logger)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
             _cache = cache;
-            this._logger = _logger;
+            _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             _logger.LogInformation("Raporlama sayfasına erişildi. Tarih: {Time}", DateTime.Now);
 
@@ -42,11 +39,9 @@ namespace kuafor_ORMproje.Controllers
             {
                 _logger.LogInformation("Hizmet bazlı gelir raporu önbellekte bulunamadı, veritabanından çekiliyor.");
                 
-                var queryResult = await _context.Payments
-                    .Include(p => p.Appointment)
-                        .ThenInclude(a => a!.Service)
-                    .Where(p => p.PaymentStatus && p.Appointment != null && p.Appointment.Service != null)
-                    .ToListAsync(); // Read into memory first to avoid SQLite double conversion in group
+                var queryResult = _unitOfWork.Payment
+                    .GetAll(p => p.PaymentStatus && p.Appointment != null && p.Appointment.Service != null, includeProperties: "Appointment,Appointment.Service")
+                    .ToList();
 
                 serviceRevenue = queryResult
                     .GroupBy(p => p.Appointment!.Service!.ServiceName)
@@ -71,10 +66,9 @@ namespace kuafor_ORMproje.Controllers
             {
                 _logger.LogInformation("Çalışan performans raporu önbellekte bulunamadı, veritabanından çekiliyor.");
 
-                var queryResult = await _context.Appointments
-                    .Include(a => a.Employee)
-                    .Where(a => a.Employee != null)
-                    .ToListAsync();
+                var queryResult = _unitOfWork.Appointment
+                    .GetAll(a => a.Employee != null, includeProperties: "Employee")
+                    .ToList();
 
                 employeePerformance = queryResult
                     .GroupBy(a => a.Employee!.FullName)
@@ -89,7 +83,7 @@ namespace kuafor_ORMproje.Controllers
                 _cache.Set(employeeCacheKey, employeePerformance, TimeSpan.FromMinutes(5));
             }
 
-            // 3. System Logs Mock (to show logging actions to administrator)
+            // 3. Mock data log
             ViewBag.ServiceRevenue = serviceRevenue;
             ViewBag.EmployeePerformance = employeePerformance;
 
