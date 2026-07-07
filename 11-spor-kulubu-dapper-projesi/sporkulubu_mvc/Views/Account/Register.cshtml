@@ -85,13 +85,7 @@
                         <label class="form-label fw-semibold">Şifre</label>
                         <input asp-for="Password" type="password" class="form-control" placeholder="••••••••"/>
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label fw-semibold">Rol</label>
-                        <select asp-for="Role" class="form-select">
-                            <option value="Admin">Admin</option>
-                            <option value="User">User</option>
-                        </select>
-                    </div>
+                    <input type="hidden" asp-for="Role" value="User" />
                     <button type="submit" class="btn btn-brand btn-lg w-100 text-white fw-bold">
                         <i class="fa-solid fa-user-check me-2"></i>Kayıt İşlemini Tamamla
                     </button>

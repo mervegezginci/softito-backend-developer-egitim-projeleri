@@ -97,6 +97,21 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     context.Database.EnsureCreated();
+
+    // Seed default Admin user
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var adminUser = userManager.FindByEmailAsync("admin@sporkulubu.com").GetAwaiter().GetResult();
+    if (adminUser == null)
+    {
+        var admin = new ApplicationUser
+        {
+            UserName = "admin",
+            Email = "admin@sporkulubu.com",
+            Role = "Admin",
+            EmailConfirmed = true
+        };
+        userManager.CreateAsync(admin, "Admin123!").GetAwaiter().GetResult();
+    }
 }
 
 // ---- Pipeline ----

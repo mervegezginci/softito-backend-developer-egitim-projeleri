@@ -43,7 +43,7 @@ namespace sporkulubu_proje.Services
             {
                 UserName = model.Username,
                 Email = model.Email,
-                Role = model.Role
+                Role = "User" // Force all external registrations to standard User role
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
