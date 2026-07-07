@@ -6,7 +6,6 @@ using ogrenciyonetimi_mvc.Services;
 
 namespace ogrenciyonetimi_mvc.Controllers;
 
-[Authorize]
 public class HomeController : Controller
 {
     private readonly ApiService _api;
@@ -18,7 +17,15 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public async Task<IActionResult> Index()
+    [HttpGet]
+    public IActionResult Index()
+    {
+        _logger.LogInformation("Landing page görüntülendi.");
+        return View();
+    }
+
+    [Authorize]
+    public async Task<IActionResult> Dashboard()
     {
         _logger.LogInformation("Dashboard sayfası görüntülendi.");
 
@@ -40,6 +47,7 @@ public class HomeController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetReportData(string reportType)
     {
         _logger.LogInformation("Dashboard AJAX Rapor İstendi. Tür: {Type}", reportType);

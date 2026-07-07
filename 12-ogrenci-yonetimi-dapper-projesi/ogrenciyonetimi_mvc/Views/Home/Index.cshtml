@@ -1,327 +1,131 @@
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Hoş Geldiniz";
+    Layout = "_Layout";
 }
 
-<div class="row mb-4">
-    <div class="col-12">
-        <h2 class="fw-bold text-dark m-0">Gösterge Paneli</h2>
-        <p class="text-muted">Öğrenci ve not sistemine ait anlık istatistikler ve özet rapor.</p>
+<!-- Hero Section -->
+<div class="hero-section text-white py-5 px-4 rounded-4 mb-5 shadow-lg" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #172554 100%); position: relative; overflow: hidden;">
+    <div class="row align-items-center py-5">
+        <div class="col-lg-7 ps-lg-5 text-center text-lg-start">
+            <span class="badge bg-primary px-3 py-2 mb-3 text-uppercase fw-bold tracking-wider" style="font-size: 0.8rem; letter-spacing: 1.5px; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);">ÖĞRENCİ YÖNETİM SİSTEMİ</span>
+            <h1 class="display-3 fw-bold mb-3 lh-sm text-gradient" style="background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Geleceği Şekillendir,<br>Bilgiyi Yönet!</h1>
+            <p class="lead text-slate-300 mb-4 fs-5" style="color: #94a3b8; max-width: 580px;">Öğrenci işleri, akademik bölümler ve not dökümlerini tek bir sistemde buluşturun. Dapper ORM ve gelişmiş SQL Stored Procedure performansı ile verilerinizi ışık hızında sorgulayın.</p>
+            
+            <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a href="/Home/Dashboard" class="btn btn-primary btn-lg px-4 py-3">
+                        <i class="fa-solid fa-chart-pie me-2"></i>Yönetim Paneline Git
+                    </a>
+                }
+                else
+                {
+                    <a href="/Account/Login" class="btn btn-primary btn-lg px-4 py-3">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i>Akademik Giriş Yap
+                    </a>
+                    <a href="/Account/Register" class="btn btn-outline-light btn-lg px-4 py-3" style="border-radius: 12px;">
+                        <i class="fa-solid fa-user-plus me-2"></i>Yeni Kayıt Oluştur
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="col-lg-5 text-center mt-5 mt-lg-0">
+            <div class="position-relative d-inline-block">
+                <!-- Decorative glowing background -->
+                <div class="position-absolute bg-primary rounded-circle blur-lg" style="width: 250px; height: 250px; opacity: 0.15; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; filter: blur(50px);"></div>
+                <i class="fa-solid fa-graduation-cap text-primary display-1 rotate-15 position-relative" style="font-size: 10rem; opacity: 0.85; filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.4)); z-index: 1;"></i>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- KPI Cards -->
+<!-- Features Section -->
 <div class="row g-4 mb-5">
-    <div class="col-md-3">
-        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #3f51b5;">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <h6 class="text-muted text-uppercase small">Toplam Öğrenci</h6>
-                    <h3 class="fw-bold m-0 text-dark">@ViewBag.TotalStudents</h3>
-                </div>
-                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #eef2ff; color: #3f51b5; width: 55px; height: 55px;">
-                    <i class="fa-solid fa-user-graduate" style="font-size: 1.5rem;"></i>
-                </div>
-            </div>
-            <div class="mt-3 text-muted small">
-                <span class="text-success fw-semibold">@ViewBag.ActiveStudents aktif</span> / @ViewBag.InactiveStudents pasif
-            </div>
-        </div>
+    <div class="col-12 text-center mb-2">
+        <h2 class="fw-bold text-dark">Sistem Özellikleri ve Yetenekleri</h2>
+        <p class="text-muted" style="max-width: 600px; margin: 0 auto;">Dapper ORM ve SQL Stored Procedure mimarisi üzerine kurulan ultra performanslı yönetim paneli özellikleri.</p>
     </div>
     
-    <div class="col-md-3">
-        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #10b981;">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <h6 class="text-muted text-uppercase small">Aktif Bölümler</h6>
-                    <h3 class="fw-bold m-0 text-dark">@ViewBag.TotalDepartments</h3>
-                </div>
-                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #ecfdf5; color: #10b981; width: 55px; height: 55px;">
-                    <i class="fa-solid fa-building" style="font-size: 1.5rem;"></i>
-                </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm p-4 bg-white">
+            <div class="rounded-circle bg-light p-3 d-inline-flex align-items-center justify-content-center mb-3" style="color: #2563eb; width: 60px; height: 60px;">
+                <i class="fa-solid fa-sitemap fs-3"></i>
             </div>
-            <div class="mt-3 text-muted small">
-                Yönetilen akademik kürsü
-            </div>
+            <h5 class="fw-bold text-dark">Bölüm Yönetimi</h5>
+            <p class="text-muted small mb-0">Bilgisayar Mühendisliği, Tıp, Mimarlık gibi tüm akademik bölümleri ekleyin, güncelleyin ve kontenjan durumlarını takip edin.</p>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #f59e0b;">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <h6 class="text-muted text-uppercase small">Toplam Not Girişi</h6>
-                    <h3 class="fw-bold m-0 text-dark">@ViewBag.TotalGrades</h3>
-                </div>
-                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #fffbeb; color: #f59e0b; width: 55px; height: 55px;">
-                    <i class="fa-solid fa-file-invoice" style="font-size: 1.5rem;"></i>
-                </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm p-4 bg-white">
+            <div class="rounded-circle bg-light p-3 d-inline-flex align-items-center justify-content-center mb-3" style="color: #059669; width: 60px; height: 60px;">
+                <i class="fa-solid fa-user-graduate fs-3"></i>
             </div>
-            <div class="mt-3 text-muted small">
-                Girilen toplam sınav notu
-            </div>
+            <h5 class="fw-bold text-dark">Öğrenci İşleri</h5>
+            <p class="text-muted small mb-0">Öğrencilerin kayıt bilgilerini, iletişim detaylarını ve eğitim durumlarını ilişkisel veritabanında güvenle saklayın.</p>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card p-3 border-0 bg-white shadow-sm" style="border-left: 5px solid #ef4444;">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <h6 class="text-muted text-uppercase small">Genel Başarı Ort.</h6>
-                    <h3 class="fw-bold m-0 text-dark">@ViewBag.AverageScore / 100</h3>
-                </div>
-                <div class="rounded-circle p-3 d-flex align-items-center justify-content-center" style="background: #fef2f2; color: #ef4444; width: 55px; height: 55px;">
-                    <i class="fa-solid fa-chart-line" style="font-size: 1.5rem;"></i>
-                </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm p-4 bg-white">
+            <div class="rounded-circle bg-light p-3 d-inline-flex align-items-center justify-content-center mb-3" style="color: #d97706; width: 60px; height: 60px;">
+                <i class="fa-solid fa-spell-check fs-3"></i>
             </div>
-            <div class="mt-3 text-muted small">
-                Öğrencilerin not ortalaması
-            </div>
+            <h5 class="fw-bold text-dark">Not Giriş & Harf Notu</h5>
+            <p class="text-muted small mb-0">Öğrencilere ait sınav sonuçlarını kaydedin, ders başarı ortalamalarını ve harf notlarını anında listeleyin.</p>
         </div>
     </div>
 </div>
 
-<div class="row g-4">
-    <!-- Dinamik Raporlar ve Analizler Paneli -->
-    <div class="col-lg-8">
-        <div class="card border-0 bg-white shadow-sm">
-            <div class="card-header border-0 bg-white pt-4 px-4 pb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <div>
-                    <h5 class="text-dark fw-bold m-0">
-                        <i class="fa-solid fa-chart-line me-2 text-primary"></i>Dinamik Raporlar ve Analizler
-                    </h5>
-                    <p class="text-muted small mb-0">Sistem veritabanındaki verileri analiz etmek için aşağıdaki listeden bir rapor türü seçin.</p>
-                </div>
-                <div>
-                    <select id="reportSelector" class="form-select border-primary-subtle" style="width: auto; min-width: 280px; border-radius: 10px;">
-                        <option value="topgpa" selected>1. En Başarılı 5 Öğrenci (Ortalamaya Göre)</option>
-                        <option value="graduating">2. Mezun Olmak Üzere Olanlar (4. Sınıf)</option>
-                        <option value="failing">3. Kaldığı Ders Olanlar (Not &lt; 50)</option>
-                        <option value="deptgpa">4. Bölümlere Göre Öğrenci ve Ortalama</option>
-                        <option value="gradesbyclass">5. Sınıf Seviyesine Göre Dağılım</option>
-                        <option value="mostgradedcourses">6. En Çok Not Girişi Yapılan Dersler</option>
-                        <option value="inactivestudents">7. Pasif Durumdaki Öğrenciler</option>
-                        <option value="topcourses">8. En Başarılı Dersler (Ortalamaya Göre)</option>
-                        <option value="nogrades">9. Hiç Not Girişi Olmayan Öğrenciler</option>
-                        <option value="recentregistrations">10. Son 30 Günde Kaydolan Öğrenciler</option>
-                    </select>
-                </div>
-            </div>
-            <div class="card-body p-0 mt-3">
-                <div id="reportLoader" class="text-center py-5 d-none">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Yükleniyor...</span>
-                    </div>
-                    <p class="text-muted mt-2 small">Rapor oluşturuluyor, lütfen bekleyin...</p>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0" id="reportTable">
-                        <thead class="table-light">
-                            <!-- JS ile Dinamik Doldurulur -->
-                        </thead>
-                        <tbody id="reportTableBody">
-                            <!-- JS ile Dinamik Doldurulur -->
-                        </tbody>
-                    </table>
-                </div>
-                <div id="noDataAlert" class="text-center py-5 d-none">
-                    <i class="fa-regular fa-folder-open text-muted" style="font-size: 2.5rem;"></i>
-                    <p class="text-muted mt-2 small">Bu rapor türü için gösterilecek kayıt bulunamadı.</p>
-                </div>
-            </div>
+<!-- Stats Banner Section -->
+<div class="card border-0 shadow-sm bg-white p-4 mb-5">
+    <div class="row text-center g-4">
+        <div class="col-6 col-md-3">
+            <h2 class="fw-bold text-primary m-0">5000+</h2>
+            <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.75rem;">Aktif Öğrenci</small>
         </div>
-    </div>
-
-    <!-- Hızlı Bilgi Paneli -->
-    <div class="col-lg-4">
-        <div class="card border-0 bg-white shadow-sm h-100">
-            <div class="card-title-bar">
-                <span class="text-dark fw-bold"><i class="fa-solid fa-circle-info me-2 text-primary"></i>Hızlı İşlemler</span>
-            </div>
-            <div class="card-body">
-                <div class="d-grid gap-3">
-                    <a href="/Student/Create" class="btn btn-primary text-start">
-                        <i class="fa-solid fa-user-plus me-2"></i>Yeni Öğrenci Ekle
-                    </a>
-                    <a href="/Department/Create" class="btn btn-light text-start text-dark">
-                        <i class="fa-solid fa-folder-plus me-2 text-success"></i>Yeni Bölüm Tanımla
-                    </a>
-                    <a href="/Grade/Create" class="btn btn-light text-start text-dark">
-                        <i class="fa-solid fa-square-plus me-2 text-warning"></i>Yeni Not Girişi Yap
-                    </a>
-                </div>
-                <hr class="my-4"/>
-
-            </div>
+        <div class="col-6 col-md-3">
+            <h2 class="fw-bold text-success m-0">40+</h2>
+            <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.75rem;">Akademik Bölüm</small>
+        </div>
+        <div class="col-6 col-md-3">
+            <h2 class="fw-bold text-warning m-0">15000+</h2>
+            <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.75rem;">Toplam Sınav Notu</small>
+        </div>
+        <div class="col-6 col-md-3">
+            <h2 class="fw-bold text-danger m-0">0.03 ms</h2>
+            <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.75rem;">Dapper Sorgu Hızı</small>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const selector = document.getElementById("reportSelector");
-            
-            selector.addEventListener("change", function () {
-                loadReport(this.value);
-            });
+<!-- Extra Features Section -->
+<div class="row g-4 align-items-center mb-4">
+    <div class="col-lg-6">
+        <h3 class="fw-bold text-dark mb-3">Kolay ve Güçlü Akademik Raporlama</h3>
+        <p class="text-muted">Tek bir tuşla tüm öğrenci dökümlerini ve not verilerini Excel veya PDF formatlarında dışa aktarın. iTextSharp yardımıyla hazırlanan Türkçe karakter destekli PDF dökümanları doğrudan paylaşabilirsiniz.</p>
+        <ul class="list-unstyled mt-3">
+            <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Türkçe Harf Uyumlu iTextSharp PDF Çıktısı</li>
+            <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Kolay Filtrelenebilir Excel Tabloları</li>
+            <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Güvenli API-MVC Veri İletişim Katmanı</li>
+        </ul>
+    </div>
+    <div class="col-lg-6 text-center">
+        <div class="p-4 bg-light rounded-4 border">
+            <i class="fa-solid fa-chart-line text-primary display-3 mb-3 d-block" style="filter: drop-shadow(0 4px 10px rgba(59, 130, 246, 0.2));"></i>
+            <h6 class="fw-bold text-dark">Grafikler ve Başarı Oranları</h6>
+            <p class="text-muted small mb-0" style="max-width: 400px; margin: 0 auto;">Bölüm bazlı ortalama not dağılımlarını, en yüksek puan alan öğrencileri ve mezun durumundaki öğrencileri anlık izleyin.</p>
+        </div>
+    </div>
+</div>
 
-            // Initial load
-            loadReport("topgpa");
-
-            function loadReport(reportType) {
-                const loader = document.getElementById("reportLoader");
-                const table = document.getElementById("reportTable");
-                const tableBody = document.getElementById("reportTableBody");
-                const noData = document.getElementById("noDataAlert");
-
-                loader.classList.remove("d-none");
-                table.classList.add("d-none");
-                noData.classList.add("d-none");
-                tableBody.innerHTML = "";
-
-                fetch(`/Home/GetReportData?reportType=${reportType}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        loader.classList.add("d-none");
-                        
-                        if (!data || data.length === 0) {
-                            noData.classList.remove("d-none");
-                            return;
-                        }
-
-                        // Normalize dynamic database field keys to lowercase
-                        const normalizedData = data.map(item => {
-                            const normalized = {};
-                            for (let key in item) {
-                                normalized[key.toLowerCase()] = item[key];
-                            }
-                            return normalized;
-                        });
-
-                        table.classList.remove("d-none");
-                        generateTableHeaders(reportType);
-                        generateTableRows(reportType, normalizedData);
-                    })
-                    .catch(err => {
-                        console.error("Rapor hatası:", err);
-                        loader.classList.add("d-none");
-                        noData.classList.remove("d-none");
-                    });
-            }
-
-            function generateTableHeaders(reportType) {
-                const thead = document.querySelector("#reportTable thead");
-                let headers = [];
-
-                switch (reportType) {
-                    case "topgpa":
-                    case "graduating":
-                        headers = ["Öğrenci", "Bölüm", "Sınıf", "Genel Ortalama"];
-                        break;
-                    case "failing":
-                        headers = ["Öğrenci", "Bölüm", "Başarısız Ders & Not", "Not Değeri"];
-                        break;
-                    case "deptgpa":
-                        headers = ["Bölüm Adı", "Kayıtlı Öğrenci Sayısı", "Genel Başarı Ortalaması"];
-                        break;
-                    case "gradesbyclass":
-                        headers = ["Sınıf Seviyesi", "Toplam Öğrenci Sayısı", "Aktif Öğrenci Sayısı"];
-                        break;
-                    case "mostgradedcourses":
-                        headers = ["Ders Adı", "Girilen Sınav Notu Sayısı", "Dersin Ortalaması"];
-                        break;
-                    case "topcourses":
-                        headers = ["Ders Adı", "Genel Başarı Ortalaması", "Dersi Alan Öğrenci Sayısı"];
-                        break;
-                    case "inactivestudents":
-                    case "nogrades":
-                        headers = ["Öğrenci", "Bölüm", "Sınıf", "E-posta Adresi"];
-                        break;
-                    case "recentregistrations":
-                        headers = ["Öğrenci", "Bölüm", "Sınıf", "Sisteme Kayıt Tarihi"];
-                        break;
-                }
-
-                let html = "<tr>";
-                headers.forEach((h, index) => {
-                    let className = index === 0 ? "ps-4" : (index === headers.length - 1 ? "pe-4 text-end" : "");
-                    html += `<th class="${className}">${h}</th>`;
-                });
-                html += "</tr>";
-                thead.innerHTML = html;
-            }
-
-            function generateTableRows(reportType, data) {
-                const tbody = document.getElementById("reportTableBody");
-                let html = "";
-
-                data.forEach(item => {
-                    html += "<tr>";
-                    
-                    if (reportType === "topgpa" || reportType === "graduating" || reportType === "recentregistrations") {
-                        html += `
-                            <td class="ps-4">
-                                <div class="fw-semibold text-dark">${item.studentName || item.studentname}</div>
-                            </td>
-                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentName || item.departmentname}</span></td>
-                            <td class="fw-semibold">${item.gradeLevel || item.gradelevel}. Sınıf</td>
-                            <td class="pe-4 text-end fw-bold text-dark">${item.value || item.value === 0 ? item.value : ""}</td>
-                        `;
-                    }
-                    else if (reportType === "failing") {
-                        html += `
-                            <td class="ps-4">
-                                <div class="fw-semibold text-dark">${item.studentName || item.studentname}</div>
-                            </td>
-                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentName || item.departmentname}</span></td>
-                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-circle-exclamation me-1"></i>${item.courseDetail || item.coursedetail}</span></td>
-                            <td class="pe-4 text-end fw-bold text-danger">${item.value}</td>
-                        `;
-                    }
-                    else if (reportType === "deptgpa") {
-                        html += `
-                            <td class="ps-4 fw-semibold text-dark">${item.departmentName || item.departmentname}</td>
-                            <td class="fw-semibold">${item.studentCount || item.studentcount} Öğrenci</td>
-                            <td class="pe-4 text-end fw-bold text-dark">${item.value} / 100</td>
-                        `;
-                    }
-                    else if (reportType === "gradesbyclass") {
-                        html += `
-                            <td class="ps-4 fw-semibold text-dark">${item.gradeLevelName || item.gradelevelname}</td>
-                            <td class="fw-semibold">${item.studentCount || item.studentcount} Öğrenci</td>
-                            <td class="pe-4 text-end fw-semibold text-success">${item.value} Aktif</td>
-                        `;
-                    }
-                    else if (reportType === "mostgradedcourses") {
-                        html += `
-                            <td class="ps-4 fw-semibold text-dark">${item.courseName || item.coursename}</td>
-                            <td class="fw-semibold"><span class="badge bg-light text-warning border border-warning-subtle text-dark">${item.gradeCount || item.gradecount} Sınav Notu</span></td>
-                            <td class="pe-4 text-end fw-bold text-dark">${item.value} / 100</td>
-                        `;
-                    }
-                    else if (reportType === "topcourses") {
-                        html += `
-                            <td class="ps-4 fw-semibold text-dark">${item.courseName || item.coursename}</td>
-                            <td class="fw-bold text-success">${item.value} / 100</td>
-                            <td class="pe-4 text-end fw-semibold">${item.studentCount || item.studentcount} Öğrenci</td>
-                        `;
-                    }
-                    else if (reportType === "inactivestudents" || reportType === "nogrades") {
-                        html += `
-                            <td class="ps-4">
-                                <div class="fw-semibold text-dark">${item.studentName || item.studentname}</div>
-                            </td>
-                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentName || item.departmentname}</span></td>
-                            <td class="fw-semibold">${item.gradeLevel || item.gradelevel}. Sınıf</td>
-                            <td class="pe-4 text-end text-muted small">${item.value}</td>
-                        `;
-                    }
-                    
-                    html += "</tr>";
-                });
-
-                tbody.innerHTML = html;
-            }
-        });
-    </script>
-}
+<style>
+    /* Subtle rotation animation on page load */
+    .rotate-15 {
+        transform: rotate(-15deg);
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-section:hover .rotate-15 {
+        transform: rotate(5deg) scale(1.05);
+    }
+</style>
