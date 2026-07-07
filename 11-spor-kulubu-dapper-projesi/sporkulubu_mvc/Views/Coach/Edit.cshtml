@@ -1,0 +1,72 @@
+@model sporkulubu_mvc.Models.CoachViewModel
+@{
+    ViewData["Title"] = "Antrenör Düzenle";
+    var branches = ViewBag.Branches as IEnumerable<sporkulubu_mvc.Models.BranchViewModel> ?? new List<sporkulubu_mvc.Models.BranchViewModel>();
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2 class="fw-bold text-dark m-0">Antrenör Bilgilerini Güncelle</h2>
+        <p class="text-muted mb-0">Antrenörün branşını ve iletişim bilgilerini düzenleyin.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-0 bg-white shadow-sm p-4">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="CoachId"/>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FirstName" class="form-label"></label>
+                        <input asp-for="FirstName" class="form-control"/>
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LastName" class="form-label"></label>
+                        <input asp-for="LastName" class="form-control"/>
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" type="email" class="form-control"/>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label"></label>
+                    <input asp-for="Phone" class="form-control"/>
+                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="BranchId" class="form-label"></label>
+                    <select asp-for="BranchId" class="form-select">
+                        @foreach (var b in branches)
+                        {
+                            <option value="@b.BranchId" selected="@(b.BranchId == Model.BranchId)">@b.BranchName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="BranchId" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-2"></i>Değişiklikleri Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-light">
+                        İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

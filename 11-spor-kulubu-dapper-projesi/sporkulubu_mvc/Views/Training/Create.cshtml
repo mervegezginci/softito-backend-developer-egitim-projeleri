@@ -1,0 +1,82 @@
+@model sporkulubu_mvc.Models.TrainingViewModel
+@{
+    ViewData["Title"] = "Yeni Seans Planla";
+    var members = ViewBag.Members as IEnumerable<sporkulubu_mvc.Models.MemberViewModel> ?? new List<sporkulubu_mvc.Models.MemberViewModel>();
+    var coaches = ViewBag.Coaches as IEnumerable<sporkulubu_mvc.Models.CoachViewModel> ?? new List<sporkulubu_mvc.Models.CoachViewModel>();
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2 class="fw-bold text-dark m-0">Yeni Antrenman Seansı Planla</h2>
+        <p class="text-muted mb-0">Kulüp üyesi için özel antrenman randevusu oluşturun.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-0 bg-white shadow-sm p-4">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="MemberId" class="form-label"></label>
+                    <select asp-for="MemberId" class="form-select">
+                        <option value="">-- Sporcu Üye Seçiniz --</option>
+                        @foreach (var m in members)
+                        {
+                            <option value="@m.MemberId">@m.FirstName @m.LastName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="MemberId" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CoachId" class="form-label"></label>
+                    <select asp-for="CoachId" class="form-select">
+                        <option value="">-- Antrenör Seçiniz --</option>
+                        @foreach (var c in coaches)
+                        {
+                            <option value="@c.CoachId">@c.FirstName @c.LastName (@c.BranchName)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CoachId" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TrainingDate" class="form-label"></label>
+                    <input asp-for="TrainingDate" type="datetime-local" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"/>
+                    <span asp-validation-for="TrainingDate" class="text-danger small"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="DurationMinutes" class="form-label"></label>
+                        <input asp-for="DurationMinutes" type="number" class="form-control"/>
+                        <span asp-validation-for="DurationMinutes" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="Fee" class="form-label"></label>
+                        <div class="input-group">
+                            <input asp-for="Fee" type="number" step="0.01" class="form-control"/>
+                            <span class="input-group-text">TL</span>
+                        </div>
+                        <span asp-validation-for="Fee" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-2"></i>Seansı Planla
+                    </button>
+                    <a asp-action="Index" class="btn btn-light">
+                        İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,47 @@
+@model sporkulubu_mvc.Models.BranchViewModel
+@{
+    ViewData["Title"] = "Branş Düzenle";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2 class="fw-bold text-dark m-0">Branş Bilgilerini Güncelle</h2>
+        <p class="text-muted mb-0">Spor branşı adı ve açıklaması üzerinde değişiklik yapın.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-0 bg-white shadow-sm p-4">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="BranchId"/>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="BranchName" class="form-label"></label>
+                    <input asp-for="BranchName" class="form-control"/>
+                    <span asp-validation-for="BranchName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-2"></i>Değişiklikleri Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-light">
+                        İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
