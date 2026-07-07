@@ -218,5 +218,13 @@ namespace ogrenciyonetimi_mvc.Services
             if (!response.IsSuccessStatusCode) return null;
             return await response.Content.ReadAsByteArrayAsync();
         }
+
+        public async Task<string> GetReportJsonAsync(string reportType)
+        {
+            AddAuthHeader();
+            var response = await _client.GetAsync($"api/reports/{reportType}");
+            if (!response.IsSuccessStatusCode) return "[]";
+            return await response.Content.ReadAsStringAsync();
+        }
     }
 }

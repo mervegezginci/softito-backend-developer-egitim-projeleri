@@ -39,6 +39,14 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetReportData(string reportType)
+    {
+        _logger.LogInformation("Dashboard AJAX Rapor İstendi. Tür: {Type}", reportType);
+        var json = await _api.GetReportJsonAsync(reportType);
+        return Content(json, "application/json");
+    }
+
     public IActionResult Privacy()
     {
         return View();

@@ -81,45 +81,52 @@
 </div>
 
 <div class="row g-4">
-    <!-- Son Eklenen Öğrenciler Listesi -->
+    <!-- Dinamik Raporlar ve Analizler Paneli -->
     <div class="col-lg-8">
         <div class="card border-0 bg-white shadow-sm">
-            <div class="card-title-bar">
-                <span class="text-dark fw-bold"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>Son Eklenen 5 Öğrenci</span>
-                <a href="/Student" class="btn btn-sm btn-light text-primary fw-semibold">Tümünü Gör</a>
+            <div class="card-header border-0 bg-white pt-4 px-4 pb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h5 class="text-dark fw-bold m-0">
+                        <i class="fa-solid fa-chart-line me-2 text-primary"></i>Dinamik Raporlar ve Analizler
+                    </h5>
+                    <p class="text-muted small mb-0">Sistem veritabanındaki verileri analiz etmek için aşağıdaki listeden bir rapor türü seçin.</p>
+                </div>
+                <div>
+                    <select id="reportSelector" class="form-select border-primary-subtle" style="width: auto; min-width: 280px; border-radius: 10px;">
+                        <option value="topgpa" selected>1. En Başarılı 5 Öğrenci (Ortalamaya Göre)</option>
+                        <option value="graduating">2. Mezun Olmak Üzere Olanlar (4. Sınıf)</option>
+                        <option value="failing">3. Kaldığı Ders Olanlar (Not &lt; 50)</option>
+                        <option value="deptgpa">4. Bölümlere Göre Öğrenci ve Ortalama</option>
+                        <option value="gradesbyclass">5. Sınıf Seviyesine Göre Dağılım</option>
+                        <option value="mostgradedcourses">6. En Çok Not Girişi Yapılan Dersler</option>
+                        <option value="inactivestudents">7. Pasif Durumdaki Öğrenciler</option>
+                        <option value="topcourses">8. En Başarılı Dersler (Ortalamaya Göre)</option>
+                        <option value="nogrades">9. Hiç Not Girişi Olmayan Öğrenciler</option>
+                        <option value="recentregistrations">10. Son 30 Günde Kaydolan Öğrenciler</option>
+                    </select>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th class="ps-4">Öğrenci</th>
-                            <th>Bölüm</th>
-                            <th>Sınıf</th>
-                            <th>Durum</th>
-                            <th class="pe-4 text-end">Kayıt Tarihi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in (IEnumerable<ogrenciyonetimi_mvc.Models.StudentViewModel>)ViewBag.RecentStudents)
-                        {
-                            <tr>
-                                <td class="ps-4">
-                                    <div class="fw-semibold text-dark">@item.FirstName @item.LastName</div>
-                                    <small class="text-muted">@item.Email</small>
-                                </td>
-                                <td><span class="badge bg-light text-primary border border-primary-subtle">@item.DepartmentName</span></td>
-                                <td class="fw-semibold">@item.GradeLevel. Sınıf</td>
-                                <td>
-                                    @if (item.IsActive)
-                                    { <span class="badge bg-success-subtle text-success border border-success-subtle">Aktif</span> }
-                                    else
-                                    { <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Pasif</span> }
-                                </td>
-                                <td class="pe-4 text-end text-muted small">@item.CreatedAt.ToString("dd.MM.yyyy")</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div class="card-body p-0 mt-3">
+                <div id="reportLoader" class="text-center py-5 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
+                    <p class="text-muted mt-2 small">Rapor oluşturuluyor, lütfen bekleyin...</p>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="reportTable">
+                        <thead class="table-light">
+                            <!-- JS ile Dinamik Doldurulur -->
+                        </thead>
+                        <tbody id="reportTableBody">
+                            <!-- JS ile Dinamik Doldurulur -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noDataAlert" class="text-center py-5 d-none">
+                    <i class="fa-regular fa-folder-open text-muted" style="font-size: 2.5rem;"></i>
+                    <p class="text-muted mt-2 small">Bu rapor türü için gösterilecek kayıt bulunamadı.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -156,3 +163,164 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const selector = document.getElementById("reportSelector");
+            
+            selector.addEventListener("change", function () {
+                loadReport(this.value);
+            });
+
+            // Initial load
+            loadReport("topgpa");
+
+            function loadReport(reportType) {
+                const loader = document.getElementById("reportLoader");
+                const table = document.getElementById("reportTable");
+                const tableBody = document.getElementById("reportTableBody");
+                const noData = document.getElementById("noDataAlert");
+
+                loader.classList.remove("d-none");
+                table.classList.add("d-none");
+                noData.classList.add("d-none");
+                tableBody.innerHTML = "";
+
+                fetch(`/Home/GetReportData?reportType=${reportType}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        loader.classList.add("d-none");
+                        
+                        if (!data || data.length === 0) {
+                            noData.classList.remove("d-none");
+                            return;
+                        }
+
+                        table.classList.remove("d-none");
+                        generateTableHeaders(reportType);
+                        generateTableRows(reportType, data);
+                    })
+                    .catch(err => {
+                        console.error("Rapor hatası:", err);
+                        loader.classList.add("d-none");
+                        noData.classList.remove("d-none");
+                    });
+            }
+
+            function generateTableHeaders(reportType) {
+                const thead = document.querySelector("#reportTable thead");
+                let headers = [];
+
+                switch (reportType) {
+                    case "topgpa":
+                    case "graduating":
+                        headers = ["Öğrenci", "Bölüm", "Sınıf", "Genel Ortalama"];
+                        break;
+                    case "failing":
+                        headers = ["Öğrenci", "Bölüm", "Başarısız Ders & Not", "Not Değeri"];
+                        break;
+                    case "deptgpa":
+                        headers = ["Bölüm Adı", "Kayıtlı Öğrenci Sayısı", "Genel Başarı Ortalaması"];
+                        break;
+                    case "gradesbyclass":
+                        headers = ["Sınıf Seviyesi", "Toplam Öğrenci Sayısı", "Aktif Öğrenci Sayısı"];
+                        break;
+                    case "mostgradedcourses":
+                        headers = ["Ders Adı", "Girilen Sınav Notu Sayısı", "Dersin Ortalaması"];
+                        break;
+                    case "topcourses":
+                        headers = ["Ders Adı", "Genel Başarı Ortalaması", "Dersi Alan Öğrenci Sayısı"];
+                        break;
+                    case "inactivestudents":
+                    case "nogrades":
+                        headers = ["Öğrenci", "Bölüm", "Sınıf", "E-posta Adresi"];
+                        break;
+                    case "recentregistrations":
+                        headers = ["Öğrenci", "Bölüm", "Sınıf", "Sisteme Kayıt Tarihi"];
+                        break;
+                }
+
+                let html = "<tr>";
+                headers.forEach((h, index) => {
+                    let className = index === 0 ? "ps-4" : (index === headers.length - 1 ? "pe-4 text-end" : "");
+                    html += `<th class="${className}">${h}</th>`;
+                });
+                html += "</tr>";
+                thead.innerHTML = html;
+            }
+
+            function generateTableRows(reportType, data) {
+                const tbody = document.getElementById("reportTableBody");
+                let html = "";
+
+                data.forEach(item => {
+                    html += "<tr>";
+                    
+                    if (reportType === "topgpa" || reportType === "graduating" || reportType === "recentregistrations") {
+                        html += `
+                            <td class="ps-4">
+                                <div class="fw-semibold text-dark">${item.studentName || item.studentname}</div>
+                            </td>
+                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentName || item.departmentname}</span></td>
+                            <td class="fw-semibold">${item.gradeLevel || item.gradelevel}. Sınıf</td>
+                            <td class="pe-4 text-end fw-bold text-dark">${item.value || item.value === 0 ? item.value : ""}</td>
+                        `;
+                    }
+                    else if (reportType === "failing") {
+                        html += `
+                            <td class="ps-4">
+                                <div class="fw-semibold text-dark">${item.studentName || item.studentname}</div>
+                            </td>
+                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentName || item.departmentname}</span></td>
+                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-circle-exclamation me-1"></i>${item.courseDetail || item.coursedetail}</span></td>
+                            <td class="pe-4 text-end fw-bold text-danger">${item.value}</td>
+                        `;
+                    }
+                    else if (reportType === "deptgpa") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.departmentName || item.departmentname}</td>
+                            <td class="fw-semibold">${item.studentCount || item.studentcount} Öğrenci</td>
+                            <td class="pe-4 text-end fw-bold text-dark">${item.value} / 100</td>
+                        `;
+                    }
+                    else if (reportType === "gradesbyclass") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.gradeLevelName || item.gradelevelname}</td>
+                            <td class="fw-semibold">${item.studentCount || item.studentcount} Öğrenci</td>
+                            <td class="pe-4 text-end fw-semibold text-success">${item.value} Aktif</td>
+                        `;
+                    }
+                    else if (reportType === "mostgradedcourses") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.courseName || item.coursename}</td>
+                            <td class="fw-semibold"><span class="badge bg-light text-warning border border-warning-subtle text-dark">${item.gradeCount || item.gradecount} Sınav Notu</span></td>
+                            <td class="pe-4 text-end fw-bold text-dark">${item.value} / 100</td>
+                        `;
+                    }
+                    else if (reportType === "topcourses") {
+                        html += `
+                            <td class="ps-4 fw-semibold text-dark">${item.courseName || item.coursename}</td>
+                            <td class="fw-bold text-success">${item.value} / 100</td>
+                            <td class="pe-4 text-end fw-semibold">${item.studentCount || item.studentcount} Öğrenci</td>
+                        `;
+                    }
+                    else if (reportType === "inactivestudents" || reportType === "nogrades") {
+                        html += `
+                            <td class="ps-4">
+                                <div class="fw-semibold text-dark">${item.studentName || item.studentname}</div>
+                            </td>
+                            <td><span class="badge bg-light text-primary border border-primary-subtle">${item.departmentName || item.departmentname}</span></td>
+                            <td class="fw-semibold">${item.gradeLevel || item.gradelevel}. Sınıf</td>
+                            <td class="pe-4 text-end text-muted small">${item.value}</td>
+                        `;
+                    }
+                    
+                    html += "</tr>";
+                });
+
+                tbody.innerHTML = html;
+            }
+        });
+    </script>
+}
