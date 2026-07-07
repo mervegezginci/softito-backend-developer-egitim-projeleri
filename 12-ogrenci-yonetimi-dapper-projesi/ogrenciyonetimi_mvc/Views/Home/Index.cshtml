@@ -150,15 +150,7 @@
                     </a>
                 </div>
                 <hr class="my-4"/>
-                <div class="bg-light rounded p-3">
-                    <h6 class="fw-bold mb-2"><i class="fa-solid fa-circle-exclamation me-1 text-primary"></i>Mimariden Notlar</h6>
-                    <small class="text-muted d-block mb-2">
-                        Bu uygulama API ve Web Arayüzü (MVC) olmak üzere 2 katmanlı yapıda çalışmaktadır.
-                    </small>
-                    <small class="text-muted d-block">
-                        Kimlik doğrulama için <strong>ASP.NET Core Identity (EF Core)</strong>, akademik CRUD işlemleri için ise <strong>Dapper ve Stored Procedure'ler</strong> tercih edilmiştir.
-                    </small>
-                </div>
+
             </div>
         </div>
     </div>
@@ -197,9 +189,18 @@
                             return;
                         }
 
+                        // Normalize dynamic database field keys to lowercase
+                        const normalizedData = data.map(item => {
+                            const normalized = {};
+                            for (let key in item) {
+                                normalized[key.toLowerCase()] = item[key];
+                            }
+                            return normalized;
+                        });
+
                         table.classList.remove("d-none");
                         generateTableHeaders(reportType);
-                        generateTableRows(reportType, data);
+                        generateTableRows(reportType, normalizedData);
                     })
                     .catch(err => {
                         console.error("Rapor hatası:", err);
