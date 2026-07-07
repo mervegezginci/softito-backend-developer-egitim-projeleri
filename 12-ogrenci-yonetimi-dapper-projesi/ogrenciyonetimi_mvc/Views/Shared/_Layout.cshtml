@@ -239,13 +239,13 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <a href="/" class="sidebar-brand">
+            <a href="/Home/Index" class="sidebar-brand">
                 <i class="fa-solid fa-graduation-cap me-2 text-primary"></i>
                 <span>Öğrenci Yönetim</span>
             </a>
         </div>
         <div class="sidebar-nav">
-            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" href="/">
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" href="/Home/Index">
                 <i class="fa-solid fa-chart-pie"></i>Dashboard
             </a>
             <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Student" ? "active" : "")" href="/Student">
