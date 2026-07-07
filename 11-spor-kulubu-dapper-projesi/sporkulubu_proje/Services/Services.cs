@@ -181,10 +181,25 @@ namespace sporkulubu_proje.Services
             PdfWriter.GetInstance(document, ms);
             document.Open();
 
-            // Fontlar
-            var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.DARK_GRAY);
-            var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.WHITE);
-            var cellFont = FontFactory.GetFont(FontFactory.HELVETICA, 9, BaseColor.BLACK);
+            // Fontlar (Türkçe karakter desteği için Arial fontunu yüklüyoruz)
+            string fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts", "arial.ttf");
+            iTextSharp.text.Font titleFont;
+            iTextSharp.text.Font headerFont;
+            iTextSharp.text.Font cellFont;
+
+            if (File.Exists(fontPath))
+            {
+                BaseFont bf = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                titleFont = new iTextSharp.text.Font(bf, 16, iTextSharp.text.Font.BOLD, BaseColor.DARK_GRAY);
+                headerFont = new iTextSharp.text.Font(bf, 10, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
+                cellFont = new iTextSharp.text.Font(bf, 9, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+            }
+            else
+            {
+                titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.DARK_GRAY);
+                headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.WHITE);
+                cellFont = FontFactory.GetFont(FontFactory.HELVETICA, 9, BaseColor.BLACK);
+            }
 
             document.Add(new Paragraph("Spor Kulübü Üye Listesi", titleFont));
             document.Add(new Paragraph($"Rapor Tarihi: {DateTime.Now:dd.MM.yyyy HH:mm}", cellFont));
