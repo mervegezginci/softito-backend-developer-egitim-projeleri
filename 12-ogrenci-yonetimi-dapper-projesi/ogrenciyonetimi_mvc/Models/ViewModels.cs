@@ -20,6 +20,16 @@ namespace ogrenciyonetimi_mvc.Models
         public string DepartmentName { get; set; } = string.Empty;
     }
 
+    public class GradeViewModel
+    {
+        public int GradeId { get; set; }
+        public int StudentId { get; set; }
+        public string CourseName { get; set; } = string.Empty;
+        public decimal Score { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string? StudentName { get; set; }
+    }
+
     public class RegisterViewModel
     {
         public string Username { get; set; } = string.Empty;

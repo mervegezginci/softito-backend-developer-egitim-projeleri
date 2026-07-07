@@ -4,23 +4,26 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold"><i class="fa-solid fa-users me-2 text-primary"></i>Öğrenci Listesi</h2>
+    <div>
+        <h2 class="fw-bold text-dark m-0"><i class="fa-solid fa-users-viewfinder me-2 text-primary"></i>Öğrenci Listesi</h2>
+        <p class="text-muted mb-0">Sistemdeki tüm kayıtlı öğrencileri arayabilir, filtreleyebilir ve yönetebilirsiniz.</p>
+    </div>
     <a href="/Student/Create" class="btn btn-primary">
         <i class="fa-solid fa-plus me-1"></i>Yeni Öğrenci Ekle
     </a>
 </div>
 
 <!-- Arama Formu -->
-<div class="card mb-4">
-    <div class="card-body">
+<div class="card mb-4 border-0 shadow-sm bg-white">
+    <div class="card-body p-4">
         <form method="get" class="row g-3 align-items-end">
             <div class="col-md-5">
-                <label class="form-label fw-semibold">Arama</label>
-                <input type="text" name="q" value="@ViewBag.SearchQ" class="form-control" placeholder="Ad, soyad veya e-posta..."/>
+                <label class="form-label fw-semibold text-dark"><i class="fa-solid fa-magnifying-glass me-1 text-muted"></i>Arama Terimi</label>
+                <input type="text" name="q" value="@ViewBag.SearchQ" class="form-control px-3 py-2" placeholder="Ad, soyad veya e-posta..."/>
             </div>
             <div class="col-md-4">
-                <label class="form-label fw-semibold">Bölüm</label>
-                <select name="deptId" class="form-select">
+                <label class="form-label fw-semibold text-dark"><i class="fa-solid fa-layer-group me-1 text-muted"></i>Bölüm Filtresi</label>
+                <select name="deptId" class="form-select px-3 py-2">
                     <option value="">-- Tümü --</option>
                     @foreach (var dept in (IEnumerable<ogrenciyonetimi_mvc.Models.DepartmentViewModel>)ViewBag.Departments)
                     {
@@ -31,8 +34,8 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="fa-solid fa-search me-1"></i>Ara / Filtrele
+                <button type="submit" class="btn btn-primary w-100 py-2">
+                    <i class="fa-solid fa-filter me-1"></i>Ara / Filtrele
                 </button>
             </div>
         </form>
@@ -40,9 +43,9 @@
 </div>
 
 <!-- Tablo -->
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <span><i class="fa-solid fa-list me-2"></i>Kayıtlı Öğrenciler (@Model.Count() adet)</span>
+<div class="card border-0 shadow-sm bg-white">
+    <div class="card-title-bar">
+        <span class="text-dark fw-bold"><i class="fa-solid fa-list me-2 text-primary"></i>Kayıtlı Öğrenciler (@Model.Count() adet)</span>
         <div class="d-flex gap-2">
             <a href="/Student/ExportPdf" class="btn btn-sm btn-light">
                 <i class="fa-solid fa-file-pdf text-danger me-1"></i>PDF Rapor
@@ -53,23 +56,23 @@
         </div>
     </div>
     <div class="card-body p-0">
-        <table class="table table-hover mb-0">
+        <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th>#</th>
+                    <th class="ps-4">#</th>
                     <th>Öğrenci Bilgileri</th>
                     <th>Bölüm</th>
                     <th>Sınıf</th>
                     <th>Durum</th>
                     <th>Kayıt Tarihi</th>
-                    <th class="text-end">İşlemler</th>
+                    <th class="pe-4 text-end">İşlemler</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td class="fw-semibold text-muted">@item.StudentId</td>
+                        <td class="ps-4 fw-semibold text-muted">@item.StudentId</td>
                         <td>
                             <div class="fw-bold text-dark">@item.FirstName @item.LastName</div>
                             <small class="text-muted"><i class="fa-solid fa-envelope me-1"></i>@item.Email</small>
@@ -78,22 +81,22 @@
                                 <br/><small class="text-muted"><i class="fa-solid fa-phone me-1"></i>@item.Phone</small>
                             }
                         </td>
-                        <td><span class="badge bg-secondary">@item.DepartmentName</span></td>
-                        <td><span class="fw-bold">@item.GradeLevel. Sınıf</span></td>
+                        <td><span class="badge bg-light text-primary border border-primary-subtle">@item.DepartmentName</span></td>
+                        <td><span class="fw-semibold text-dark">@item.GradeLevel. Sınıf</span></td>
                         <td>
                             @if (item.IsActive)
-                            { <span class="badge bg-success">Aktif</span> }
+                            { <span class="badge bg-success-subtle text-success border border-success-subtle">Aktif</span> }
                             else
-                            { <span class="badge bg-danger">Pasif</span> }
+                            { <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Pasif</span> }
                         </td>
                         <td class="text-muted small">@item.CreatedAt.ToString("dd.MM.yyyy")</td>
-                        <td class="text-end">
-                            <a href="/Student/Edit/@item.StudentId" class="btn btn-sm btn-outline-primary me-1">
+                        <td class="pe-4 text-end">
+                            <a href="/Student/Edit/@item.StudentId" class="btn btn-sm btn-outline-primary me-1" style="border-radius: 8px;">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                             <form method="post" action="/Student/Delete/@item.StudentId" class="d-inline"
                                   onsubmit="return confirm('Öğrenciyi silmek istediğinizden emin misiniz?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" style="border-radius: 8px;">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>

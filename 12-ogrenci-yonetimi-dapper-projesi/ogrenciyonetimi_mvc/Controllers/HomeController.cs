@@ -1,20 +1,41 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ogrenciyonetimi_mvc.Models;
+using ogrenciyonetimi_mvc.Services;
 
 namespace ogrenciyonetimi_mvc.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
+    private readonly ApiService _api;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ApiService api, ILogger<HomeController> logger)
     {
+        _api = api;
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        _logger.LogInformation("Dashboard sayfası görüntülendi.");
+
+        var students = await _api.GetStudentsAsync();
+        var departments = await _api.GetDepartmentsAsync();
+        var grades = await _api.GetGradesAsync();
+
+        ViewBag.TotalStudents = students.Count();
+        ViewBag.TotalDepartments = departments.Count();
+        ViewBag.TotalGrades = grades.Count();
+        ViewBag.AverageScore = grades.Any() ? Math.Round(grades.Average(g => g.Score), 2) : 0;
+        ViewBag.ActiveStudents = students.Count(s => s.IsActive);
+        ViewBag.InactiveStudents = students.Count(s => !s.IsActive);
+
+        // Son eklenen 5 öğrenci
+        ViewBag.RecentStudents = students.Take(5);
+
         return View();
     }
 

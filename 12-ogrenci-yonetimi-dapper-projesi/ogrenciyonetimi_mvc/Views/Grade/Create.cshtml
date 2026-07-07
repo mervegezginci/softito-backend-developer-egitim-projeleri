@@ -1,0 +1,54 @@
+@model ogrenciyonetimi_mvc.Models.GradeViewModel
+@{
+    ViewData["Title"] = "Yeni Not Girişi";
+}
+
+<div class="mb-4">
+    <h2 class="fw-bold text-dark m-0"><i class="fa-solid fa-square-plus me-2 text-primary"></i>Yeni Not Girişi</h2>
+    <p class="text-muted">Öğrenciyi seçip ders adı ve not puanını girerek kaydedin.</p>
+</div>
+
+<div class="card border-0 shadow-sm bg-white" style="max-width: 600px;">
+    <div class="card-title-bar">
+        <span class="text-dark fw-bold"><i class="fa-solid fa-file-signature me-2 text-primary"></i>Not Bilgileri</span>
+        <a href="/Grade" class="btn btn-sm btn-light">İptal</a>
+    </div>
+    <div class="card-body p-4">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger border-0 mb-4" style="border-radius: 12px; background: #fdf2f2; color: #d63031;">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                { <div><i class="fa-solid fa-triangle-exclamation me-2"></i>@error.ErrorMessage</div> }
+            </div>
+        }
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label class="form-label fw-semibold text-dark">Öğrenci Seçin <span class="text-danger">*</span></label>
+                <select asp-for="StudentId" class="form-select px-3 py-2" style="border-radius: 10px;" required>
+                    <option value="">-- Öğrenci Seçiniz --</option>
+                    @foreach (var s in (IEnumerable<ogrenciyonetimi_mvc.Models.StudentViewModel>)ViewBag.Students)
+                    {
+                        <option value="@s.StudentId">@s.FirstName @s.LastName (@s.Email)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold text-dark">Ders Adı <span class="text-danger">*</span></label>
+                <input asp-for="CourseName" class="form-control px-3 py-2" style="border-radius: 10px;" placeholder="Örn: Veritabanı Yönetimi" required/>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-dark">Sınav Notu (0 - 100) <span class="text-danger">*</span></label>
+                <input asp-for="Score" type="number" min="0" max="100" class="form-control px-3 py-2" style="border-radius: 10px;" placeholder="85" required/>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary px-4 py-2">
+                    <i class="fa-solid fa-circle-check me-2"></i>Notu Kaydet
+                </button>
+                <a href="/Grade" class="btn btn-light px-4 py-2">Geri Dön</a>
+            </div>
+        </form>
+    </div>
+</div>

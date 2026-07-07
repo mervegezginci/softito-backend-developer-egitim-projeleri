@@ -1,0 +1,39 @@
+@model ogrenciyonetimi_mvc.Models.DepartmentViewModel
+@{
+    ViewData["Title"] = "Bölüm Düzenle";
+}
+
+<div class="mb-4">
+    <h2 class="fw-bold text-dark m-0"><i class="fa-solid fa-pen-to-square me-2 text-primary"></i>Bölüm Düzenle</h2>
+    <p class="text-muted">Akademik bölüm bilgilerini güncelleyin.</p>
+</div>
+
+<div class="card border-0 shadow-sm bg-white" style="max-width: 550px;">
+    <div class="card-title-bar">
+        <span class="text-dark fw-bold"><i class="fa-solid fa-building me-2 text-primary"></i>Bölüm Güncelleme Formu</span>
+        <a href="/Department" class="btn btn-sm btn-light">İptal</a>
+    </div>
+    <div class="card-body p-4">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger border-0 mb-4" style="border-radius: 12px; background: #fdf2f2; color: #d63031;">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                { <div><i class="fa-solid fa-triangle-exclamation me-2"></i>@error.ErrorMessage</div> }
+            </div>
+        }
+        <form asp-action="Edit" method="post">
+            <input asp-for="DepartmentId" type="hidden"/>
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-dark">Bölüm Adı <span class="text-danger">*</span></label>
+                <input asp-for="DepartmentName" class="form-control px-3 py-2" style="border-radius: 10px;" required/>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary px-4 py-2">
+                    <i class="fa-solid fa-circle-check me-2"></i>Değişiklikleri Kaydet
+                </button>
+                <a href="/Department" class="btn btn-light px-4 py-2">Geri Dön</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -12,6 +12,9 @@ builder.Services.AddHttpContextAccessor();
 // HttpClient kaydı ve ApiService injection
 builder.Services.AddHttpClient<ApiService>();
 
+// Memory Cache kaydı
+builder.Services.AddMemoryCache();
+
 // Cookie Auth yapılandırması
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

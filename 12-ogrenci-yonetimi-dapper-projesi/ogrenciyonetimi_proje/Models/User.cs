@@ -28,5 +28,6 @@ namespace ogrenciyonetimi_proje.Models
         public string CourseName { get; set; } = string.Empty;
         public decimal Score { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string? StudentName { get; set; }
     }
 }

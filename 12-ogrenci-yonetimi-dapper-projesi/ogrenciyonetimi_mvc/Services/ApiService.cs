@@ -115,6 +115,94 @@ namespace ogrenciyonetimi_mvc.Services
                    ?? Enumerable.Empty<DepartmentViewModel>();
         }
 
+        public async Task<DepartmentViewModel?> GetDepartmentByIdAsync(int id)
+        {
+            AddAuthHeader();
+            var response = await _client.GetAsync($"api/departments/{id}");
+            if (!response.IsSuccessStatusCode) return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<DepartmentViewModel>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<bool> CreateDepartmentAsync(DepartmentViewModel model)
+        {
+            AddAuthHeader();
+            var content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("api/departments", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateDepartmentAsync(int id, DepartmentViewModel model)
+        {
+            AddAuthHeader();
+            var content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"api/departments/{id}", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteDepartmentAsync(int id)
+        {
+            AddAuthHeader();
+            var response = await _client.DeleteAsync($"api/departments/{id}");
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<IEnumerable<GradeViewModel>> GetGradesAsync()
+        {
+            AddAuthHeader();
+            var response = await _client.GetAsync("api/grades");
+            if (!response.IsSuccessStatusCode) return Enumerable.Empty<GradeViewModel>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<IEnumerable<GradeViewModel>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                   ?? Enumerable.Empty<GradeViewModel>();
+        }
+
+        public async Task<GradeViewModel?> GetGradeByIdAsync(int id)
+        {
+            AddAuthHeader();
+            var response = await _client.GetAsync($"api/grades/{id}");
+            if (!response.IsSuccessStatusCode) return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<GradeViewModel>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<IEnumerable<GradeViewModel>> GetGradesByStudentIdAsync(int studentId)
+        {
+            AddAuthHeader();
+            var response = await _client.GetAsync($"api/grades/student/{studentId}");
+            if (!response.IsSuccessStatusCode) return Enumerable.Empty<GradeViewModel>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<IEnumerable<GradeViewModel>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                   ?? Enumerable.Empty<GradeViewModel>();
+        }
+
+        public async Task<bool> CreateGradeAsync(GradeViewModel model)
+        {
+            AddAuthHeader();
+            var content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("api/grades", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateGradeAsync(int id, GradeViewModel model)
+        {
+            AddAuthHeader();
+            var content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"api/grades/{id}", content);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteGradeAsync(int id)
+        {
+            AddAuthHeader();
+            var response = await _client.DeleteAsync($"api/grades/{id}");
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<byte[]?> DownloadPdfAsync()
         {
             AddAuthHeader();
