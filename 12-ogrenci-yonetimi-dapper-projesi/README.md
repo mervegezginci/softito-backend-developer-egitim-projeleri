@@ -56,21 +56,25 @@ Tüm CRUD ve kimlik doğrulama işlemleri SQL tarafında güvenli ve performansl
 
 ## 📸 Ekran Görüntüleri
 
-> [!NOTE]
-> Bu proje için henüz ekran görüntüleri eklenmemiştir. Ekran görüntülerinizi aldığınızda `images/` klasörüne aşağıdaki isimlerle kaydetmeniz durumunda dökümanda otomatik olarak görüntülenecektir:
-> * Giriş Ekranı: `images/01_giris_ekrani.png`
-> * Öğrenci Listesi & Arama: `images/02_ogrenci_listesi.png`
-> * Öğrenci Ekle/Düzenle: `images/03_ogrenci_ekle_duzenle.png`
-> * Swagger UI API Dökümantasyonu: `images/04_swagger_api_dokumantasyonu.png`
+Sistemin güncel tasarımına ve premium Mor-İndigo temalı arayüzüne ait ekran görüntüleri aşağıdadır:
 
-1. **Kullanıcı Giriş Ekranı (Login):**
-   ![Giriş Ekranı](./images/01_giris_ekrani.png)
-2. **Öğrenci Listesi ve Dinamik Filtreleme Arayüzü:**
-   ![Öğrenci Listesi](./images/02_ogrenci_listesi.png)
-3. **Öğrenci Kayıt ve Güncelleme Formu:**
-   ![Öğrenci Formu](./images/03_ogrenci_ekle_duzenle.png)
-4. **Web API - Swagger Arayüzü:**
-   ![Swagger API Dökümantasyonu](./images/04_swagger_api_dokumantasyonu.png)
+1. **Yönetici Giriş Arayüzü (Secure Login):**
+   ![Giriş Ekranı](./images/login.png)
+
+2. **Dinamik Raporlar ve Analizler Paneli (Interactive Dashboard):**
+   ![Gösterge Paneli](./images/dashboard.png)
+
+3. **Öğrenci Listesi ve Gelişmiş Arama Arayüzü (Students):**
+   ![Öğrenci Listesi](./images/students_list.png)
+
+4. **Yeni Öğrenci Ekleme ve Bilgi Formu (Add Student):**
+   ![Öğrenci Kayıt Formu](./images/add_student.png)
+
+5. **Akademik Bölüm Yönetimi Arayüzü (Departments):**
+   ![Bölüm Yönetimi](./images/departments.png)
+
+6. **Not Sistemi ve Sınav Kayıt Arayüzü (Grades):**
+   ![Not Sistemi](./images/grades.png)
 
 ---
 
