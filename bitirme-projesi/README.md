@@ -1,182 +1,344 @@
-# 🌍 GM Seyahat Acentesi (Softito Academy Bitirme Projesi)
+<div align="center">
 
-**GM Seyahat Acentesi**, **Softito Academy - Backend Developer** eğitimi bitirme projesi olarak; modern seyahat acentelerinin tur listeleme, arama, rezervasyon, blog yönetimi, üyelik ve sistem moderasyon süreçlerini uçtan uca dijitalleştirmek amacıyla geliştirilmiş, **ASP.NET Core MVC** mimarisine sahip kurumsal düzeyde bir web uygulamasıdır.
+# 🌍 GM Seyahat Acentesi
 
-> 💡 **Proje Adı Hakkında:** Projede kullanılan "GM" ismi, geliştiriciler **Gamze Türker** ve **Merve Gezginci**'nin baş harflerini temsil etmektedir. Projenin genelindeki marka kimliği (Fatura PDF'leri, Excel tabloları, logolar) bu isim doğrultusunda şekillendirilmiştir.
+### Softito Academy — Backend Developer Eğitimi Bitirme Projesi
+
+<br/>
+
+[![.NET](https://img.shields.io/badge/.NET_8.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
+[![ASP.NET Core MVC](https://img.shields.io/badge/ASP.NET_Core_MVC-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://docs.microsoft.com/aspnet/core/mvc)
+[![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white)](https://www.microsoft.com/sql-server)
+[![Entity Framework](https://img.shields.io/badge/Entity_Framework_Core-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://docs.microsoft.com/ef/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap_5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+
+<br/>
+
+> 💡 **"GM"** — **G**amze ve **M**erve'nin baş harflerinden oluşmaktadır. Projenin tüm marka kimliği (logolar, faturalar, Excel raporları) bu isim etrafında şekillendirilmiştir.
+
+</div>
+
+---
+
+## 👥 Geliştirici Ekip
+
+<div align="center">
+
+| 👩‍💻 Geliştirici | 🔗 GitHub Profili | 🎓 Rol |
+| :---: | :---: | :---: |
+| **Gamze Türker** | [![GitHub](https://img.shields.io/badge/GamzeTurker-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/GamzeTurker) | Backend Developer |
+| **Merve Gezginci** | [![GitHub](https://img.shields.io/badge/mervegezginci-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mervegezginci) | Backend Developer |
+
+**Softito Academy · Backend Developer Eğitimi · Mezuniyet Bitirme Projesi**
+
+</div>
 
 ---
 
 ## 📌 İçindekiler
-1. [📸 Genişletilmiş Ekran Görüntüleri Galerisi](#-geni%C5%9Fletilmi%C5%9F-ekran-g%C3%B6r%C3%BCnt%C3%BCleri-galerisi)
-2. [👥 Proje Ekibi](#-proje-ekibi)
-3. [🛠️ Detaylı Teknoloji ve Kütüphane Yığını](#%EF%B8%8F-detayl%C4%B1-teknoloji-ve-k%C3%BCt%C3%BCphane-y%C4%B1%C4%9F%C4%B1n%C4%B1)
-4. [🏢 Mimari Tasarım ve Tasarım Desenleri](#-mimari-tasar%C4%B1m-ve-tasar%C4%B1m-desenleri)
-5. [🗄️ Veri Tabanı Modelleri ve İlişki Yapıları](#%EF%B8%8F-veri-taban%C4%B1-modelleri-ve-ili%C5%9Fki-yap%C4%B1lar%C4%B1)
-6. [🔄 Kritik Sistem Algoritmaları ve İş Akışları](#-kritik-sistem-algoritmalar%C4%B1-ve-%C4%B0%C5%9F-ak%C4%B1%C5%9Flar%C4%B1)
-7. [🎮 Controller Ayrıntılı Metot ve Endpoint Analizi](#-controller-ayr%C4%B1nt%C4%B1l%C4%B1-metot-ve-endpoint-analizi)
-8. [📁 Proje Dizin Yapısı (Directory Tree)](#-proje-dizin-yap%C4%B1s%C4%B1-directory-tree)
-9. [🔌 Veri Tabanı Seeding ve SQL Dosyaları](#-veri-taban%C4%B1-seeding-ve-sql-dosyalar%C4%B1)
-10. [🚀 Adım Adım Kurulum ve Yapılandırma Kılavuzu](#-ad%C4%B1m-ad%C4%B1m-kurulum-ve-yap%C4%B1land%C4%B1rma-k%C4%B1lavuzu)
-11. [👥 Git & GitHub Ortak Çalışma Kılavuzu](#-git--github-ortak-%C3%A7al%C4%B1%C5%9Fma-k%C4%B1lavuzu)
+
+1. [📸 Ekran Görüntüleri](#-ekran-görüntüleri)
+2. [🛠️ Teknoloji Yığını](#️-teknoloji-yığını)
+3. [🏢 Mimari ve Tasarım Desenleri](#-mimari-ve-tasarım-desenleri)
+4. [🗄️ Veri Tabanı İlişki Yapıları](#️-veri-tabanı-ilişki-yapıları)
+5. [🔄 Kritik Sistem Algoritmaları](#-kritik-sistem-algoritmaları)
+6. [🎮 Controller ve Endpoint Analizi](#-controller-ve-endpoint-analizi)
+7. [📁 Proje Dizin Yapısı](#-proje-dizin-yapısı)
+8. [🚀 Kurulum ve Yapılandırma](#-kurulum-ve-yapılandırma)
+9. [👥 Git & GitHub Ortak Çalışma Kılavuzu](#-git--github-ortak-çalışma-kılavuzu)
 
 ---
 
-## 📸 Genişletilmiş Ekran Görüntüleri Galerisi
+## 📸 Ekran Görüntüleri
 
-*GitHub sayfanızda görsellerin şık bir şekilde sergilenebilmesi için tarayıcınızdan alacağınız ekran görüntülerini projedeki `docs/images/` dizinine README'de belirtilen dosya isimleriyle kaydedip commit etmeniz yeterlidir.*
+### 🌐 Ziyaretçi & Kullanıcı Arayüzü
 
-### 1. Ziyaretçi ve Kullanıcı Arayüzü (Public UI)
-
-| Ekran Görüntüsü | Dosya Adı | Açıklama |
-| :---: | :---: | :--- |
-| ![Ana Sayfa](docs/images/home.png) | `home.png` | **Ana Sayfa (Light Mode):** Dynamic Category Slider, Marquee Banner (anlık aktif tur isimleri) ve en popüler turların 10 dakikalık RAM önbelleğinden listelendiği vizyoner arayüz. |
-| ![Ana Sayfa Dark Mode](docs/images/home_dark.png) | `home_dark.png` | **Ana Sayfa (Dark Mode):** Web sitesinin göz yormayan, modern ve şık koyu tema arayüz tasarımı. |
-| ![Arama Sonuçları](docs/images/tours_list.png) | `tours_list.png` | **Tüm Turlar & Arama:** Lokasyon, tur ismi, kategori ve fiyat aralığına göre filtreleme yapan arama motoru sonuç ekranı. |
-| ![Tur Detay](docs/images/tour_detail_header.png) | `tour_detail_header.png` | **Tur Detay Sayfası:** Tur rotası bilgileri, süre, rehber ataması ve kontenjan doluluk durumlarının gösterildiği detay ekranı. |
-| ![Tur Detay Harita](docs/images/tour_detail_map.png) | `tour_detail_map.png` | **Seyahat Rotası Haritası:** Leaflet entegrasyonu ile tura ait rotanın harita üzerinde interaktif olarak işaretlenmesi. |
-| ![Checkout Sayfası](docs/images/checkout.png) | `checkout.png` | **Rezervasyon / Satın Alma Girişi:** Kişi sayısı seçimi, kupon kodunun AJAX ile doğrulanması ve indirim tutarının anlık hesaplanması. |
-| ![Ödeme Ekranı](docs/images/checkout_success.png) | `checkout_success.png` | **Rezervasyon Başarılı:** Satın alma adımı tamamlandığında üretilen işlem kodu (TX) ve rezervasyon özet çıktısı. |
-| ![Kupon QR Modalı](docs/images/coupon_qr_modal.png) | `coupon_qr_modal.png` | **Sürpriz Kupon QR Kod:** Kullanıcılara mobil cihazlarıyla taratarak sürpriz indirim kazanabilecekleri QR kod modalı. |
-| ![Kupon Başarı Ekranı](docs/images/coupon_success.png) | `coupon_success.png` | **Kupon Doğrulama Ekranı:** QR kod taratıldıktan sonra açılan, aktif kuponun kodunu ve indirim miktarını gösteren ara sayfa. |
-| ![Kupon Başarı Modalı](docs/images/coupon_success_modal.png) | `coupon_success_modal.png` | **Kupon Hazır Modalı:** Kupon doğrulandıktan sonra sayfa üzerinde beliren kupon kopyalama pencereli hediye modalı. |
-| ![Kategoriler Sayfası](docs/images/categories.png) | `categories.png` | **Seyahat Kategorileri:** Turların gruplandırıldığı, Dapper ile yüksek hızda listelenen kategori rehber sayfası. |
-| ![Blog Sayfası](docs/images/blogs.png) | `blogs.png` | **Seyahat Hikayeleri (Blog):** Gezi rehberleri ve acenteye ait blog yazılarının listelendiği görsel ağırlıklı arayüz. |
-| ![İletişim Sayfası](docs/images/contact.png) | `contact.png` | **İletişim & Seyahat Talep Formu:** Kullanıcıların mesajlarını ve seyahat taleplerini iletebileceği interaktif form. |
-| ![Canlı Destek](docs/images/chat_widget.png) | `chat_widget.png` | **GM Canlı Destek:** Ziyaretçilere hızlı iletişim sağlayan anlık chat widget bileşeni. |
-| ![Giriş Yap](docs/images/login.png) | `login.png` | **Giriş Yap Ekranı:** Şık tasarıma sahip Identity destekli üye ve yönetici giriş paneli. |
-| ![Kayıt Ol](docs/images/register.png) | `register.png` | **Kayıt Ol Ekranı:** Şık tasarıma sahip yeni üye kayıt paneli. |
-
-### 2. Yönetici Kontrol Paneli (Admin Console - `/Admin`)
-
-| Ekran Görüntüsü | Dosya Adı | Açıklama |
-| :---: | :---: | :--- |
-| ![Yönetici Dashboard](docs/images/admin_dashboard.png) | `admin_dashboard.png` | **Yönetici Dashboard:** Toplam ciro, toplam üye sayısı, aktif rezervasyonlar ve sistem doluluk grafiklerini içeren özet alan. |
-| ![Tur Yönetimi](docs/images/admin_tours.png) | `admin_tours.png` | **Tur CRUD Paneli:** Yeni tur rotası oluşturma, rehber ve kategori atama, kapasite, fiyat güncelleme ve soft-delete (aktiflik) yönetimi. |
-| ![Kategori Yönetimi](docs/images/admin_categories.png) | `admin_categories.png` | **Kategori CRUD Paneli:** Seyahat kategorilerinin oluşturulması, düzenlenmesi ve silinmesi. |
-| ![Rezervasyon Yönetimi](docs/images/admin_bookings.png) | `admin_bookings.png` | **Rezervasyon Moderasyonu:** Gelen rezervasyon taleplerini inceleme, onaylama veya iptal etme (kontenjan iade tetikleyicisiyle birlikte). |
-| ![Kullanıcı Yönetimi](docs/images/admin_users.png) | `admin_users.png` | **Üye Kontrolü:** Rol (Admin/User) atama, şifre sıfırlama ve hesabı askıya alma (aktif/pasif status yönetimi). |
-| ![Kupon Yönetimi](docs/images/admin_coupons.png) | `admin_coupons.png` | **Promosyon & Kupon Tanımlama:** Yüzdelik veya sabit indirim kodları oluşturma, geçerlilik tarihi belirleme. |
-| ![Blog Yönetimi](docs/images/admin_blogs.png) | `admin_blogs.png` | **Blog CRUD Paneli:** Blog yazılarının yönetilmesi, resim yolları ve içerik girişleri. |
-| ![Yorum Yönetimi](docs/images/admin_reviews.png) | `admin_reviews.png` | **Üye Değerlendirmeleri:** Turlara yazılan üye yorumlarını inceleme ve moderasyon (uygunsuz içerikleri silme). |
-| ![Mesaj Yönetimi](docs/images/admin_messages.png) | `admin_messages.png` | **İletişim Mesajları:** İletişim formu üzerinden gelen müşteri taleplerini okundu işaretleme ve silme paneli. |
-| ![Audit Logs Paneli](docs/images/admin_logs.png) | `admin_logs.png` | **Denetim Günlükleri:** Sistemde kimin, ne zaman, hangi IP ile hangi işlemi yaptığını gösteren filtreli günlük (log) tablosu. |
-| ![Önbellek İzleme Paneli](docs/images/admin_cache.png) | `admin_cache.png` | **Cache Yönetim Paneli:** Bellekte tutulan kategorilerin ve popüler turların durumu, tek tıkla RAM temizleme. |
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/home.png" alt="Ana Sayfa" width="100%"/>
+      <br/><b>🏠 Ana Sayfa (Light Mode)</b>
+      <br/><sub>Dynamic Category Slider, Marquee Banner ve RAM önbelleğinden beslenen popüler turlar</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/home_dark.png" alt="Ana Sayfa Dark" width="100%"/>
+      <br/><b>🌙 Ana Sayfa (Dark Mode)</b>
+      <br/><sub>Göz yormayan koyu tema arayüz tasarımı</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/tours_list.png" alt="Tur Listesi" width="100%"/>
+      <br/><b>🔍 Tüm Turlar & Arama</b>
+      <br/><sub>Lokasyon, isim, kategori ve fiyat aralığına göre Dapper tabanlı filtreleme</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/tour_detail_header.png" alt="Tur Detay" width="100%"/>
+      <br/><b>🗺️ Tur Detay Sayfası</b>
+      <br/><sub>Tur rotası, rehber, kapasite durumu ve üye değerlendirmeleri</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/tour_detail_map.png" alt="Harita" width="100%"/>
+      <br/><b>📍 Seyahat Rotası Haritası</b>
+      <br/><sub>Leaflet entegrasyonu ile rotanın harita üzerinde interaktif gösterimi</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/categories.png" alt="Kategoriler" width="100%"/>
+      <br/><b>🗂️ Seyahat Kategorileri</b>
+      <br/><sub>Turların gruplandırıldığı, Dapper ile hızlı listelenen kategori rehber sayfası</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/checkout.png" alt="Rezervasyon" width="100%"/>
+      <br/><b>🛒 Rezervasyon Formu</b>
+      <br/><sub>Kişi sayısı seçimi, kupon kodu AJAX doğrulaması ve anlık indirim hesabı</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/checkout_success.png" alt="Rezervasyon Başarılı" width="100%"/>
+      <br/><b>✅ Rezervasyon Başarılı</b>
+      <br/><sub>İşlem kodu (TX), ödeme yöntemi ve rezervasyon özet çıktısı</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/coupon_qr_modal.png" alt="QR Kupon" width="100%"/>
+      <br/><b>🎁 Sürpriz Kupon (QR Kod)</b>
+      <br/><sub>Mobil cihazla taratılarak indirim kodu kazanılan sürpriz kupon modalı</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/coupon_success.png" alt="Kupon Başarı" width="100%"/>
+      <br/><b>🎉 Kupon Doğrulama Ekranı</b>
+      <br/><sub>Aktif kupon kodu, indirim miktarı ve son geçerlilik tarihi gösterimi</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/coupon_success_modal.png" alt="Kupon Modal" width="100%"/>
+      <br/><b>🎀 Kupon Hazır Modalı</b>
+      <br/><sub>Kupon doğrulandıktan sonra beliren kopyalama özellikli hediye penceresi</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/blogs.png" alt="Blog" width="100%"/>
+      <br/><b>📰 Seyahat Hikayeleri (Blog)</b>
+      <br/><sub>Gezi rehberleri ve acenteye ait yazıların listelendiği görsel ağırlıklı arayüz</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/contact.png" alt="İletişim" width="100%"/>
+      <br/><b>📩 İletişim & Talep Formu</b>
+      <br/><sub>Kullanıcıların mesaj ve seyahat taleplerini iletebileceği form ekranı</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/chat_widget.png" alt="Canlı Destek" width="100%"/>
+      <br/><b>💬 GM Canlı Destek</b>
+      <br/><sub>Ziyaretçilere hızlı iletişim sağlayan anlık chat widget bileşeni</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/login.png" alt="Giriş" width="100%"/>
+      <br/><b>🔐 Giriş Yap</b>
+      <br/><sub>Identity destekli, şık tasarımlı üye ve yönetici giriş paneli</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/register.png" alt="Kayıt Ol" width="100%"/>
+      <br/><b>📝 Kayıt Ol</b>
+      <br/><sub>Şık tasarımlı yeni üye kayıt paneli</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
-## 👥 Proje Ekibi
-Bu proje, **Softito Academy - Backend Developer** eğitimi kapsamında aşağıdaki ekip tarafından ortak bir mezuniyet bitirme projesi çalışması olarak tasarlanmış, geliştirilmiş ve test edilmiştir:
-- **Gamze Türker** - [GitHub Profili](https://github.com/gamzeturker)
-- **Merve Gezginci** - [GitHub Profili](https://github.com/mervegezginci)
+### 🛡️ Yönetici Kontrol Paneli (Admin Console)
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_dashboard.png" alt="Admin Dashboard" width="100%"/>
+      <br/><b>📊 Yönetici Dashboard</b>
+      <br/><sub>Toplam ciro, üye sayısı, aktif rezervasyonlar ve aktif tur rotalarını gösteren genel bakış</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_tours.png" alt="Admin Turlar" width="100%"/>
+      <br/><b>🗺️ Tur CRUD Paneli</b>
+      <br/><sub>Yeni tur rotası ekleme, rehber atama, kapasite ve fiyat yönetimi</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_categories.png" alt="Admin Kategoriler" width="100%"/>
+      <br/><b>🗂️ Kategori CRUD Paneli</b>
+      <br/><sub>Seyahat kategorilerinin oluşturulması, düzenlenmesi ve silinmesi</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_bookings.png" alt="Admin Rezervasyonlar" width="100%"/>
+      <br/><b>📋 Rezervasyon Moderasyonu</b>
+      <br/><sub>Gelen rezervasyonları onaylama veya iptal etme (kontenjan otomatik iade)</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_users.png" alt="Admin Kullanıcılar" width="100%"/>
+      <br/><b>👤 Üye Yönetimi</b>
+      <br/><sub>Rol atama (Admin/User), şifre sıfırlama, hesap askıya alma</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_coupons.png" alt="Admin Kuponlar" width="100%"/>
+      <br/><b>🎟️ Kupon & Promosyon Yönetimi</b>
+      <br/><sub>Yüzdelik veya sabit indirim kodu oluşturma, geçerlilik tarihi belirleme</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_blogs.png" alt="Admin Blog" width="100%"/>
+      <br/><b>📰 Blog CRUD Paneli</b>
+      <br/><sub>Blog yazılarının yönetilmesi, görsel yolları ve içerik düzenleme</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_reviews.png" alt="Admin Yorumlar" width="100%"/>
+      <br/><b>⭐ Üye Değerlendirmeleri</b>
+      <br/><sub>Turlara yazılan yorumları inceleme ve uygunsuz içerikleri kaldırma</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_messages.png" alt="Admin Mesajlar" width="100%"/>
+      <br/><b>✉️ İletişim Mesajları</b>
+      <br/><sub>İletişim formu mesajlarını okundu işaretleme ve yönetme paneli</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_logs.png" alt="Admin Loglar" width="100%"/>
+      <br/><b>📜 Denetim Günlükleri (Audit Log)</b>
+      <br/><sub>Kim, ne zaman, hangi IP'den, hangi işlemi yaptığını gösteren sistem logu</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/images/admin_cache.png" alt="Admin Cache" width="100%"/>
+      <br/><b>⚡ Cache Yönetim Paneli</b>
+      <br/><sub>Bellekte tutulan kategoriler ve popüler turların durumu, tek tıkla RAM temizleme</sub>
+    </td>
+    <td align="center" width="50%">
+    </td>
+  </tr>
+</table>
 
 ---
 
-## 🛠️ Detaylı Teknoloji ve Kütüphane Yığını
+## 🛠️ Teknoloji Yığını
 
-### Backend Katmanı
-* **.NET 8.0 (C#) & ASP.NET Core MVC**: Modern, güvenli, Dependency Injection (Bağımlılık Enjeksiyonu) barındıran güçlü web mimarisi.
-* **Entity Framework Core 8.0 (ORM)**: Code-First yaklaşımıyla SQL veritabanı şemalarının C# sınıflarından türetilmesi, veri tabanı ilişkilerinin yönetilmesi ve migrations süreçleri.
-* **Dapper Micro-ORM**: EF Core'un ek yük (overhead) oluşturduğu karmaşık JOIN sorgularında, direkt SQL komutlarıyla arama motoru filtrelemeleri ve cache veri çekme süreçlerini yöneten performans optimizasyonu.
-* **ASP.NET Core Identity**: Rol tabanlı yetki kontrolü (`[Authorize(Roles = "Admin")]`), kullanıcı oturum süreleri ve çerez tabanlı oturum güvenliği (Cookie Authentication).
+### Backend
+| Teknoloji | Açıklama |
+| :--- | :--- |
+| **.NET 8.0 & ASP.NET Core MVC** | Modern, Dependency Injection destekli güçlü web mimarisi |
+| **Entity Framework Core 8.0** | Code-First şema yönetimi, migrations ve CRUD işlemleri |
+| **Dapper Micro-ORM** | Karmaşık JOIN sorgularında ve cache veri çekme süreçlerinde yüksek hız optimizasyonu |
+| **ASP.NET Core Identity** | Rol tabanlı yetki kontrolü, cookie authentication ve oturum yönetimi |
 
-### Önbellekleme & Raporlama & Yardımcı Servisler
-* **IMemoryCache**: Sık okunan ve nadir güncellenen verilerin RAM üzerinde önbelleğe alınmasıyla sayfa açılış sürelerinin ortalama 10 kat düşürülmesi.
-* **PDFsharp (Custom Font Resolver)**: Müşterilere indirtilen rezervasyon faturalarının dinamik PDF oluşturma süreci. Türkçe karakter (`ğ, ş, ı, ç, ö, ü`) hatası alınmaması adına özel olarak tasarlanmış `MyFontResolver` sınıfı ile Arial TrueType font kütüphanesi sisteme entegre edilmiştir.
-* **ClosedXML**: SQL Server veritabanındaki rezervasyon tablolarını C# nesnelerinden doğrudan MS Excel standardına dönüştürerek indirtir.
-* **Audit System Log Service**: Veri tabanında `SystemLogs` tablosu oluşturularak, adminlerin gerçekleştirdiği kritik işlemler (CRUD, Cache sıfırlama, bilet iptalleri) IP adresiyle birlikte kayıt altına alınır.
+### Servisler & Raporlama
+| Teknoloji | Açıklama |
+| :--- | :--- |
+| **IMemoryCache** | Sık okunan verilerin RAM'de saklanmasıyla sayfa açılışını ~10 kat hızlandırma |
+| **PDFsharp + MyFontResolver** | Türkçe karakter destekli (`ğ, ş, ı, ç, ö, ü`) dinamik A4 PDF fatura üretimi |
+| **ClosedXML** | Rezervasyon ve log verilerini gerçek `.xlsx` Excel formatında dışa aktarma |
+| **Audit Log Service** | Admin işlemlerini (CRUD, cache sıfırlama, iptal) IP adresiyle kayıt altına alma |
 
-### Frontend Katmanı
-* **Bootstrap 5.3 & CSS3**: Mobil cihazlarla %100 uyumlu (Responsive) tasarım dili.
-* **SweetAlert2**: Silme, güncelleme ve hata bildirimlerinde AJAX süreçlerini yöneten modern animasyonlu arayüz modalları.
-* **FontAwesome v6**: Arayüzdeki vektörel ve estetik ikon desteği.
-
----
-
-## 🏢 Mimari Tasarım ve Tasarım Desenleri
-
-### 1. Repository Pattern ve Unit of Work
-Projede doğrudan `DbContext` çağrıları yerine veri tabanı katmanını soyutlayan (abstraction) tasarım desenleri uygulanmıştır:
-* **Repository**: Her bir tablo için ortak veri erişim metotlarını (`Add`, `Remove`, `Get`, `GetAll`) tek noktada toplar.
-* **Unit of Work**: Tüm veri yazma işlemlerini tek bir veritabanı oturumuna bağlar. `_unitOfWork.Save()` metodu tetiklenene kadar hiçbir değişiklik SQL Server'a yansıtılmaz. Hata durumunda işlemler otomatik geri alınır (Rollback).
-
-### 2. Katmanlı Yapı (Layered Architecture)
-* **`seyahat_projesi.Model` (Varlık Katmanı)**: Veri tabanı şemasını oluşturan sınıfları içerir. Sunum katmanı ile veri tabanı katmanı arasında veri taşımak için DTO veya ViewModels barındırır.
-* **`seyahat_projesi.Data` (Veri Erişim Katmanı)**: DB bağlantısı, Repositories, Unit of Work ve test verisi seeder dosyalarını kapsar.
-* **`seyahat_projesi` (Sunum ve Mantık Katmanı)**: Controller sınıfları, HTML/Razor arayüzleri, CSS/JS dosyaları ve servis entegrasyonları buradadır.
+### Frontend
+| Teknoloji | Açıklama |
+| :--- | :--- |
+| **Bootstrap 5.3 & CSS3** | %100 mobil uyumlu (Responsive) tasarım dili |
+| **SweetAlert2** | Modern animasyonlu uyarı ve onay modalları |
+| **FontAwesome v6** | Vektörel ikon seti |
+| **Leaflet.js** | Tur rotalarının harita üzerinde interaktif gösterimi |
 
 ---
 
-## 🗄️ Veri Tabanı Modelleri ve İlişki Yapıları
+## 🏢 Mimari ve Tasarım Desenleri
 
-Projedeki veri tabanı tabloları ilişkisel veri tabanı kurallarına (1NF, 2NF, 3NF) uygun olarak tasarlanmıştır:
+### Repository Pattern & Unit of Work
+Doğrudan `DbContext` çağrıları yerine veri tabanı katmanını soyutlayan tasarım desenleri uygulanmıştır:
 
-* **Kategori (`Category`) ve Tur (`Tour`)**: 1-N İlişki. Bir kategori altında birden fazla seyahat rotası bulunabilir.
-* **Rehber (`Guide`) ve Tur (`Tour`)**: 1-N İlişki. Bir rehber birden fazla tura liderlik edebilir.
-* **Kullanıcı (`ApplicationUser`) ve Rezervasyon (`Booking`)**: 1-N İlişki. Bir üye birden fazla tur rezervasyonu yapabilir.
-* **Rezervasyon (`Booking`) ve Ödeme (`Payment`)**: 1-1 İlişki. Her rezervasyonun tek bir ödeme makbuzu veya işlem kaydı bulunur.
-* **Tur (`Tour`) ve Yorum (`Review`)**: 1-N İlişki. Bir tur hakkında birden fazla üye değerlendirme yazabilir.
-* **Kullanıcı (`ApplicationUser`) ve Sistem Günlükleri (`SystemLog`)**: 1-N İlişki. Adminlerin yaptığı her işlem denetim loglarına kaydedilir.
+- **Repository**: Her tablo için ortak veri erişim metotlarını (`Add`, `Remove`, `Get`, `GetAll`) tek noktada toplar.
+- **Unit of Work**: `_unitOfWork.Save()` çağrılana kadar hiçbir değişiklik SQL Server'a yansıtılmaz. Hata durumunda otomatik geri alma (Rollback) gerçekleşir.
+
+### Katmanlı Mimari (N-Tier Architecture)
+
+```
+┌─────────────────────────────────────────┐
+│         seyahat_projesi (Web)           │  ← Controllers, Views, Services
+├─────────────────────────────────────────┤
+│         seyahat_projesi.Data            │  ← DbContext, Repositories, Seeders
+├─────────────────────────────────────────┤
+│         seyahat_projesi.Model           │  ← Entities, ViewModels, DTOs
+└─────────────────────────────────────────┘
+```
 
 ---
 
-## 🔄 Kritik Sistem Algoritmaları ve İş Akışları
+## 🗄️ Veri Tabanı İlişki Yapıları
 
-### 1. Rezervasyon İptali ve Kapasite İade Akışı
-Bir rezervasyon iptal edildiğinde veri tutarlılığını sağlamak için aşağıdaki adımlar bir **Transaction** zinciriyle yürütülür:
+| İlişki | Tablo | Kural |
+| :--- | :--- | :--- |
+| **1 → N** | Kategori → Tur | Bir kategori birden fazla tura sahip olabilir |
+| **1 → N** | Rehber → Tur | Bir rehber birden fazla tura liderlik edebilir |
+| **1 → N** | Kullanıcı → Rezervasyon | Bir üye birden fazla rezervasyon yapabilir |
+| **1 → 1** | Rezervasyon → Ödeme | Her rezervasyonun tek bir ödeme kaydı bulunur |
+| **1 → N** | Tur → Yorum | Bir tur hakkında birden fazla yorum yazılabilir |
+| **1 → N** | Kullanıcı → Sistem Logu | Admin işlemleri denetim günlüklerine kaydedilir |
+
+---
+
+## 🔄 Kritik Sistem Algoritmaları
+
+### Rezervasyon İptali ve Kapasite İade Akışı
 
 ```mermaid
 graph TD
     A[Admin/Kullanıcı İptal İsteği] --> B[Transaction Başlat]
-    B --> C{Rezervasyon Durumu Kontrolü}
-    C -- Zaten İptal Edilmiş --> D[İşlemi Sonlandır / Hata Dön]
-    C -- Aktif Rezervasyon --> E[Rezervasyon Durumunu 'cancelled' Yap]
-    E --> F[Ödeme Durumunu 'refunded' Yap]
+    B --> C{Rezervasyon Durumu?}
+    C -- Zaten İptal --> D[İşlemi Sonlandır]
+    C -- Aktif --> E[Durumu 'cancelled' Yap]
+    E --> F[Ödemeyi 'refunded' Yap]
     F --> G[Tur Kapasitesini Katılımcı Sayısı Kadar Artır]
-    G --> H[Audit Log Tablosuna 'BOOKING_CANCEL' İşlemini Kaydet]
-    H --> I[Transaction'ı Commit Et (Kaydet)]
-    I --> J[Onay Mesajı ve Güncel Kontenjanı Yansıt]
+    G --> H[Audit Log: BOOKING_CANCEL Kaydı]
+    H --> I[Transaction Commit]
+    I --> J[Güncel Kontenjanı Yansıt]
 ```
 
-### 2. Önbellek (Cache) Geçersiz Kılma (Eviction) Mekanizması
-Performansı üst seviyede tutmak için turlar ve kategoriler RAM'de saklanır. Ancak veri güncellendiğinde veya silindiğinde kullanıcıların eski verileri görmemesi için önbellek sıfırlama algoritması devreye girer:
+### Önbellek (Cache) Geçersiz Kılma Matrisi
 
-| Tetikleyici İşlem | Çalıştırılan Metot | Etkilenen Cache Key Değerleri |
-| :--- | :--- | :--- |
-| Yeni Tur Ekleme / Düzenleme | `AdminController.SaveTour()` | `ActiveTours`, `PopularActiveTours`, `MarqueeToursList` |
-| Tur Silme (Pasife Alma) | `AdminController.DeleteTour()` | `ActiveTours`, `PopularActiveTours`, `MarqueeToursList` |
-| Kategori Ekleme / Düzenleme | `AdminController.SaveCategory()` | `CategoriesList` |
-| Kategori Silme | `AdminController.DeleteCategory()` | `CategoriesList` |
-| Admin Paneli Manuel Sıfırlama | `AdminController.ClearSystemCache()` | *Tüm Bellek Anahtarları Silinir* |
-
----
-
-## 🎮 Controller Ayrıntılı Metot ve Endpoint Analizi
-
-### 1. `HomeController` (Kamuya Açık Alan)
-* **`[HttpGet] Index(search, categoryId, minDuration)`**:
-  * Önbellekten kategorileri ve marquee tur başlıklarını Dapper ile çeker.
-  * Eğer filtreleme parametreleri dolu gelirse Dapper ile hazırlanan dinamik sorgu veritabanına atılarak arama sonuçları listelenir. Arama yoksa popüler 6 tur önbellekten yüklenir.
-* **`[HttpGet] Details(id)`**:
-  * Tura ait detaylı bilgileri rehberiyle birlikte çeker. Bu tura ait onaylanmış puanları ve yorumları listeler.
-
-### 2. `BookingController` (Rezervasyon Akışı - `[Authorize]`)
-* **`[HttpGet] Checkout(tourId)`**:
-  * Tura ait güncel kapasite kontrolünü yapar.
-  * Kullanıcının daha önce aynı tura aktif rezervasyonu olup olmadığını sorgular (Mükerrer rezervasyon engeli).
-* **`[HttpPost] Create(tourId, guestsCount, paymentMethod, couponCode)`**:
-  * Gelen kupon kodunu veritabanında tarih ve aktiflik yönünden sorgular. Geçerliyse indirimi uygular.
-  * Kredi kartı/EFT ödeme simülasyonunu tamamlar, rezervasyonu onaylar ve kontenjandan düşer.
-
-### 3. `ExportController` (Raporlama - `[Authorize]`)
-* **`[HttpGet] Invoice(id)`**:
-  * Rezervasyon, ödeme, tur ve kullanıcı bilgilerini JOIN ederek çeker.
-  * PDFsharp kütüphanesi ile A4 boyutunda bir grafik arayüz çizer. Müşteri bilgileri, fatura no, ödeme yöntemi ve fiyat detaylarını tablo halinde PDF formatında render eder.
-* **`[HttpGet] ExportBookingsToExcel()`**:
-  * `ClosedXML` kullanarak veritabanındaki rezervasyonları çeker. `Booking ID`, `Müşteri`, `Tur Adı`, `Tarih`, `Kişi Sayısı` ve `Toplam Ödeme` kolonlarını içeren şık biçimlendirilmiş bir Excel dosyası üretir.
+| Tetikleyici İşlem | Etkilenen Cache Anahtarları |
+| :--- | :--- |
+| Tur Ekleme / Güncelleme | `ActiveTours`, `PopularActiveTours`, `MarqueeToursList` |
+| Tur Silme (Pasife Alma) | `ActiveTours`, `PopularActiveTours`, `MarqueeToursList` |
+| Kategori Ekleme / Güncelleme | `CategoriesList` |
+| Kategori Silme | `CategoriesList` |
+| Admin Manuel Cache Temizleme | *Tüm bellek anahtarları silinir* |
 
 ---
 
-## 📁 Proje Dizin Yapısı (Directory Tree)
+## 🎮 Controller ve Endpoint Analizi
+
+### `HomeController` — Kamuya Açık Alan
+- **`GET Index(search, categoryId, minDuration)`** — Kategorileri ve marquee tur başlıklarını Dapper ile önbellekten çeker. Filtre parametresi varsa Dapper dinamik sorgu ile arama sonuçlarını listeler.
+- **`GET Details(id)`** — Tur detaylarını, rehber bilgilerini ve onaylanmış yorumları çeker.
+
+### `BookingController` — `[Authorize]`
+- **`GET Checkout(tourId)`** — Kapasite kontrolü ve mükerrer rezervasyon engeli.
+- **`POST Create(tourId, guestsCount, paymentMethod, couponCode)`** — Kupon AJAX doğrulaması, indirim uygulaması, ödeme simülasyonu ve kontenjan düşme işlemleri.
+
+### `ExportController` — `[Authorize]`
+- **`GET Invoice(id)`** — PDFsharp ile Türkçe karakter destekli A4 rezervasyon faturası üretimi.
+- **`GET ExportBookingsToExcel()`** — ClosedXML ile `.xlsx` formatında rezervasyon raporu dışa aktarma.
+
+---
+
+## 📁 Proje Dizin Yapısı
 
 ```text
 seyahat_projesi/
@@ -185,128 +347,106 @@ seyahat_projesi/
 │
 ├── seyahat_projesi/                              # Sunum Katmanı (Web App)
 │   ├── Areas/
-│   │   ├── Admin/                                # Yönetici Paneli Alanı
-│   │   │   ├── Controllers/AdminController.cs    # Yönetimsel CRUD, Log, Cache Denetleyicisi
-│   │   │   └── Views/                            # Yönetici cshtml şablonları
-│   │   └── User/                                 # Kullanıcı Paneli Alanı
-│   │       ├── Controllers/DashboardController.cs# Kullanıcı rezervasyon & profil denetleyicisi
-│   │       └── Views/                            # Kullanıcı cshtml şablonları
+│   │   ├── Admin/Controllers/AdminController.cs  # CRUD, Log, Cache Denetleyicisi
+│   │   └── User/Controllers/DashboardController.cs
 │   ├── Controllers/
-│   │   ├── HomeController.cs                     # Ana sayfa, Tur Arama, Detay & Filtreler
-│   │   ├── BookingController.cs                  # Satın Alma, Kupon Kontrol, Ödeme Simülasyonu
-│   │   └── ExportController.cs                   # PDF Fatura ve Excel Rapor Çıktıları
+│   │   ├── HomeController.cs                     # Ana sayfa, Arama, Filtreler
+│   │   ├── BookingController.cs                  # Satın Alma, Kupon, Ödeme
+│   │   └── ExportController.cs                   # PDF Fatura & Excel Raporu
 │   ├── Services/
-│   │   ├── LogService.cs                         # Audit log kayıt motoru
+│   │   ├── LogService.cs                         # Audit log motoru
 │   │   └── MyFontResolver.cs                     # PDFsharp Türkçe font entegrasyonu
-│   ├── ViewModels/                               # Modelle görünüm arası DTO/VM yapıları
-│   ├── Views/                                    # Kamu Arayüzü cshtml dosyaları
-│   ├── wwwroot/                                  # CSS, JS, Libs, Favicon
-│   ├── appsettings.json                          # Veritabanı ve API Key ayarları (Cleaned)
-│   └── Program.cs                                # Sistem Başlangıç ve Servis Konfigürasyonu
+│   ├── ViewModels/                               # DTO / ViewModel yapıları
+│   ├── Views/                                    # Razor cshtml dosyaları
+│   ├── wwwroot/                                  # CSS, JS, Görseller
+│   ├── appsettings.json                          # Bağlantı ve API ayarları
+│   └── Program.cs                                # Servis & Middleware konfigürasyonu
 │
 ├── seyahat_projesi.Data/                         # Veri Erişim Katmanı
-│   ├── ApplicationDbContext.cs                   # EF Core DB Context tanımı
-│   ├── DapperRepository.cs                       # Hızlı SQL ve Cache okuma sınıfları
-│   ├── DbInitializer.cs                          # İlk Kurulum Admin/Rol Verileri
-│   ├── DbSeeder.cs                               # Tablo başına 20 örnek veri üreten seeder
-│   ├── Migrations/                               # EF Core Migration Dosyaları
-│   └── Repository/                               # Repository ve Unit Of Work sınıfları
+│   ├── ApplicationDbContext.cs
+│   ├── DapperRepository.cs
+│   ├── DbInitializer.cs
+│   ├── DbSeeder.cs                               # 20'şer kayıt üreten seeder
+│   ├── Migrations/
+│   └── Repository/                               # Repository & Unit of Work
 │
 ├── seyahat_projesi.Model/                        # Entity (Model) Katmanı
-│   ├── ApplicationUser.cs                        # Identity Özelleştirilmiş Kullanıcı Sınıfı
-│   ├── Tour.cs                                   # Turlar Tablosu
-│   ├── Category.cs                               # Kategoriler Tablosu
-│   ├── Booking.cs                                # Rezervasyonlar Tablosu
-│   └── ... (Diğer Modeller)
+│   ├── ApplicationUser.cs
+│   ├── Tour.cs, Category.cs, Booking.cs ...
 │
-├── seed_all_20.sql                               # Veritabanı SSMS Manuel Seed Scripti
-└── update_tour_images.sql                        # Estetik Görseller Ekleyen SQL Scripti
+├── seed_all_20.sql                               # SSMS Manuel Seed Scripti
+└── update_tour_images.sql                        # Görsel Güncelleme SQL Scripti
 ```
 
 ---
 
-## 🔌 Veri Tabanı Seeding ve SQL Dosyaları
+## 🚀 Kurulum ve Yapılandırma
 
-Projede yerel geliştirme ortamını kolaylaştırmak amacıyla iki farklı veri tohumlama (seeding) yöntemi bulunur:
-
-1. **Kod Tabanlı Otomatik Yapılandırma**:
-   `Program.cs` dosyası ayağa kalktığında veritabanı sunucusunda `SeyahatDb` adında bir veri tabanı yoksa oluşturur, migrations adımlarını tamamlar ve `DbSeeder.Seed20Async` metodu üzerinden tüm tablolara **20'şer adet birbirleriyle ilişkili örnek kayıt** yükler.
-   
-2. **Manuel SQL Scriptleri**:
-   * `seed_all_20.sql`: SQL Server Management Studio (SSMS) kullanarak veritabanına el ile 20'şer kayıt eklemek için.
-   * `update_tour_images.sql`: Turların görsellerini daha estetik ve kaliteli seyahat fotoğraflarıyla güncellemek için yazılmış SQL scripti.
-
----
-
-## 🚀 Adım Adım Kurulum ve Yapılandırma Kılavuzu
-
-Projeyi kendi bilgisayarınızda kurmak ve çalıştırmak için aşağıdaki adımları izleyin:
-
-### 1. Depoyu İndirin
-Projeyi bilgisayarınıza indirin veya terminal aracılığıyla klonlayın:
+### 1. Repoyu Klonlayın
 ```bash
-git clone <github-repository-url>
+git clone https://github.com/mervegezginci/softito-backend-developer-egitim-projeleri.git
+cd softito-backend-developer-egitim-projeleri/bitirme-projesi
 ```
 
-### 2. appsettings.json Dosyasını Yapılandırın
-`seyahat_projesi` dizinindeki `appsettings.json` dosyasını açıp veritabanı bağlantı adresinizi lokal SQL Server isminize göre güncelleyin:
+### 2. `appsettings.json` Yapılandırın
 ```json
 "ConnectionStrings": {
-  "DefaultConnection": "Server=LOKAL_SQL_SERVER_ADINIZ;Database=SeyahatDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
+  "DefaultConnection": "Server=LOKAL_SQL_SERVER_ADINIZ;Database=SeyahatDb;Trusted_Connection=True;TrustServerCertificate=True"
 }
 ```
 
-### 3. Paketleri Restore Edin ve Projeyi Çalıştırın
-Kök klasörde bir terminal açarak aşağıdaki komutları girin:
+### 3. Çalıştırın
 ```bash
-# NuGet paketlerini geri yükleyin
 dotnet restore
-
-# Projeyi derleyin ve ayağa kaldırın
 dotnet run --project seyahat_projesi
 ```
-Proje başladıktan sonra tarayıcınızdan `http://localhost:5000` veya `https://localhost:5001` adresine giderek sistemi test edebilirsiniz. İlk açılışta veritabanı otomatik olarak oluşturulacak ve seed verileri yüklenecektir.
+Proje ayağa kalktığında veritabanı otomatik oluşturulur ve seed verileri yüklenir.  
+Tarayıcıdan `https://localhost:5001` adresine gidin.
 
-### 🔑 Başlangıç Test Hesapları (Giriş Bilgileri)
-* **Yönetici Girişi (Admin)**:
-  * **E-posta**: `admin@gezgin.com`
-  * **Şifre**: `Admin123*`
-* **Standart Üye Girişi (User)**:
-  * **E-posta**: `uye@gezgin.com`
-  * **Şifre**: `Uye123*`
+### 🔑 Test Hesapları
+
+| Rol | E-posta | Şifre |
+| :--- | :--- | :--- |
+| **Admin** | `admin@gezgin.com` | `Admin123*` |
+| **Kullanıcı** | `uye@gezgin.com` | `Uye123*` |
 
 ---
 
 ## 👥 Git & GitHub Ortak Çalışma Kılavuzu
 
-Gamze ve Merve olarak projeyi çakışma (merge conflict) yaşamadan, düzenli bir şekilde sürdürebilmeniz için aşağıdaki iş akışını uygulamanız önerilir:
-
-### 1. Proje Sahibi Daveti
-Repoyu oluşturan kişi (örneğin Merve), GitHub repo sayfasından **Settings > Collaborators > Add people** kısmına giderek diğer arkadaşının (örneğin Gamze) kullanıcı adını eklemeli ve davet göndermelidir. Davet kabul edildikten sonra ortak geliştirme süreci başlar.
-
-### 2. Branch (Dal) Yönetimi
-Ana dal olan `main` dalına doğrudan kod göndermek yerine, yapacağınız geliştirmeler için yerelde yeni bir dal oluşturun:
+### Branch (Dal) Yönetimi
 ```bash
-# Yereldeki main dalınızı en güncel hale getirin
-git checkout main
-git pull origin main
+# Main dalını güncelle
+git checkout main && git pull origin main
 
-# Yapacağınız geliştirme için yeni dal açın (Örn: Admin kupon ekranı tasarımı)
-git checkout -b feature/admin-kuponlar
+# Yeni özellik dalı aç
+git checkout -b feature/admin-kupon-ekrani
 ```
 
-### 3. Değişiklikleri Gönderme (Push)
-Geliştirmenizi tamamladıktan sonra değişikliklerinizi kendi dalınıza pushlayın:
+### Değişiklikleri Gönder
 ```bash
 git add .
-git commit -m "feat: Admin kupon arayüzü ve doğrulama metotları yazıldı"
-git push origin feature/admin-kuponlar
+git commit -m "feat: Admin kupon arayüzü tamamlandı"
+git push origin feature/admin-kupon-ekrani
 ```
 
-### 4. Pull Request (PR) ve Kod İncelemesi
-GitHub sitesine giderek oluşturduğunuz dal için bir **Pull Request** açın. Diğer arkadaşınız kodları inceleyip onay verdikten sonra (Approve), PR'ı `main` dalı ile birleştirin (Merge). Kendi bilgisayarınızda tekrar `main` dalına dönüp güncel kodları çekin (`git pull origin main`).
+### Pull Request Akışı
+GitHub üzerinden Pull Request açın → Diğer geliştirici kodu inceler (Code Review) → Onaylama sonrası `main` dalına birleştirilir.
 
 ---
 
 ## 📝 Lisans
-Bu proje eğitim ve kişisel gelişim amacıyla **Gamze Türker** ve **Merve Gezginci** tarafından geliştirilmiştir. Ticari amaçla çoğaltılamaz ve dağıtılamaz.
+
+Bu proje eğitim ve kişisel gelişim amacıyla **Gamze Türker** ve **Merve Gezginci** tarafından geliştirilmiştir.  
+Ticari amaçla çoğaltılamaz ve dağıtılamaz.
+
+---
+
+<div align="center">
+
+**GM Seyahat Acentesi** · Softito Academy Bitirme Projesi · 2026
+
+[![GitHub](https://img.shields.io/badge/GamzeTurker-181717?style=flat-square&logo=github)](https://github.com/GamzeTurker)
+[![GitHub](https://img.shields.io/badge/mervegezginci-181717?style=flat-square&logo=github)](https://github.com/mervegezginci)
+
+</div>
