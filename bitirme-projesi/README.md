@@ -29,31 +29,38 @@
 
 | Ekran Görüntüsü | Dosya Adı | Açıklama |
 | :---: | :---: | :--- |
-| ![Ana Sayfa](docs/images/home.png) | `home.png` | **Ana Sayfa:** Dynamic Category Slider, Marquee Banner (anlık aktif tur isimleri) ve en popüler turların 10 dakikalık RAM önbelleğinden listelendiği vizyoner arayüz. |
-| ![Arama Sonuçları](docs/images/search_results.png) | `search_results.png` | **Gelişmiş Arama:** Lokasyon, tur ismi, kategori ve süreye göre filtreleme yapan, Dapper tabanlı hızlı arama sonuç ekranı. |
-| ![Tur Detay](docs/images/tour_detail.png) | `tour_detail.png` | **Tur Detay ve Yorumlar:** Tur bilgileri, kontenjan durumu, harita lokasyonu, rehber bilgileri ve onaylanmış üye yorumlarının listelendiği dinamik arayüz. |
+| ![Ana Sayfa](docs/images/home.png) | `home.png` | **Ana Sayfa (Light Mode):** Dynamic Category Slider, Marquee Banner (anlık aktif tur isimleri) ve en popüler turların 10 dakikalık RAM önbelleğinden listelendiği vizyoner arayüz. |
+| ![Ana Sayfa Dark Mode](docs/images/home_dark.png) | `home_dark.png` | **Ana Sayfa (Dark Mode):** Web sitesinin göz yormayan, modern ve şık koyu tema arayüz tasarımı. |
+| ![Arama Sonuçları](docs/images/tours_list.png) | `tours_list.png` | **Tüm Turlar & Arama:** Lokasyon, tur ismi, kategori ve fiyat aralığına göre filtreleme yapan arama motoru sonuç ekranı. |
+| ![Tur Detay](docs/images/tour_detail_header.png) | `tour_detail_header.png` | **Tur Detay Sayfası:** Tur rotası bilgileri, süre, rehber ataması ve kontenjan doluluk durumlarının gösterildiği detay ekranı. |
+| ![Tur Detay Harita](docs/images/tour_detail_map.png) | `tour_detail_map.png` | **Seyahat Rotası Haritası:** Leaflet entegrasyonu ile tura ait rotanın harita üzerinde interaktif olarak işaretlenmesi. |
 | ![Checkout Sayfası](docs/images/checkout.png) | `checkout.png` | **Rezervasyon / Satın Alma Girişi:** Kişi sayısı seçimi, kupon kodunun AJAX ile doğrulanması ve indirim tutarının anlık hesaplanması. |
-| ![Ödeme Ekranı](docs/images/payment.png) | `payment.png` | **Simüle Ödeme Geçidi:** Kredi Kartı (3D Secure simülasyonu) ve EFT/Banka havalesi ile ödeme kanalları. |
+| ![Ödeme Ekranı](docs/images/checkout_success.png) | `checkout_success.png` | **Rezervasyon Başarılı:** Satın alma adımı tamamlandığında üretilen işlem kodu (TX) ve rezervasyon özet çıktısı. |
+| ![Kupon QR Modalı](docs/images/coupon_qr_modal.png) | `coupon_qr_modal.png` | **Sürpriz Kupon QR Kod:** Kullanıcılara mobil cihazlarıyla taratarak sürpriz indirim kazanabilecekleri QR kod modalı. |
+| ![Kupon Başarı Ekranı](docs/images/coupon_success.png) | `coupon_success.png` | **Kupon Doğrulama Ekranı:** QR kod taratıldıktan sonra açılan, aktif kuponun kodunu ve indirim miktarını gösteren ara sayfa. |
+| ![Kupon Başarı Modalı](docs/images/coupon_success_modal.png) | `coupon_success_modal.png` | **Kupon Hazır Modalı:** Kupon doğrulandıktan sonra sayfa üzerinde beliren kupon kopyalama pencereli hediye modalı. |
+| ![Kategoriler Sayfası](docs/images/categories.png) | `categories.png` | **Seyahat Kategorileri:** Turların gruplandırıldığı, Dapper ile yüksek hızda listelenen kategori rehber sayfası. |
+| ![Blog Sayfası](docs/images/blogs.png) | `blogs.png` | **Seyahat Hikayeleri (Blog):** Gezi rehberleri ve acenteye ait blog yazılarının listelendiği görsel ağırlıklı arayüz. |
+| ![İletişim Sayfası](docs/images/contact.png) | `contact.png` | **İletişim & Seyahat Talep Formu:** Kullanıcıların mesajlarını ve seyahat taleplerini iletebileceği interaktif form. |
+| ![Canlı Destek](docs/images/chat_widget.png) | `chat_widget.png` | **GM Canlı Destek:** Ziyaretçilere hızlı iletişim sağlayan anlık chat widget bileşeni. |
+| ![Giriş Yap](docs/images/login.png) | `login.png` | **Giriş Yap Ekranı:** Şık tasarıma sahip Identity destekli üye ve yönetici giriş paneli. |
+| ![Kayıt Ol](docs/images/register.png) | `register.png` | **Kayıt Ol Ekranı:** Şık tasarıma sahip yeni üye kayıt paneli. |
 
-### 2. Kullanıcı Kişisel Paneli (User Dashboard - `/User`)
-
-| Ekran Görüntüsü | Dosya Adı | Açıklama |
-| :---: | :---: | :--- |
-| ![Kullanıcı Paneli](docs/images/user_dashboard.png) | `user_dashboard.png` | **Kullanıcı Dashboard:** Toplam harcama, aktif seyahat sayısı, tamamlanan geziler ve son rezervasyon özet kartları. |
-| ![Rezervasyon Geçmişi](docs/images/user_bookings.png) | `user_bookings.png` | **Rezervasyonlarım:** Kullanıcının geçmiş ve aktif tüm rezervasyon listesi, onay durumları ve fatura indirme butonları. |
-| ![Fatura PDF Görünümü](docs/images/invoice_pdf.png) | `invoice_pdf.png` | **E-Fatura (PDF):** PDFsharp ile sunucuda anlık üretilen, Türkçe karakter destekli, şık ve resmi tasarımlı rezervasyon belgesi çıktısı. |
-
-### 3. Yönetici Kontrol Paneli (Admin Console - `/Admin`)
+### 2. Yönetici Kontrol Paneli (Admin Console - `/Admin`)
 
 | Ekran Görüntüsü | Dosya Adı | Açıklama |
 | :---: | :---: | :--- |
 | ![Yönetici Dashboard](docs/images/admin_dashboard.png) | `admin_dashboard.png` | **Yönetici Dashboard:** Toplam ciro, toplam üye sayısı, aktif rezervasyonlar ve sistem doluluk grafiklerini içeren özet alan. |
 | ![Tur Yönetimi](docs/images/admin_tours.png) | `admin_tours.png` | **Tur CRUD Paneli:** Yeni tur rotası oluşturma, rehber ve kategori atama, kapasite, fiyat güncelleme ve soft-delete (aktiflik) yönetimi. |
-| ![Rezervasyon Yönetimi](docs/images/admin_bookings.png) | `admin_bookings.png` | **Rezervasyon Moderasyonu:** Gelen ödemeleri onaylama, rezervasyon iptal etme (kapasite iade tetikleyicisi) ve Excel raporu alma. |
+| ![Kategori Yönetimi](docs/images/admin_categories.png) | `admin_categories.png` | **Kategori CRUD Paneli:** Seyahat kategorilerinin oluşturulması, düzenlenmesi ve silinmesi. |
+| ![Rezervasyon Yönetimi](docs/images/admin_bookings.png) | `admin_bookings.png` | **Rezervasyon Moderasyonu:** Gelen rezervasyon taleplerini inceleme, onaylama veya iptal etme (kontenjan iade tetikleyicisiyle birlikte). |
 | ![Kullanıcı Yönetimi](docs/images/admin_users.png) | `admin_users.png` | **Üye Kontrolü:** Rol (Admin/User) atama, şifre sıfırlama ve hesabı askıya alma (aktif/pasif status yönetimi). |
 | ![Kupon Yönetimi](docs/images/admin_coupons.png) | `admin_coupons.png` | **Promosyon & Kupon Tanımlama:** Yüzdelik veya sabit indirim kodları oluşturma, geçerlilik tarihi belirleme. |
-| ![Önbellek İzleme Paneli](docs/images/admin_cache.png) | `admin_cache.png` | **Cache Yönetim Paneli:** Bellekte tutulan kategorilerin, popüler turların ve marquee verilerinin durumu, tek tıkla RAM temizleme. |
+| ![Blog Yönetimi](docs/images/admin_blogs.png) | `admin_blogs.png` | **Blog CRUD Paneli:** Blog yazılarının yönetilmesi, resim yolları ve içerik girişleri. |
+| ![Yorum Yönetimi](docs/images/admin_reviews.png) | `admin_reviews.png` | **Üye Değerlendirmeleri:** Turlara yazılan üye yorumlarını inceleme ve moderasyon (uygunsuz içerikleri silme). |
+| ![Mesaj Yönetimi](docs/images/admin_messages.png) | `admin_messages.png` | **İletişim Mesajları:** İletişim formu üzerinden gelen müşteri taleplerini okundu işaretleme ve silme paneli. |
 | ![Audit Logs Paneli](docs/images/admin_logs.png) | `admin_logs.png` | **Denetim Günlükleri:** Sistemde kimin, ne zaman, hangi IP ile hangi işlemi yaptığını gösteren filtreli günlük (log) tablosu. |
+| ![Önbellek İzleme Paneli](docs/images/admin_cache.png) | `admin_cache.png` | **Cache Yönetim Paneli:** Bellekte tutulan kategorilerin ve popüler turların durumu, tek tıkla RAM temizleme. |
 
 ---
 
