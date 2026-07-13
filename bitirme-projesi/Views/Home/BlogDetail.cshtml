@@ -1,0 +1,67 @@
+@model seyahat_projesi.Model.Blog
+@{
+    ViewData["Title"] = Model.Title;
+    
+    // Varied aspect ratio travel images matching the list page choice
+    var masonryImages = new[] {
+        "https://images.unsplash.com/photo-1527838832700-50592524df7e?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&auto=format&fit=crop&q=80", 
+        "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&auto=format&fit=crop&q=80" 
+    };
+
+    string displayImg = masonryImages[Model.Id % masonryImages.Length];
+}
+
+<link rel="stylesheet" href="~/css/premium-travel.css" asp-append-version="true" />
+
+<div class="premium-page-container">
+    <!-- Blog Cover image header -->
+    <div style="max-width: 1000px; margin: 2.5rem auto 0; padding: 0 1.5rem;">
+        <div style="border-radius: 24px; overflow: hidden; height: 450px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
+            <img src="@displayImg" alt="@Model.Title" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+    </div>
+
+    <!-- Article layout -->
+    <main style="max-width: 800px; margin: 3rem auto 6rem; padding: 0 1.5rem;">
+        <!-- Meta info -->
+        <div style="display: flex; gap: 1rem; align-items: center; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 1.5rem;">
+            <span>📅 @Model.CreatedAt.ToString("dd MMMM yyyy")</span>
+            <span>•</span>
+            <span style="color: var(--accent-teal);">GM TRAVEL REHBERİ</span>
+        </div>
+
+        <!-- Title -->
+        <h1 style="font-size: 2.75rem; font-weight: 900; line-height: 1.2; color: var(--text-primary); letter-spacing: -1px; margin-bottom: 2rem;">
+            @Model.Title
+        </h1>
+
+        <!-- Content body -->
+        <div style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 3.5rem; font-weight: 400; text-align: justify;">
+            <p style="margin-bottom: 1.5rem;">@Model.Content</p>
+            <p style="margin-bottom: 1.5rem;">Seyahat etmek, sadece yeni yerler görmek değil; aynı zamanda yeni kültürleri keşfetmek, farklı yaşam tarzlarını deneyimlemek ve kendimizi yeniden tanımaktır. Bu seyahat rehberimizde, bölgenin tarihini derinlemesine hissettiren sokaklarından, yerel halkın samimiyetine uzanan geniş bir keşif yolculuğuna çıkıyoruz.</p>
+            <blockquote style="border-left: 4px solid var(--accent-teal); padding-left: 1.5rem; font-style: italic; color: var(--text-primary); font-size: 1.25rem; font-weight: 500; margin: 2rem 0; line-height: 1.6;">
+                "Dünya bir kitaptır ve seyahat etmeyenler onun sadece bir sayfasını okurlar." – St. Augustine
+            </blockquote>
+            <p style="margin-bottom: 1.5rem;">Ziyaretiniz esnasında mutlaka tatmanız gereken lezzetlerden, alışveriş yapabileceğiniz butik dükkanlara ve en fotojenik noktalara kadar her ayrıntıyı düşündük. Rehberimiz eşliğinde yapacağınız bu gezi, unutulmaz anılar biriktirmenizi sağlayacak.</p>
+        </div>
+
+        <!-- Footer widgets / buttons -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+            <a href="/Home/Blogs" class="premium-btn premium-btn-secondary" style="padding: 0.8rem 1.8rem; border-radius: 50px;">
+                &larr; Blog Yazılarına Geri Dön
+            </a>
+            
+            <a href="/Tours" class="premium-btn premium-btn-primary" style="padding: 0.8rem 1.8rem; border-radius: 50px;">
+                Tüm Seyahat Turlarını Keşfet &rarr;
+            </a>
+        </div>
+    </main>
+</div>

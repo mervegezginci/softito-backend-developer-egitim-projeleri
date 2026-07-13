@@ -1,0 +1,582 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Premium Travel Pages Design System */
+.premium-page-container {
+    font-family: 'Inter', sans-serif !important;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+.premium-page-container h1, 
+.premium-page-container h2, 
+.premium-page-container h3, 
+.premium-page-container h4, 
+.premium-page-container h5, 
+.premium-page-container h6 {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Lucide Icon styling */
+.lucide-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+/* Header Banner */
+.premium-hero-header {
+    background: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.9));
+    border-radius: 0;
+    min-height: 320px;
+    padding: 6rem 1.5rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.premium-hero-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.premium-hero-header p {
+    font-size: 1.15rem;
+    max-width: 600px;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .premium-hero-header {
+        padding: 4.5rem 1rem 3.5rem;
+        min-height: 240px;
+    }
+    .premium-hero-header h1 {
+        font-size: 2.25rem !important;
+    }
+    .premium-hero-header p {
+        font-size: 1rem !important;
+    }
+    .premium-search-container {
+        margin: -25px auto 3rem;
+    }
+}
+
+/* Floating Search overlay */
+.premium-search-container {
+    max-width: 1100px;
+    margin: -45px auto 4rem;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 20;
+}
+
+.premium-search-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 20px;
+    padding: 1.5rem;
+}
+
+.premium-search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 160px;
+    gap: 1.25rem;
+    align-items: flex-end;
+}
+
+@media (max-width: 768px) {
+    .premium-search-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.premium-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.premium-field-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.premium-field-group input, 
+.premium-field-group select {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    width: 100%;
+    outline: none;
+}
+
+.premium-field-group input:focus, 
+.premium-field-group select:focus {
+    border-color: var(--accent-teal);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+}
+
+.premium-search-btn {
+    background: var(--accent-teal);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.9rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+    width: 100%;
+}
+
+.premium-search-btn:hover {
+    background: #0f766e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(13, 148, 136, 0.3);
+}
+
+.premium-search-btn:active {
+    transform: translateY(0);
+}
+
+/* Tours Listing */
+.premium-section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.premium-mini-tag {
+    background: rgba(13, 148, 136, 0.08);
+    color: var(--accent-teal);
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+}
+
+.premium-section-header h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+}
+
+.premium-tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+}
+
+.premium-tour-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.premium-tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: rgba(13, 148, 136, 0.2);
+}
+
+.premium-tour-img-container {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    overflow: hidden;
+    background: var(--bg-tertiary);
+}
+
+.premium-tour-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.premium-tour-card:hover .premium-tour-img {
+    transform: scale(1.05);
+}
+
+.premium-tour-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: white;
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.premium-tour-duration {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: white;
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.premium-tour-body {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 1rem;
+}
+
+.premium-tour-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.premium-tour-rating span {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.premium-tour-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.premium-tour-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.premium-tour-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.premium-tour-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.premium-tour-guide-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.premium-tour-guide-row strong {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.premium-tour-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.premium-tour-price-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.premium-tour-price-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.premium-tour-price-val {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.premium-tour-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.premium-btn {
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+
+.premium-btn-primary {
+    background: var(--accent-teal);
+    color: white;
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
+}
+
+.premium-btn-primary:hover {
+    background: #0f766e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(13, 148, 136, 0.25);
+}
+
+.premium-btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.premium-btn-secondary:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--text-secondary);
+}
+
+/* Category Grid Page - Minimalist Vector Glowing Style */
+.premium-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+}
+
+.premium-category-card-vector {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    height: 340px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    text-decoration: none;
+}
+
+.premium-category-card-vector:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+    border-color: var(--accent-teal);
+}
+
+/* Glowing background pseudo-element */
+.premium-category-card-vector::before {
+    content: '';
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    filter: blur(40px);
+    z-index: 1;
+    opacity: 0.25;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.premium-category-card-vector:hover::before {
+    opacity: 0.45;
+    transform: scale(1.15);
+}
+
+/* Custom theme glows */
+.category-glow-culture::before {
+    background: radial-gradient(circle, #ea580c 0%, transparent 70%);
+}
+
+.category-glow-nature::before {
+    background: radial-gradient(circle, #10b981 0%, transparent 70%);
+}
+
+.category-glow-sea::before {
+    background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
+}
+
+.category-glow-honeymoon::before {
+    background: radial-gradient(circle, #f43f5e 0%, transparent 70%);
+}
+
+.category-glow-default::before {
+    background: radial-gradient(circle, var(--accent-teal) 0%, transparent 70%);
+}
+
+.premium-category-card-vector:hover .lucide-icon {
+    transform: scale(1.05);
+}
+
+.premium-category-card-vector:hover .arrow-trans {
+    transform: translateX(4px);
+}
+
+/* Premium Blog Masonry Grid */
+.premium-blog-masonry {
+    column-count: 3;
+    column-gap: 2rem;
+    width: 100%;
+}
+@media (max-width: 992px) {
+    .premium-blog-masonry {
+        column-count: 2;
+        column-gap: 1.5rem;
+    }
+}
+@media (max-width: 640px) {
+    .premium-blog-masonry {
+        column-count: 1;
+        column-gap: 0;
+    }
+}
+.premium-blog-card {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.premium-blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: rgba(13, 148, 136, 0.2);
+}
+.premium-blog-img-container {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-tertiary);
+}
+.premium-blog-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.premium-blog-card:hover .premium-blog-img {
+    transform: scale(1.04);
+}
+.premium-blog-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.premium-blog-date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+.premium-blog-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin: 0;
+}
+.premium-blog-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+.premium-blog-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent-teal);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.premium-blog-card:hover .premium-blog-footer svg {
+    transform: translateX(3px);
+}
+
+

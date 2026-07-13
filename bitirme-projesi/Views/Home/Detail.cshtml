@@ -1,0 +1,333 @@
+@model seyahat_projesi.Model.Tour
+@{
+    ViewData["Title"] = Model.Title;
+    var reviews = ViewBag.Reviews as IEnumerable<seyahat_projesi.Model.Review>;
+    var recentTours = ViewBag.RecentTours as IEnumerable<seyahat_projesi.Model.Tour>;
+
+    // Dynamic Gallery Images based on Tour Title/Location
+    var galleryImages = new List<string> { Model.ImageUrl };
+    
+    var titleLower = (Model.Title ?? "").ToLower(System.Globalization.CultureInfo.InvariantCulture);
+    var locLower = (Model.Location ?? "").ToLower(System.Globalization.CultureInfo.InvariantCulture);
+
+    if (titleLower.Contains("kapadokya") || locLower.Contains("nevşehir") || titleLower.Contains("balon"))
+    {
+        galleryImages.Add("https://images.unsplash.com/photo-1527838832700-50592524df7e?w=800&auto=format&fit=crop&q=80"); // Cappadocia cave/balloons
+        galleryImages.Add("https://images.unsplash.com/photo-1605007493699-af65834f8a00?w=800&auto=format&fit=crop&q=80"); // Cappadocia balloons
+        galleryImages.Add("https://images.unsplash.com/photo-1587974928493-bc27b0a8220a?w=800&auto=format&fit=crop&q=80"); // Cappadocia landscape
+        galleryImages.Add("https://images.unsplash.com/photo-1571401888741-ac4d51b3923c?w=800&auto=format&fit=crop&q=80"); // Cappadocia rocks
+    }
+    else if (titleLower.Contains("likya") || titleLower.Contains("yürüyüş") || titleLower.Contains("doğa"))
+    {
+        galleryImages.Add("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&auto=format&fit=crop&q=80"); // Mountains
+        galleryImages.Add("https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80"); // Nature/Lakes
+        galleryImages.Add("https://images.unsplash.com/photo-1533240332313-0db49b439ad3?w=800&auto=format&fit=crop&q=80"); // Lycian coast
+        galleryImages.Add("https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&auto=format&fit=crop&q=80"); // Camping
+    }
+    else if (titleLower.Contains("ege") || titleLower.Contains("mavi") || titleLower.Contains("yolculuk") || titleLower.Contains("bodrum") || titleLower.Contains("yat") || titleLower.Contains("tekne"))
+    {
+        galleryImages.Add("https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&auto=format&fit=crop&q=80"); // Yacht
+        galleryImages.Add("https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&auto=format&fit=crop&q=80"); // Sea view
+        galleryImages.Add("https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80"); // Aegean beach
+        galleryImages.Add("https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&auto=format&fit=crop&q=80"); // Yacht/Sea
+    }
+    else
+    {
+        galleryImages.Add("https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop&q=80");
+        galleryImages.Add("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80");
+        galleryImages.Add("https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=80");
+        galleryImages.Add("https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800&auto=format&fit=crop&q=80");
+    }
+}
+
+<div style="max-width:1200px; margin: 0 auto; padding: 2rem;">
+    <!-- 1. Detail Banner Header -->
+    <div class="detail-banner" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('@Model.ImageUrl'); height: 350px; background-size: cover; background-position: center; border-radius: 20px; display: flex; align-items: flex-end; padding: 3rem; margin-bottom: 2.5rem; border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
+        <div class="detail-banner-content" style="color: #ffffff;">
+            <span class="detail-category" style="background: var(--accent-teal); color: #ffffff; padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">@Model.Category?.Name</span>
+            <h1 style="font-size: 2.8rem; font-weight: 800; margin: 0.75rem 0 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">@Model.Title</h1>
+            <div class="detail-meta" style="display: flex; gap: 1.5rem; font-size: 0.95rem; opacity: 0.9;">
+                <span>📍 @Model.Location</span>
+                <span>📅 @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy") (@Model.DurationDays Gün)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Grid Content -->
+    <div style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 2.5rem;">
+        
+        <!-- Left Column: Tab Menu & Details -->
+        <div>
+            <!-- Tabs Header Navigation -->
+            <div class="glass-card" style="display: flex; justify-content: space-around; padding: 0.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                <button class="tab-btn active" onclick="switchTab(event, 'descriptionTab')">ℹ️ Açıklama</button>
+                <button class="tab-btn" onclick="switchTab(event, 'planTab')">🧭 Tur Planı</button>
+                <button class="tab-btn" onclick="switchTab(event, 'routeTab')">🗺️ Rota Konumu</button>
+                <button class="tab-btn" onclick="switchTab(event, 'reviewsTab')">💬 Yorumlar (@(reviews?.Count() ?? 0))</button>
+                <button class="tab-btn" onclick="switchTab(event, 'galleryTab')">🖼️ Galeri</button>
+            </div>
+
+            <!-- Tab Content 1: Description -->
+            <div id="descriptionTab" class="tab-content active-content glass-card" style="padding: 2.5rem;">
+                <h3 style="font-weight: 700; margin-bottom: 1rem; color:var(--text-primary);">Keşfetmeye Başla!</h3>
+                <p style="line-height: 1.7; color: var(--text-secondary); margin-bottom: 2rem;">@Model.Description</p>
+                
+                <h4 style="font-weight: 700; margin-bottom: 1rem; color:var(--text-primary); border-top: 1px solid var(--border-color); padding-top: 1.5rem;">Tur Detayları & Özellikleri</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    <div>👤 <strong>Rehber:</strong> @Model.Guide?.FullName</div>
+                    <div>👥 <strong>Kapasite:</strong> @Model.Capacity Kişi</div>
+                    <div>🏷️ <strong>Kategori:</strong> @Model.Category?.Name</div>
+                    <div>📍 <strong>Lokasyon:</strong> @Model.Location</div>
+                </div>
+            </div>
+
+            <!-- Tab Content 2: Tour Plan -->
+            <div id="planTab" class="tab-content glass-card" style="display:none; padding: 2.5rem;">
+                <h3 style="font-weight: 700; margin-bottom: 1.5rem; color:var(--text-primary);">Günlük Seyahat Rotaları</h3>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    @for (int i = 1; i <= Model.DurationDays; i++)
+                    {
+                        <div style="display: flex; gap: 1.5rem;">
+                            <div style="flex-shrink: 0; width: 40px; height: 40px; background: var(--accent-teal); color:#ffffff; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(13,148,136,0.3);">@i</div>
+                            <div>
+                                <h4 style="font-weight: 700; margin-bottom: 0.25rem; color:var(--text-primary);">Gün @i: Keşif ve Rota Programı</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Bu günde rehberimiz @Model.Guide?.FullName eşliğinde @Model.Location bölgesinin öne çıkan güzelliklerini, yerel kültürünü ve tarihi alanlarını keşfedeceğiz.</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Tab Content 3: Route Map -->
+            <div id="routeTab" class="tab-content glass-card" style="display:none; padding: 2.5rem; text-align: center;">
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+                <h3 style="font-weight: 700; margin-bottom: 1rem; color:var(--text-primary); text-align: left;">Seyahat Rotası Haritası</h3>
+                <p style="color: var(--text-secondary); text-align: left; margin-bottom: 1.5rem;">Aşağıdaki interaktif harita rehberimiz tarafından hazırlanan detaylı seyahat rotamızı göstermektedir.</p>
+                <!-- Leaflet Map Container -->
+                <div id="map" style="width: 100%; height: 400px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); z-index: 1;"></div>
+            </div>
+
+            <!-- Tab Content 4: Reviews -->
+            <div id="reviewsTab" class="tab-content glass-card" style="display:none; padding: 2.5rem;">
+                <h3 style="font-weight: 700; margin-bottom: 1.5rem; color:var(--text-primary);">Katılımcı Değerlendirmeleri</h3>
+                
+                @if (reviews == null || !reviews.Any())
+                {
+                    <p style="color: var(--text-muted); font-style: italic;">Bu tur için henüz yorum yapılmamıştır. İlk yorumu siz yapın!</p>
+                }
+                else
+                {
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem;">
+                        @foreach (var r in reviews)
+                        {
+                            <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+                                    <strong style="color: var(--text-primary);">@r.User?.Name</strong>
+                                    <span style="color: #f59e0b; font-size: 0.9rem;">@string.Concat(Enumerable.Repeat("★", r.Rating))</span>
+                                </div>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">@r.Comment</p>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); display:block; margin-top:0.4rem;">📅 @r.CreatedAt.ToString("dd.MM.yyyy")</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- Tab Content 5: Gallery -->
+            <div id="galleryTab" class="tab-content glass-card" style="display:none; padding: 2.5rem;">
+                <h3 style="font-weight: 700; margin-bottom: 1.5rem; color:var(--text-primary);">Tur Galerisi</h3>
+                
+                <!-- Main Featured Gallery Image -->
+                <div style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); height: 400px; position: relative;">
+                    <img id="galleryFeatured" src="@galleryImages.First()" alt="Featured Gallery Image" style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.2s ease-in-out;">
+                </div>
+
+                <!-- Gallery Thumbnails -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem;">
+                    @for (int idx = 0; idx < galleryImages.Count; idx++)
+                    {
+                        var imgUrl = galleryImages[idx];
+                        <div class="gallery-thumb-container" onclick="changeFeaturedImage('@imgUrl', this)" style="cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid @(idx == 0 ? "var(--accent-teal)" : "var(--border-color)"); transition: all 0.2s ease-in-out; height: 80px;">
+                            <img src="@imgUrl" alt="Gallery photo @(idx + 1)" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Booking & Sidebar Info -->
+        <div>
+            <style>
+                @@keyframes pulse {
+                    0% { opacity: 1; }
+                    50% { opacity: 0.4; }
+                    100% { opacity: 1; }
+                }
+            </style>
+            <!-- Booking Card -->
+            <div class="glass-card" style="padding: 2rem; border-radius: 16px; margin-bottom: 2rem; border: 1px solid var(--border-color);">
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Kişi Başı Fiyat</div>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">@Model.Price.ToString("N0") TL</div>
+                
+                @if (Model.Capacity <= 0)
+                {
+                    <div style="color: #ef4444; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; text-align: center;">⚠️ Bu turun kontenjanı tamamen dolmuştur!</div>
+                    <button class="btn" style="width: 100%; justify-content: center; padding: 0.85rem; border-radius: 8px; font-weight:700; text-align:center; display:block; background-color: #6b7280; color: #ffffff; cursor: not-allowed;" disabled>
+                        ❌ Kontenjan Dolu
+                    </button>
+                }
+                else
+                {
+                    @if (Model.Capacity < 5)
+                    {
+                        <div style="color: #ef4444; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; text-align: center; animation: pulse 1.5s infinite;">🔥 Son @Model.Capacity Kişi! Acele Edin!</div>
+                    }
+                    <a href="/Booking/Checkout?tourId=@Model.Id" class="btn btn-teal" style="width: 100%; justify-content: center; padding: 0.85rem; border-radius: 8px; font-weight:700; text-align:center; display:block;">
+                        🟢 Rezervasyon Yap
+                    </a>
+                }
+                <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.75rem;">* Rezervasyon sonrası onay için aranacaksınız.</div>
+            </div>
+
+            <!-- Guarantee Info Card -->
+            <div class="glass-card" style="padding: 2rem; border-radius: 16px; margin-bottom: 2rem; border: 1px solid var(--border-color);">
+                <h4 style="font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary);">Güvenle Rezervasyon Yapın</h4>
+                <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                    <div>🎧 7/24 Müşteri Desteği</div>
+                    <div>⭐ Özenle Seçilmiş Turlar</div>
+                    <div>🛡️ Ücretsiz Seyahat Sigortası</div>
+                    <div>🏷️ En İyi Fiyat Garantisi</div>
+                </div>
+            </div>
+
+            <!-- Recent Tours Sidebar Card -->
+            <div class="glass-card" style="padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
+                <h4 style="font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary);">Son Eklenen Turlar</h4>
+                <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    @if (recentTours != null && recentTours.Any())
+                    {
+                        foreach (var rt in recentTours)
+                        {
+                            <a href="/Home/Detail/@rt.Id" style="display:flex; gap:0.75rem; text-decoration:none; align-items:center;">
+                                <img src="@rt.ImageUrl" alt="@rt.Title" style="width: 60px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color);">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); line-height: 1.3;">@rt.Title</div>
+                                    <div style="font-size: 0.8rem; color: var(--accent-teal); font-weight:700; margin-top:0.25rem;">@rt.Price.ToString("N0") TL</div>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Diğer turlarımız yakında listelenecektir.</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // Tab switching function
+        function switchTab(evt, tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(c => c.style.display = 'none');
+
+            // Remove active classes
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(b => b.classList.remove('active'));
+
+            // Show active tab and set active class
+            document.getElementById(tabId).style.display = 'block';
+            evt.currentTarget.classList.add('active');
+
+            // If switching to routeTab, initialize or refresh map layout
+            if (tabId === 'routeTab') {
+                initMap();
+                if (map) {
+                    setTimeout(() => {
+                        map.invalidateSize();
+                    }, 100);
+                }
+            }
+        }
+
+        // Gallery Image switching function
+        function changeFeaturedImage(url, thumbContainer) {
+            const featuredImg = document.getElementById('galleryFeatured');
+            featuredImg.style.opacity = '0.3';
+            setTimeout(() => {
+                featuredImg.src = url;
+                featuredImg.style.opacity = '1';
+            }, 150);
+
+            const containers = document.querySelectorAll('.gallery-thumb-container');
+            containers.forEach(c => c.style.borderColor = 'var(--border-color)');
+            thumbContainer.style.borderColor = 'var(--accent-teal)';
+        }
+
+        // Interactive Map initialization with dynamic Nominatim API geocoding
+        let mapInitialized = false;
+        let map;
+
+        function initMap() {
+            if (mapInitialized) return;
+
+            const tourTitle = "@Html.Raw(Model.Title.Replace("\"", "\\\""))";
+            const tourLocation = "@Html.Raw(Model.Location.Replace("\"", "\\\""))";
+            
+            let defaultLat = 38.9637; // Center of Turkey
+            let defaultLng = 35.2433;
+            let defaultZoom = 6;
+
+            try {
+                map = L.map('map').setView([defaultLat, defaultLng], defaultZoom);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Fetch dynamic coordinates from OpenStreetMap Nominatim geocoding API
+                const geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(tourLocation)}&limit=1`;
+                
+                fetch(geocodeUrl, {
+                    headers: {
+                        'Accept-Language': 'tr,en'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lng = parseFloat(data[0].lon);
+                        
+                        map.setView([lat, lng], 11);
+                        
+                        L.marker([lat, lng]).addTo(map)
+                            .bindPopup('<b>' + tourTitle + '</b><br>📍 ' + tourLocation)
+                            .openPopup();
+                    } else {
+                        // Fallback marker at Turkey center
+                        L.marker([defaultLat, defaultLng]).addTo(map)
+                            .bindPopup('<b>' + tourTitle + '</b><br>📍 ' + tourLocation)
+                            .openPopup();
+                    }
+                })
+                .catch(err => {
+                    console.warn("Geocoding service error: ", err);
+                    L.marker([defaultLat, defaultLng]).addTo(map)
+                        .bindPopup('<b>' + tourTitle + '</b><br>📍 ' + tourLocation)
+                        .openPopup();
+                });
+
+                mapInitialized = true;
+            } catch (error) {
+                console.error("Map initialization failed: ", error);
+            }
+        }
+    </script>
+}

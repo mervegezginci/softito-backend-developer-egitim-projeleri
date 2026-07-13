@@ -1,0 +1,197 @@
+@model IEnumerable<seyahat_projesi.Model.Coupon>
+@{
+    ViewData["Title"] = "Kupon Yönetimi";
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header">
+                <h2>İindirim Kuponlarını Yönet</h2>
+                <button class="btn btn-primary" id="addCouponBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Yeni Kupon Ekle
+                </button>
+            </div>
+
+            <div class="table-wrapper" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kupon ID</th>
+                            <th>Kupon Kodu</th>
+                            <th>İndirim Tipi</th>
+                            <th>Değer</th>
+                            <th>Geçerlilik Tarihi</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: var(--text-muted); padding:2rem;">Kayıtlı kupon bulunmamaktadır.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var c in Model)
+                            {
+                                <tr>
+                                    <td>#@c.Id</td>
+                                    <td style="font-weight: 700; color: var(--accent-secondary);">@c.Code</td>
+                                    <td>@(c.DiscountType == "percentage" ? "Yüzdesel (%)" : "Sabit Tutar (TL)")</td>
+                                    <td>@c.DiscountValue.ToString("N0") @(c.DiscountType == "percentage" ? "%" : "TL")</td>
+                                    <td>@c.ExpiryDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td>
+                                        @if (c.IsActive && c.ExpiryDate > DateTime.Now)
+                                        {
+                                            <span class="status-badge status-approved">Aktif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge status-cancelled">Geçersiz / Pasif</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-edit-coupon" 
+                                                data-id="@c.Id"
+                                                data-code="@c.Code"
+                                                data-type="@c.DiscountType"
+                                                data-val="@c.DiscountValue"
+                                                data-date="@c.ExpiryDate.ToString("yyyy-MM-ddTHH:mm")"
+                                                data-active="@c.IsActive.ToString().ToLower()">Düzenle</button>
+                                        <button class="btn btn-danger btn-delete-coupon" data-id="@c.Id">Sil</button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add/Edit Coupon Modal -->
+<div class="modal-overlay" id="couponModal">
+    <div class="glass-card modal-content" style="max-width: 500px;">
+        <button class="modal-close" id="closeCouponModalBtn" type="button">&times;</button>
+        <h2 id="couponModalTitle" style="margin-bottom: 1.5rem;">Yeni Kupon Ekle</h2>
+
+        <form asp-action="SaveCoupon" method="post" id="couponForm">
+            <input type="hidden" name="Id" id="couponId" value="0" />
+
+            <div class="form-group">
+                <label for="couponCode">Kupon Kodu</label>
+                <input type="text" id="couponCode" name="Code" class="form-control" placeholder="Örn: YAZ2026" required style="text-transform: uppercase;">
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                    <label for="couponType">İndirim Tipi</label>
+                    <select id="couponType" name="DiscountType" class="form-control">
+                        <option value="percentage">Yüzdesel (%)</option>
+                        <option value="fixed">Sabit Tutar (TL)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="couponValue">Değer / Miktar</label>
+                    <input type="number" id="couponValue" name="DiscountValue" class="form-control" required min="1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="couponExpiryDate">Son Geçerlilik Tarihi</label>
+                <input type="datetime-local" id="couponExpiryDate" name="ExpiryDate" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="couponActive">Kupon Durumu</label>
+                <select id="couponActive" name="IsActive" class="form-control">
+                    <option value="true">Aktif</option>
+                    <option value="false">Pasif</option>
+                </select>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('couponModal').style.display='none';">İptal</button>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const couponModal = document.getElementById('couponModal');
+            const couponForm = document.getElementById('couponForm');
+            const addCouponBtn = document.getElementById('addCouponBtn');
+            const closeCouponModalBtn = document.getElementById('closeCouponModalBtn');
+
+            // Open for Create
+            if (addCouponBtn) {
+                addCouponBtn.addEventListener('click', () => {
+                    document.getElementById('couponId').value = 0;
+                    document.getElementById('couponModalTitle').textContent = 'Yeni İndirim Kuponu Ekle';
+                    couponForm.reset();
+                    // Set default expiry date to 30 days from now
+                    const date = new Date();
+                    date.setDate(date.getDate() + 30);
+                    document.getElementById('couponExpiryDate').value = date.toISOString().substring(0, 16);
+                    couponModal.style.display = 'flex';
+                });
+            }
+
+            // Close modal
+            if (closeCouponModalBtn) {
+                closeCouponModalBtn.addEventListener('click', () => {
+                    couponModal.style.display = 'none';
+                });
+            }
+
+            // Edit Action
+            document.querySelectorAll('.btn-edit-coupon').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('couponId').value = btn.getAttribute('data-id');
+                    document.getElementById('couponModalTitle').textContent = 'Kuponu Düzenle';
+
+                    document.getElementById('couponCode').value = btn.getAttribute('data-code');
+                    document.getElementById('couponType').value = btn.getAttribute('data-type');
+                    document.getElementById('couponValue').value = btn.getAttribute('data-val');
+                    document.getElementById('couponExpiryDate').value = btn.getAttribute('data-date');
+                    document.getElementById('couponActive').value = btn.getAttribute('data-active');
+
+                    couponModal.style.display = 'flex';
+                });
+            });
+
+            // Delete Action
+            document.querySelectorAll('.btn-delete-coupon').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Bu kuponu silmek istediğinize emin misiniz?')) {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            const res = await fetch('/Admin/DeleteCoupon/' + id, { method: 'POST' });
+                            const result = await res.json();
+                            if (result.success) {
+                                window.location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

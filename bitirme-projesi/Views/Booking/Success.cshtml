@@ -1,0 +1,62 @@
+@model seyahat_projesi.Model.Booking
+@{
+    ViewData["Title"] = "Rezervasyon Başarılı";
+}
+
+<div class="auth-page-container" style="padding: 4rem 1rem;">
+    <div class="auth-card" style="width: 580px; max-width: 100%; text-align: center; padding: 3rem; border: 1px solid var(--border-color); box-shadow: var(--card-hover-shadow);">
+        
+        <!-- Animated Checkmark Circle -->
+        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; animation: popCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">Rezervasyonunuz Alındı!</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">Ödeme işleminiz başarıyla tamamlandı ve onaylandı.</p>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" style="display:block; margin-bottom: 1.5rem;">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <!-- Booking details summary -->
+        <div class="glass-card" style="text-align: left; padding: 1.5rem 2rem; border-radius: 12px; margin-bottom: 2rem; background: var(--bg-secondary); border: 1px solid var(--border-color);">
+            <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Seyahat Detayları</h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary);">
+                <div>🌍 <strong>Rota:</strong> @Model.Tour?.Title</div>
+                <div>📍 <strong>Konum:</strong> @Model.Tour?.Location</div>
+                <div>📅 <strong>Gidiş Tarihi:</strong> @Model.BookingDate.ToString("dd.MM.yyyy")</div>
+                <div>👥 <strong>Kişi Sayısı:</strong> @Model.GuestsCount Kişi</div>
+                <div>💳 <strong>Ödeme Yöntemi:</strong> @(Model.Payment?.PaymentMethod == "credit_card" ? "Kredi / Banka Kartı" : Model.Payment?.PaymentMethod)</div>
+                <div>🔑 <strong>İşlem Kodu (TX):</strong> <code style="background: var(--bg-primary); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; border: 1px solid var(--border-color);">@Model.Payment?.TransactionId</code></div>
+                
+                <div style="border-top: 1px solid var(--border-color); padding-top: 0.75rem; margin-top: 0.25rem; display: flex; justify-content: space-between; align-items: center;">
+                    <strong>Ödenen Toplam:</strong>
+                    <span style="font-size: 1.3rem; font-weight: 800; color: var(--accent-teal);">@Model.TotalPrice.ToString("N0") TL</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2rem; font-style: italic; background: rgba(245, 158, 11, 0.08); padding: 0.75rem; border-radius: 6px; border: 1px dashed rgba(245, 158, 11, 0.3);">
+            * Rezervasyon sonrasında onay ve bilgilendirme için temsilcilerimiz (Gamze veya Merve) tarafından aranacaksınız.
+        </div>
+
+        <!-- Buttons navigation -->
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="/Booking/MyBookings" class="btn btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 8px;">Rezervasyonlarım</a>
+            <a href="/" class="btn btn-teal" style="padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 700;">Ana Sayfaya Dön</a>
+        </div>
+    </div>
+</div>
+
+<style>
+@@keyframes popCheck {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+</style>

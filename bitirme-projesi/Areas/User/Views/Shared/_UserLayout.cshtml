@@ -1,0 +1,276 @@
+@inject Microsoft.AspNetCore.Identity.UserManager<seyahat_projesi.Model.ApplicationUser> UserManager
+@{
+    seyahat_projesi.Model.ApplicationUser appUser = null;
+    string displayRole = "Üye";
+    string displayName = "";
+    string avatarLetter = "U";
+    if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        appUser = await UserManager.FindByNameAsync(User.Identity.Name);
+        if (appUser != null)
+        {
+            var roles = await UserManager.GetRolesAsync(appUser);
+            var role = roles.FirstOrDefault();
+            displayRole = role ?? "User";
+            displayName = appUser.Name;
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                avatarLetter = displayName.Substring(0, 1).ToUpper();
+            }
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GM Travel Üye Paneli</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user-dashboard.css" asp-append-version="true" />
+</head>
+<body>
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    </script>
+
+    <!-- User Area Navbar -->
+    <nav class="navbar">
+        <a href="/" class="nav-logo">GM <span>Travel</span></a>
+        <div class="nav-actions">
+            <button class="theme-toggle-btn" id="themeToggleBtn" type="button" title="Tema Değiştir">
+                <svg id="sunIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+            <a href="/" class="btn btn-teal">Ana Sayfaya Git</a>
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger" style="padding:0.5rem 1.2rem; border-radius:50px;">Çıkış</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- User Sidebar and Main Area -->
+    <div class="user-dashboard-container">
+        <aside class="user-sidebar">
+            <div class="user-profile-summary">
+                <div class="user-avatar-circle">
+                    @avatarLetter
+                </div>
+                <h3>@displayName</h3>
+                <span>@displayRole</span>
+            </div>
+            
+            @{
+                var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+            }
+            <div class="user-menu">
+                <a href="/User" class="user-menu-item @(currentAction == "Index" ? "active" : "")">
+                    <span>📊</span> Gösterge Paneli
+                </a>
+                <a href="/User/Bookings" class="user-menu-item @(currentAction == "Bookings" ? "active" : "")">
+                    <span>📅</span> Rezervasyonlarım
+                </a>
+                <a href="/User/Profile" class="user-menu-item @(currentAction == "Profile" ? "active" : "")">
+                    <span>👤</span> Profil Bilgilerim
+                </a>
+                <a href="/" class="user-menu-item">
+                    <span>🏠</span> Web Sitesine Dön
+                </a>
+            </div>
+        </aside>
+
+        <main class="user-main-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Theme toggler script -->
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+
+        function updateIcons() {
+            if (document.body.classList.contains('dark-theme')) {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        }
+
+        updateIcons();
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            updateIcons();
+        });
+    </script>
+
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <!-- Floating Coupon Ribbon -->
+        <div class="coupon-ribbon" id="couponRibbon" onclick="openCouponModal()">
+            <span class="coupon-ribbon-icon">🎁</span>
+            <span class="coupon-ribbon-text">Sürpriz Kupon Kazan!</span>
+        </div>
+
+        <!-- Coupon Popup Modal -->
+        <div class="coupon-modal-overlay" id="couponModalOverlay" onclick="closeCouponModalOnOverlay(event)">
+            <div class="coupon-modal-card">
+                <button class="coupon-modal-close" onclick="closeCouponModal()">&times;</button>
+                <div class="coupon-modal-gift-icon">🎁</div>
+                <h2 class="coupon-modal-title" id="couponModalTitle">Sürpriz İndirim Kuponu!</h2>
+                <p class="coupon-modal-desc" id="couponModalDesc">Aşağıdaki karekodu telefonunuzun kamerasıyla okutarak indirim kodunuza ulaşabilirsiniz!</p>
+                
+                <div class="coupon-modal-qr-container" id="couponQrContainer">
+                    <canvas id="couponQrCanvas"></canvas>
+                    <div class="coupon-modal-loading" id="couponQrLoading">Kupon hazırlanıyor...</div>
+                </div>
+                
+                <a id="couponDirectLink" href="#" target="_blank" style="display:none; font-size:0.85rem; color:var(--accent-teal); text-decoration:none; font-weight:600; margin-bottom:1.5rem;">Kodu sayfada gör (Test Linki) →</a>
+
+                <!-- PC Revealed Success Section -->
+                <div id="couponSuccessSection" style="display:none; margin: 0 auto 1.5rem; width: 100%; max-width: 280px;">
+                    <div style="background: rgba(13, 148, 136, 0.05); border: 2px dashed var(--accent-teal); border-radius: 12px; padding: 1.25rem 1rem; margin-bottom: 1rem;">
+                        <div id="pcCouponValue" style="font-size: 0.95rem; font-weight: 700; color: var(--accent-teal); margin-bottom: 0.25rem; text-transform: uppercase;"></div>
+                        <div id="pcCouponCode" style="font-size: 1.8rem; font-weight: 800; color: #0f172a; letter-spacing: 1px; font-family: monospace;"></div>
+                    </div>
+                    <button class="btn btn-teal" onclick="copyPcCouponToClipboard()" style="width:100%; padding:0.6rem 1rem; font-size:0.85rem; border-radius:8px; font-weight:700;">Kodu Kopyala</button>
+                </div>
+                
+                <p class="coupon-modal-footer">GM Travel keyifli seyahatler diler!</p>
+            </div>
+        </div>
+    }
+
+    <!-- Qrious QR Code Generator Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script>
+        let qriousQr = null;
+        let couponPollInterval = null;
+
+        function openCouponModal() {
+            const overlay = document.getElementById('couponModalOverlay');
+            const canvas = document.getElementById('couponQrCanvas');
+            const loading = document.getElementById('couponQrLoading');
+            const directLink = document.getElementById('couponDirectLink');
+            
+            canvas.style.display = 'none';
+            if (directLink) directLink.style.display = 'none';
+            document.getElementById('couponSuccessSection').style.display = 'none';
+            document.getElementById('couponQrContainer').style.display = 'block';
+            document.getElementById('couponModalTitle').textContent = 'Sürpriz İndirim Kuponu!';
+            document.getElementById('couponModalDesc').style.display = 'block';
+
+            loading.style.display = 'block';
+            loading.textContent = 'Kupon hazırlanıyor...';
+            overlay.classList.add('active');
+
+            if (couponPollInterval) {
+                clearInterval(couponPollInterval);
+                couponPollInterval = null;
+            }
+
+            fetch('/User/GetRandomCoupon')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Kupon bulunamadı');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const qrValue = data.revealUrl;
+                    
+                    if (qriousQr === null) {
+                        qriousQr = new QRious({
+                            element: canvas,
+                            value: qrValue,
+                            size: 180,
+                            backgroundAlpha: 0,
+                            foreground: '#0f172a'
+                        });
+                    } else {
+                        qriousQr.value = qrValue;
+                    }
+                    
+                    if (directLink) {
+                        directLink.href = `/User/RevealCoupon?code=${encodeURIComponent(data.code)}`;
+                        directLink.style.display = 'inline-block';
+                    }
+                    
+                    loading.style.display = 'none';
+                    canvas.style.display = 'block';
+
+                    startCouponPolling(data.code, data.discountType, data.discountValue);
+                })
+                .catch(err => {
+                    console.error(err);
+                    loading.textContent = 'Kupon yüklenirken bir hata oluştu.';
+                });
+        }
+
+        function startCouponPolling(code, discountType, discountValue) {
+            if (couponPollInterval) clearInterval(couponPollInterval);
+            
+            couponPollInterval = setInterval(() => {
+                fetch(`/User/CheckCouponStatus?code=${encodeURIComponent(code)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.scanned) {
+                            clearInterval(couponPollInterval);
+                            couponPollInterval = null;
+                            showScannedCoupon(code, discountType, discountValue);
+                        }
+                    })
+                    .catch(err => console.error('Polling error:', err));
+            }, 1500);
+        }
+
+        function showScannedCoupon(code, discountType, discountValue) {
+            document.getElementById('couponModalTitle').textContent = 'Tebrikler! Kuponunuz Hazır! 🎉';
+            document.getElementById('couponModalDesc').style.display = 'none';
+            document.getElementById('couponQrContainer').style.display = 'none';
+            if (document.getElementById('couponDirectLink')) {
+                document.getElementById('couponDirectLink').style.display = 'none';
+            }
+
+            const displayValue = discountType === 'Oransal' ? `%${discountValue}` : `${discountValue} TL`;
+            document.getElementById('pcCouponValue').textContent = `${displayValue} İNDİRİM`;
+            document.getElementById('pcCouponCode').textContent = code;
+            document.getElementById('couponSuccessSection').style.display = 'block';
+        }
+
+        function copyPcCouponToClipboard() {
+            const codeText = document.getElementById('pcCouponCode').textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Kupon kodu başarıyla kopyalandı!');
+            }).catch(err => {
+                console.error('Kopyalama hatası:', err);
+            });
+        }
+
+        function closeCouponModal() {
+            if (couponPollInterval) {
+                clearInterval(couponPollInterval);
+                couponPollInterval = null;
+            }
+            document.getElementById('couponModalOverlay').classList.remove('active');
+        }
+
+        function closeCouponModalOnOverlay(event) {
+            if (event.target === document.getElementById('couponModalOverlay')) {
+                closeCouponModal();
+            }
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,213 @@
+@model seyahat_projesi.Model.Tour
+@{
+    ViewData["Title"] = "Rezervasyon Yap";
+}
+
+<!-- Top Teal Header Banner -->
+<div style="background: linear-gradient(135deg, #0d9488, #115e59); color: #ffffff; text-align: center; padding: 4rem 1rem 5rem; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; margin-bottom: -3rem; box-shadow: var(--card-shadow);">
+    <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.5px;">Rezervasyon Yap</h1>
+    <p style="opacity: 0.9; font-size: 1rem; max-width: 600px; margin: 0 auto;">Seçtiğiniz benzersiz rota için seyahat bilgilerinizi doldurup yerinizi hemen ayırtın.</p>
+</div>
+
+<div style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 4rem; position: relative; z-index: 10;">
+    <form asp-controller="Booking" asp-action="Create" method="post" id="checkoutForm">
+        <input type="hidden" name="tourId" value="@Model.Id" />
+        <input type="hidden" id="appliedCouponCode" name="couponCode" />
+
+        <div style="display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 2rem; align-items: start;">
+            
+            <!-- Left Side: Forms -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                
+                <!-- Card 1: Personal Info -->
+                <div class="glass-card" style="padding: 2.25rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                        <span style="font-size: 1.25rem;">👤</span>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin: 0;">Kişisel Bilgiler</h3>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.25rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">Ad Soyad</label>
+                            <input type="text" class="form-control" value="@ViewBag.UserFullName" readonly style="background-color: var(--bg-secondary); cursor: not-allowed; font-weight: 500;" />
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">E-posta</label>
+                            <input type="email" class="form-control" value="@ViewBag.UserEmail" readonly style="background-color: var(--bg-secondary); cursor: not-allowed; font-weight: 500;" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Tour & Date/Guests selection -->
+                <div class="glass-card" style="padding: 2.25rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                        <span style="font-size: 1.25rem;">🏞️</span>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin: 0;">Tur ve Tarih Seçimi</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">Seçilen Rota</label>
+                        <input type="text" class="form-control" value="@Model.Title" readonly style="background-color: var(--bg-secondary); cursor: not-allowed; font-weight: 600;" />
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.25rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="bookingDate" style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">Gidiş Tarihi</label>
+                            <input type="date" id="bookingDate" name="bookingDate" class="form-control" value="@Model.StartDate.ToString("yyyy-MM-dd")" min="@Model.StartDate.ToString("yyyy-MM-dd")" max="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="guestsCount" style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">Kişi Sayısı</label>
+                            <input type="number" id="guestsCount" name="guestsCount" class="form-control" min="1" max="@Model.Capacity" value="1" required />
+                            <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Kalan Kontenjan: @Model.Capacity Kişi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Coupon & Safe Payment -->
+                <div class="glass-card" style="padding: 2.25rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                        <span style="font-size: 1.25rem;">💳</span>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin: 0;">Güvenli Sanal Ödeme</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="couponInput" style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">İndirim Kuponu</label>
+                        <div style="display:flex; gap:0.5rem;">
+                            <input type="text" id="couponInput" class="form-control" placeholder="KUPON KODUNU GİRİNİZ..." style="text-transform: uppercase;" />
+                            <button type="button" id="applyCouponBtn" class="btn btn-secondary" style="padding: 0.5rem 1.25rem;">Uygula</button>
+                        </div>
+                        <span id="couponSuccess" style="color:var(--accent-teal); font-size:0.8rem; display:none; margin-top:0.25rem;"></span>
+                        <span id="couponError" style="color:var(--accent-orange); font-size:0.8rem; display:none; margin-top:0.25rem;"></span>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.25rem;">
+                        <label for="paymentMethod" style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">Ödeme Yöntemi</label>
+                        <select id="paymentMethod" name="paymentMethod" class="form-control">
+                            <option value="credit_card">Kredi Kartı / Banka Kartı</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="bank_transfer">Banka Havalesi / EFT</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.25rem; margin-bottom: 0;">
+                        <label for="cardNumber" style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">Kart Numarası</label>
+                        <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="4111 2222 3333 4444" required>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Side: Sidebar Summary -->
+            <div style="position: sticky; top: 2rem;">
+                <div class="glass-card" style="padding: 2.25rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); display: flex; flex-direction: column; gap: 1.5rem;">
+                    
+                    <img src="@Model.ImageUrl" alt="@Model.Title" style="width: 100%; height: 160px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border-color);" />
+                    
+                    <div>
+                        <span style="font-size: 0.75rem; background: var(--bg-secondary); color: var(--accent-teal); padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 700; text-transform: uppercase;">@Model.Category?.Name</span>
+                        <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin: 0.5rem 0 0.25rem;">@Model.Title</h2>
+                        <span style="font-size: 0.85rem; color: var(--text-muted);">📍 @Model.Location</span>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary);">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Müşteri:</span>
+                            <strong style="color: var(--text-primary);">@ViewBag.UserFullName</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Kişi Sayısı:</span>
+                            <strong style="color: var(--text-primary);" id="summaryGuests">1 Kişi</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Kişi Başı Fiyat:</span>
+                            <strong style="color: var(--text-primary);">@Model.Price.ToString("N0") TL</strong>
+                        </div>
+                        
+                        <div style="border-top: 1px dashed var(--border-color); padding-top: 1rem; margin-top: 0.25rem; display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: var(--text-primary); font-size: 0.95rem;">Toplam Tutar:</strong>
+                            <span style="font-size: 1.6rem; font-weight: 900; color: var(--accent-teal);" id="summaryTotal">0 TL</span>
+                        </div>
+                    </div>
+
+                    <!-- Booking Complete Action Button -->
+                    <button type="submit" class="btn btn-teal" style="width: 100%; justify-content: center; padding: 1rem; border-radius: 8px; font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(13,148,136,0.3);">
+                        Rezervasyonunu Tamamla
+                    </button>
+                    
+                    <span style="font-size: 0.75rem; color: var(--text-muted); text-align: center; display: block; font-style: italic;">* Rezervasyon sonrası onay için aranacaksınız.</span>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const guestsCountInput = document.getElementById('guestsCount');
+            const summaryGuests = document.getElementById('summaryGuests');
+            const summaryTotal = document.getElementById('summaryTotal');
+            
+            const basePrice = @Model.Price;
+            let discountValue = 0;
+            let discountType = "percentage";
+
+            function calculateTotal() {
+                const guests = parseInt(guestsCountInput.value) || 1;
+                summaryGuests.textContent = guests + ' Kişi';
+                
+                let bPrice = basePrice * guests;
+                let finalPrice = bPrice;
+
+                if (discountValue > 0) {
+                    if (discountType === "percentage") {
+                        finalPrice = bPrice * (1 - (discountValue / 100));
+                    } else {
+                        finalPrice = Math.max(0, bPrice - discountValue);
+                    }
+                }
+
+                summaryTotal.textContent = Math.round(finalPrice).toLocaleString('tr-TR') + ' TL';
+            }
+
+            guestsCountInput.addEventListener('input', calculateTotal);
+            calculateTotal(); // Initial run
+
+            // Coupon Validation AJAX
+            document.getElementById('applyCouponBtn').addEventListener('click', async () => {
+                const code = document.getElementById('couponInput').value.trim();
+                const successEl = document.getElementById('couponSuccess');
+                const errorEl = document.getElementById('couponError');
+
+                successEl.style.display = 'none';
+                errorEl.style.display = 'none';
+
+                if (!code) return;
+
+                try {
+                    const res = await fetch('/Home/ValidateCoupon?code=' + encodeURIComponent(code));
+                    const data = await res.json();
+
+                    if (data.success) {
+                        discountValue = data.discountValue;
+                        discountType = data.discountType;
+                        document.getElementById('appliedCouponCode').value = code.toUpperCase();
+                        
+                        successEl.textContent = data.message;
+                        successEl.style.display = 'block';
+                    } else {
+                        discountValue = 0;
+                        document.getElementById('appliedCouponCode').value = '';
+                        
+                        errorEl.textContent = data.message;
+                        errorEl.style.display = 'block';
+                    }
+                    calculateTotal();
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+        });
+    </script>
+}

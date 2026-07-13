@@ -1,0 +1,287 @@
+@model IEnumerable<seyahat_projesi.Model.ApplicationUser>
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+    var userRoles = ViewBag.UserRoles as Dictionary<string, string>;
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 1rem;">
+                <h2>Kullanıcı Hesaplarını Düzenle</h2>
+                <button class="btn btn-teal" id="btnAddUser" style="padding:0.6rem 1.2rem; border-radius:8px; font-weight:700;">Yeni Kullanıcı Ekle</button>
+            </div>
+
+            <div class="table-wrapper" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı ID</th>
+                            <th>Ad Soyad</th>
+                            <th>E-posta</th>
+                            <th>Kullanıcı Rolü</th>
+                            <th>Hesap Durumu</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: var(--text-muted); padding:2rem;">Kullanıcı bulunamadı.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var u in Model)
+                            {
+                                var currentRole = userRoles != null && userRoles.ContainsKey(u.Id) ? userRoles[u.Id] : "User";
+                                <tr>
+                                    <td>#@u.Id.Substring(0, 8)...</td>
+                                    <td>@u.Name</td>
+                                    <td>@u.Email</td>
+                                    <td>
+                                        <select class="form-control select-user-role" data-id="@u.Id" style="padding:0.4rem; width:auto; display:inline-block;">
+                                            <option value="User" selected="@(currentRole == "User")">Kullanıcı (User)</option>
+                                            <option value="Admin" selected="@(currentRole == "Admin")">Yönetici (Admin)</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control select-user-status" data-id="@u.Id" style="padding:0.4rem; width:auto; display:inline-block;">
+                                            <option value="active" selected="@(u.Status == "active")">Aktif</option>
+                                            <option value="suspended" selected="@(u.Status == "suspended")">Askıya Alınmış</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        @if (u.Email != "admin@gezgin.com")
+                                        {
+                                            <button class="btn btn-secondary btn-edit-user" data-id="@u.Id" data-name="@u.Name" data-email="@u.Email" style="padding:0.4rem 0.8rem; font-size:0.8rem; margin-right:5px; border-radius: 6px;">Düzenle</button>
+                                            <button class="btn btn-danger btn-delete-user" data-id="@u.Id" style="padding:0.4rem 0.8rem; font-size:0.8rem; border-radius: 6px;">Sil</button>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal-overlay" id="addUserModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(4px);">
+    <div class="glass-card" style="width:100%; max-width:450px; padding:2rem; position:relative; border: 1px solid var(--border-color); background: var(--bg-primary); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        <button class="modal-close-btn" onclick="closeAddUserModal()" style="position:absolute; top:1rem; right:1.5rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-secondary);">&times;</button>
+        <h3 style="margin-bottom:1.5rem; font-weight:700; color:var(--text-primary);">Yeni Kullanıcı Ekle</h3>
+        <form id="addUserForm">
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Ad Soyad</label>
+                <input type="text" id="addUserName" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);" required />
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">E-posta</label>
+                <input type="email" id="addUserEmail" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);" required />
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Şifre</label>
+                <input type="password" id="addUserPassword" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);" required />
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Rol</label>
+                <select id="addUserRole" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);">
+                    <option value="User">Kullanıcı (User)</option>
+                    <option value="Admin">Yönetici (Admin)</option>
+                </select>
+            </div>
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Hesap Durumu</label>
+                <select id="addUserStatus" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);">
+                    <option value="active">Aktif</option>
+                    <option value="suspended">Askıya Alınmış</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-teal" style="width:100%; padding:0.75rem; border-radius:8px; font-weight:700;">Kaydet</button>
+        </form>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal-overlay" id="editUserModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(4px);">
+    <div class="glass-card" style="width:100%; max-width:450px; padding:2rem; position:relative; border: 1px solid var(--border-color); background: var(--bg-primary); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        <button class="modal-close-btn" onclick="closeEditUserModal()" style="position:absolute; top:1rem; right:1.5rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-secondary);">&times;</button>
+        <h3 style="margin-bottom:1.5rem; font-weight:700; color:var(--text-primary);">Kullanıcı Bilgilerini Düzenle</h3>
+        <form id="editUserForm">
+            <input type="hidden" id="editUserId" />
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Ad Soyad</label>
+                <input type="text" id="editUserName" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);" required />
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">E-posta</label>
+                <input type="email" id="editUserEmail" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);" required />
+            </div>
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.4rem; font-size:0.9rem; font-weight:600; color:var(--text-secondary);">Şifre (Boş bırakılırsa değişmez)</label>
+                <input type="password" id="editUserPassword" class="form-control" style="width:100%; padding:0.6rem; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-primary);" placeholder="Yeni şifre girin..." />
+            </div>
+            <button type="submit" class="btn btn-teal" style="width:100%; padding:0.75rem; border-radius:8px; font-weight:700;">Güncelle</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dropdown change handlers for role and status
+            async function saveUserChanges(userId, selectEl) {
+                const row = selectEl.closest('tr');
+                const role = row.querySelector('.select-user-role').value;
+                const status = row.querySelector('.select-user-status').value;
+
+                const formData = new FormData();
+                formData.append('userId', userId);
+                formData.append('roleName', role);
+                formData.append('status', status);
+
+                try {
+                    const res = await fetch('/Admin/UpdateUserRoleAndStatus', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await res.json();
+                    if (!result.success) {
+                        alert(result.message);
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            document.querySelectorAll('.select-user-role, .select-user-status').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    saveUserChanges(id, e.target);
+                });
+            });
+
+            // Add User Modal controls
+            window.closeAddUserModal = function() {
+                document.getElementById('addUserModal').style.display = 'none';
+            }
+            window.closeEditUserModal = function() {
+                document.getElementById('editUserModal').style.display = 'none';
+            }
+
+            document.getElementById('btnAddUser').addEventListener('click', () => {
+                document.getElementById('addUserForm').reset();
+                document.getElementById('addUserModal').style.display = 'flex';
+            });
+
+            document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('addUserName').value;
+                const email = document.getElementById('addUserEmail').value;
+                const password = document.getElementById('addUserPassword').value;
+                const role = document.getElementById('addUserRole').value;
+                const status = document.getElementById('addUserStatus').value;
+
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('password', password);
+                formData.append('roleName', role);
+                formData.append('status', status);
+
+                try {
+                    const res = await fetch('/Admin/CreateUser', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await res.json();
+                    alert(result.message);
+                    if (result.success) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('İşlem sırasında bir hata oluştu.');
+                }
+            });
+
+            // Edit User Modal controls
+            document.querySelectorAll('.btn-edit-user').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    const name = btn.getAttribute('data-name');
+                    const email = btn.getAttribute('data-email');
+
+                    document.getElementById('editUserId').value = id;
+                    document.getElementById('editUserName').value = name;
+                    document.getElementById('editUserEmail').value = email;
+                    document.getElementById('editUserPassword').value = '';
+
+                    document.getElementById('editUserModal').style.display = 'flex';
+                });
+            });
+
+            document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const id = document.getElementById('editUserId').value;
+                const name = document.getElementById('editUserName').value;
+                const email = document.getElementById('editUserEmail').value;
+                const password = document.getElementById('editUserPassword').value;
+
+                const formData = new FormData();
+                formData.append('userId', id);
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('password', password);
+
+                try {
+                    const res = await fetch('/Admin/EditUser', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await res.json();
+                    alert(result.message);
+                    if (result.success) {
+                        window.location.reload();
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('İşlem sırasında bir hata oluştu.');
+                }
+            });
+
+            // Delete user handler
+            document.querySelectorAll('.btn-delete-user').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Bu kullanıcıyı silmek istediğinize emin misiniz? Kullanıcıya ait tüm rezervasyonlar ve yorumlar da silinecektir.')) {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            const res = await fetch('/Admin/DeleteUser/' + id, { method: 'POST' });
+                            const result = await res.json();
+                            alert(result.message);
+                            if (result.success) {
+                                window.location.reload();
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            alert('Silme işlemi başarısız.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

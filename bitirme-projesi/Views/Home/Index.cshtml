@@ -1,0 +1,607 @@
+@model IEnumerable<seyahat_projesi.Model.Tour>
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    var categories = ViewBag.Categories as IEnumerable<seyahat_projesi.Model.Category>;
+}
+
+<!-- 1. GM Travel Hero Section -->
+<header class="hero">
+    <span class="hero-tag">Dünyayı Keşfetmeye Hazır Mısınız?</span>
+    <h1>Sıradışı Hikayeler İçin Eşsiz Seyahatler</h1>
+    <p>Sıradan rotaların ötesine geçin. GM Travel ile tamamen size özel tasarlanmış, lüks ve konfor dolu seyahat deneyimlerini keşfedin.</p>
+    <div class="hero-btns">
+        <a href="#tours" class="btn btn-teal">Rotaları Keşfet</a>
+        <a href="#about" class="btn btn-secondary">Daha Fazla Bilgi</a>
+    </div>
+</header>
+
+<!-- 2. Minimalist Floating Search Bar (No Hotels/Flights Tabs) -->
+<div class="search-overlay-container">
+    <div class="search-card">
+        <form action="/#search-results" method="get" class="search-grid">
+            <div class="search-field-group">
+                <label for="search">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    Nereye?
+                </label>
+                <input type="text" id="search" name="search" placeholder="Ülke, şehir veya bölge..." value="@ViewBag.Search">
+            </div>
+
+            <div class="search-field-group">
+                <label for="categoryId">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    Kategori
+                </label>
+                <select id="categoryId" name="categoryId">
+                    <option value="">Tüm Kategoriler</option>
+                    @if (categories != null)
+                    {
+                        foreach (var cat in categories)
+                        {
+                            if (ViewBag.CategoryId == cat.Id)
+                            {
+                                <option value="@cat.Id" selected>@cat.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="search-field-group">
+                <label for="minDuration">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    Süre
+                </label>
+                <select id="minDuration" name="minDuration">
+                    <option value="">Fark Etmez</option>
+                    <option value="2" selected="@(ViewBag.MinDuration == 2)">2+ Gün</option>
+                    <option value="4" selected="@(ViewBag.MinDuration == 4)">4+ Gün</option>
+                    <option value="6" selected="@(ViewBag.MinDuration == 6)">6+ Gün</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="padding:0.85rem 2.5rem; border-radius:8px; width:100%;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Ara
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Infinite Sliding Destination Marquee -->
+@{
+    var marqueeTours = ViewBag.MarqueeTours as List<string>;
+    if (marqueeTours != null && marqueeTours.Any())
+    {
+        var displayItems = new List<string>(marqueeTours);
+        while (displayItems.Count < 8)
+        {
+            displayItems.AddRange(marqueeTours);
+        }
+        
+        <div class="marquee-container">
+            <div class="marquee-track">
+                @foreach (var title in displayItems)
+                {
+                    <div class="marquee-item">📍 @title</div>
+                }
+                @foreach (var title in displayItems)
+                {
+                    <div class="marquee-item">📍 @title</div>
+                }
+            </div>
+        </div>
+    }
+}
+
+<!-- Main Panels for Alerts -->
+<div style="max-width:1200px; margin: 0 auto 2rem; padding: 0 2rem;">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" style="display:block;">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" style="display:block;">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+</div>
+
+<!-- Search Results Section (Shown only when searching) -->
+@if (ViewBag.IsSearching == true)
+{
+    var searchResults = ViewBag.SearchResults as List<seyahat_projesi.Model.Tour>;
+
+    <section class="section" id="search-results" style="scroll-margin-top: 100px; padding-bottom: 2rem;">
+        <div class="section-header">
+            <span class="section-mini-tag" style="background: rgba(249, 115, 22, 0.15); color: #f97316;">Arama Sonuçları</span>
+            <h2>Aradığınız Kriterlere Uygun Rotalar</h2>
+        </div>
+
+        <div class="tours-grid">
+            @if (searchResults == null || !searchResults.Any())
+            {
+                <div class="no-results-card" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 20px; box-shadow: var(--card-shadow); max-width: 600px; margin: 2rem auto; display: flex; flex-direction: column; align-items: center; gap: 1.25rem;">
+                    <div style="font-size: 3.5rem; width: 80px; height: 80px; background: rgba(249, 115, 22, 0.08); color: #f97316; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.1);">🔍</div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 0;">Eşleşen Rota Bulamadık</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6; margin: 0; max-width: 450px;">
+                        Belirttiğiniz kriterlere uygun seyahat rotası bulunamadı. Lütfen farklı anahtar kelimeler deneyin ya da filtreleri temizleyin.
+                    </p>
+                    <a href="/" class="btn btn-outline-dark" style="padding: 0.75rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none;">Aramayı Temizle</a>
+                </div>
+            }
+            else
+            {
+                foreach (var tour in searchResults)
+                {
+                    string categoryBadge = tour.Category?.Name ?? "Popüler";
+                    if (categoryBadge == "Ege-Akdeniz") categoryBadge = "Lüks & Deniz";
+                    else if (categoryBadge == "Kültür") categoryBadge = "Kültür & Doğa";
+                    else if (categoryBadge == "Doğa & Macera") categoryBadge = "Macera & Huzur";
+
+                    <div class="tour-card" style="border-color: rgba(249, 115, 22, 0.4); box-shadow: 0 4px 20px rgba(249, 115, 22, 0.06);">
+                        <div class="tour-img-container">
+                            <img src="@tour.ImageUrl" alt="@tour.Title" class="tour-img">
+                            <span class="tour-card-badge" style="background: #f97316;">@categoryBadge</span>
+                            <span class="tour-card-duration">@tour.DurationDays Gün</span>
+                        </div>
+                        <div class="tour-body">
+                            <div class="tour-rating">
+                                ★ @tour.AverageRating.ToString("F1") <span>(@tour.ReviewCount Değerlendirme)</span>
+                            </div>
+                            <h3 class="tour-title">@tour.Title</h3>
+                            <p class="tour-desc">@tour.Description</p>
+                            
+                            <div class="tour-guide-row">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Rehber: <strong>@tour.Guide?.FullName</strong>
+                            </div>
+
+                            <div class="tour-footer" style="display:flex; flex-direction:column; gap:0.75rem; width:100%;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                                    <div class="tour-price-box">
+                                        <span class="tour-price-label">Kişi Başı</span>
+                                        <span class="tour-price-val">@tour.Price.ToString("N0") TL</span>
+                                    </div>
+                                    <div style="font-size:0.8rem; color:var(--text-muted);">Kontenjan: @tour.Capacity</div>
+                                </div>
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem; width:100%;">
+                                    <a href="/Home/Detail/@tour.Id" class="btn btn-outline-dark" style="padding:0.55rem; font-size:0.8rem; text-align:center; display:block; border-radius: 6px;">İncele</a>
+                                    <a href="/Booking/Checkout?tourId=@tour.Id" class="btn btn-teal"
+                                            style="padding:0.55rem; font-size:0.8rem; border-radius: 6px; font-weight:700; text-align:center; display:block;">Rezerve Et</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        
+        <div style="text-align: center; margin-top: 2.5rem; margin-bottom: 2rem;">
+            <a href="/" class="btn btn-secondary" style="padding: 0.75rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none;">Aramayı Temizle / Tümünü Gör</a>
+        </div>
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 3rem 0 1rem;" />
+    </section>
+}
+
+<!-- 3. Destinations Section ("Popüler Rotalar") -->
+<section class="section" id="tours">
+    <div class="section-header">
+        <span class="section-mini-tag">Popüler Rotalar</span>
+        <h2>Haftanın Öne Çıkan Destinasyonları</h2>
+    </div>
+
+    <div class="tours-grid">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="no-results-card" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 20px; box-shadow: var(--card-shadow); max-width: 600px; margin: 2rem auto; display: flex; flex-direction: column; align-items: center; gap: 1.25rem;">
+                <div style="font-size: 3.5rem; width: 80px; height: 80px; background: rgba(13, 148, 136, 0.08); color: var(--accent-teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(13, 148, 136, 0.1);">🔍</div>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 0;">Rota Bulunamadı</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin: 0; max-width: 450px;">
+                    Arama kriterlerinize veya filtrelerinize uygun herhangi bir seyahat rotası bulamadık. Lütfen farklı anahtar kelimeler deneyin ya da filtreleri sıfırlayın.
+                </p>
+                <a href="/" class="btn btn-teal" style="padding: 0.75rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; margin-top: 0.5rem;">Tüm Rotaları Gör</a>
+            </div>
+        }
+        else
+        {
+            foreach (var tour in Model)
+            {
+                string categoryBadge = tour.Category?.Name ?? "Popüler";
+                if (categoryBadge == "Ege-Akdeniz") categoryBadge = "Lüks & Deniz";
+                else if (categoryBadge == "Kültür") categoryBadge = "Kültür & Doğa";
+                else if (categoryBadge == "Doğa & Macera") categoryBadge = "Macera & Huzur";
+
+                <div class="tour-card">
+                    <div class="tour-img-container">
+                        <img src="@tour.ImageUrl" alt="@tour.Title" class="tour-img">
+                        <span class="tour-card-badge">@categoryBadge</span>
+                        <span class="tour-card-duration">@tour.DurationDays Gün</span>
+                    </div>
+                    <div class="tour-body">
+                        <div class="tour-rating">
+                            ★ @tour.AverageRating.ToString("F1") <span>(@tour.ReviewCount Değerlendirme)</span>
+                        </div>
+                        <h3 class="tour-title">@tour.Title</h3>
+                        <p class="tour-desc">@tour.Description</p>
+                        
+                        <div class="tour-guide-row">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            Rehber: <strong>@tour.Guide?.FullName</strong>
+                        </div>
+
+                        <div class="tour-footer" style="display:flex; flex-direction:column; gap:0.75rem; width:100%;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                                <div class="tour-price-box">
+                                    <span class="tour-price-label">Kişi Başı</span>
+                                    <span class="tour-price-val">@tour.Price.ToString("N0") TL</span>
+                                </div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Kontenjan: @tour.Capacity</div>
+                            </div>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem; width:100%;">
+                                <a href="/Home/Detail/@tour.Id" class="btn btn-outline-dark" style="padding:0.55rem; font-size:0.8rem; text-align:center; display:block; border-radius: 6px;">İncele</a>
+                                <a href="/Booking/Checkout?tourId=@tour.Id" class="btn btn-teal"
+                                        style="padding:0.55rem; font-size:0.8rem; border-radius: 6px; font-weight:700; text-align:center; display:block;">Rezerve Et</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    
+    <div style="text-align: center; margin-top: 3.5rem;">
+        <a href="/Tours" class="btn btn-teal" style="padding: 0.9rem 2.5rem; font-weight: 700; border-radius: 50px; text-decoration: none; box-shadow: 0 4px 15px rgba(13,148,136,0.15);">Tüm Turları Keşfet →</a>
+    </div>
+</section>
+
+<!-- 4. About Section ("Seyahatlerinizi Sanata Dönüştürüyoruz") -->
+<section class="section" id="about" style="border-top: 1px solid var(--border-color); padding-top:6rem;">
+    <div class="about-grid">
+        <div class="about-left">
+            <span class="section-mini-tag">Neden GM Travel?</span>
+            <h2>Seyahatlerinizi Sanata Dönüştürüyoruz</h2>
+            <p>Her detayı titizlikle düşünülmüş seyahat programlarımızla, sıradan tatilleri ömür boyu unutamayacağınız anılara dönüştürüyoruz. Ayrıcalıklı hizmet anlayışımızla tanışın.</p>
+            
+            <div class="about-features">
+                <div class="about-feature-item">
+                    <div class="about-feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"></polygon></svg>
+                    </div>
+                    <div class="about-feature-text">
+                        <h4>Kişiye Özel Rotalar</h4>
+                        <p>Hazır paketlerin dışına çıkın. İlgi alanlarınıza ve temponuza göre tamamen size özel planlama yapıyoruz.</p>
+                    </div>
+                </div>
+
+                <div class="about-feature-item">
+                    <div class="about-feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="about-feature-text">
+                        <h4>7/24 Seyahat Desteği</h4>
+                        <p>Seyahatinizin her anında, nerede olursanız olun kişisel seyahat danışmanınız bir telefon uzağınızda.</p>
+                    </div>
+                </div>
+
+                <div class="about-feature-item">
+                    <div class="about-feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <div class="about-feature-text">
+                        <h4>Lüks & Konfor Seçenekleri</h4>
+                        <p>Anlaşmalı olduğumuz dünya genelindeki butik ve lüks otellerde ayrıcalıklı VIP check-in ve ücretsiz oda yükseltme fırsatları.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about-right">
+            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=700&auto=format&fit=crop&q=80" alt="Camera and map layout">
+        </div>
+    </div>
+</section>
+
+<!-- 5. Deals / Erken Rezervasyon Countdown Banner -->
+<section class="section" id="deals">
+    <div class="deals-card">
+        <span class="badge-orange">Sınırlı Süre</span>
+        <h2>Erken Rezervasyon Fırsatlarıyla %30'a Varan İndirimler</h2>
+        <p>Yaz sezonunun en gözde destinasyonlarında şimdiden yerinizi ayırtın, lüks tatil keyfini özel fiyatlarla çıkarın.</p>
+        
+        <div class="countdown-wrapper">
+            <div class="countdown-box">
+                <span class="countdown-val" id="daysBox">29</span>
+                <span class="countdown-lbl">Gün</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-val" id="hoursBox">23</span>
+                <span class="countdown-lbl">Saat</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-val" id="minutesBox">57</span>
+                <span class="countdown-lbl">Dakika</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-val" id="secondsBox">35</span>
+                <span class="countdown-lbl">Saniye</span>
+            </div>
+        </div>
+
+        <a href="#tours" class="btn btn-primary" style="padding: 0.9rem 2.5rem;">Hemen Teklif Al</a>
+    </div>
+</section>
+
+<!-- 5.5 FAQ / Sıkça Sorulan Sorular Section -->
+@{
+    var faqsList = ViewBag.Faqs as IEnumerable<seyahat_projesi.Model.Faq>;
+    if (faqsList == null || !faqsList.Any())
+    {
+        faqsList = new List<seyahat_projesi.Model.Faq>
+        {
+            new seyahat_projesi.Model.Faq { Question = "Turlar için iptal politikanız nedir?", Answer = "Tur tarihine 7 gün kala yapılan iptallerde kesintisiz %100 ücret iadesi yapmaktayız." },
+            new seyahat_projesi.Model.Faq { Question = "Ödemelerde taksit imkanı var mı?", Answer = "Kredi kartlarıyla yapılan rezervasyonlarda 3-6-9 taksit seçeneklerimiz mevcuttur." },
+            new seyahat_projesi.Model.Faq { Question = "Turlara ulaşım dahil midir?", Answer = "Turlarımızın başlangıç noktasına ulaşım katılımcılara aittir. Tur esnasındaki tüm ara transferler ve gezi ulaşımları ise konforlu araçlarımızla fiyata dahildir." },
+            new seyahat_projesi.Model.Faq { Question = "Rehberlik hizmeti Türkçe mi?", Answer = "Evet, tüm turlarımız deneyimli ve kokartlı profesyonel Türkçe rehberler eşliğinde gerçekleştirilmektedir." }
+        };
+    }
+}
+
+<style>
+    .faq-section {
+        background: var(--bg-secondary);
+        padding: 5rem 2rem;
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .faq-item {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        margin-bottom: 1.25rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: var(--card-shadow);
+    }
+    .faq-item:hover {
+        border-color: var(--accent-teal);
+        transform: translateY(-2px);
+        box-shadow: var(--card-hover-shadow);
+    }
+    .faq-toggle {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        background: none;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+    }
+    .faq-toggle span {
+        font-weight: 600;
+        font-size: 1.05rem;
+        color: var(--text-primary);
+        transition: color 0.2s ease;
+    }
+    .faq-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--border-color);
+        color: var(--text-primary);
+        font-size: 0.8rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .faq-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+        padding: 0 2rem;
+    }
+    .faq-content p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        font-size: 0.95rem;
+        padding-bottom: 1.5rem;
+        margin: 0;
+    }
+    /* Active Accordion States */
+    .faq-item.active-faq {
+        border-color: var(--accent-teal);
+        background: var(--card-bg);
+    }
+    .faq-item.active-faq .faq-toggle span {
+        color: var(--accent-teal);
+    }
+    .faq-item.active-faq .faq-icon {
+        background: var(--accent-teal);
+        color: #ffffff;
+        transform: rotate(135deg); /* Turns plus to close sign */
+    }
+</style>
+
+<section class="faq-section" id="faq">
+    <div class="faq-container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <span class="section-mini-tag" style="background: rgba(13,148,136,0.1); color: var(--accent-teal); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: inline-block;">Destek & Bilgi</span>
+            <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--text-primary); margin-top: 1rem;">Sıkça Sorulan Sorular</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0.5rem auto 0; font-size: 0.95rem; line-height: 1.6;">Seyahatlerimiz, rezervasyon süreçlerimiz ve iptal politikalarımız hakkında merak ettiklerinize buradan ulaşabilirsiniz.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column;">
+            @foreach (var faq in faqsList)
+            {
+                <div class="faq-item">
+                    <button class="faq-toggle" onclick="toggleFaq(this)">
+                        <span>@faq.Question</span>
+                        <span class="faq-icon">＋</span>
+                    </button>
+                    <div class="faq-content">
+                        <p>@faq.Answer</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleFaq(button) {
+        const item = button.closest('.faq-item');
+        const content = item.querySelector('.faq-content');
+        const isOpen = item.classList.contains('active-faq');
+
+        // Close all open FAQs
+        document.querySelectorAll('.faq-item').forEach(el => {
+            el.classList.remove('active-faq');
+            el.querySelector('.faq-content').style.maxHeight = null;
+        });
+
+        // Open clicked FAQ if it wasn't open
+        if (!isOpen) {
+            item.classList.add('active-faq');
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    }
+</script>
+
+<!-- 6. İletişim / Talep Formu -->
+<section class="section" id="contact" style="padding-bottom:8rem;">
+    <div class="contact-grid">
+        <div class="contact-left">
+            <span class="section-mini-tag">Bizimle İletişime Geçin</span>
+            <h2>Bir Sonraki Maceranızı Birlikte Planlayalım</h2>
+            <p>Hayalinizdeki seyahati bize anlatın. Deneyimli seyahat uzmanlarımız tamamen sizin isteklerinize göre tasarlanmış bir seyahat programı hazırlamak için sizinle iletişime geçsin.</p>
+        </div>
+
+        <div class="contact-card">
+            <h3>Seyahat Talep Formu</h3>
+            <div id="contactAlert" class="alert" style="display:none; margin-bottom:1rem; padding:0.75rem; border-radius:8px; font-size:0.9rem; font-weight:600;"></div>
+            <form id="contactForm" asp-controller="Home" asp-action="SaveContactMessage" method="post">
+                <div class="form-group">
+                    <label for="cName">Adınız Soyadınız</label>
+                    <input type="text" id="cName" name="name" class="form-control" placeholder="Örn: Ahmet Yılmaz" required>
+                </div>
+                <div class="form-group">
+                    <label for="cEmail">E-posta Adresiniz</label>
+                    <input type="email" id="cEmail" name="email" class="form-control" placeholder="name@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="cSubject">Nereyi Keşfetmek İstersiniz? (Konu)</label>
+                    <input type="text" id="cSubject" name="subject" class="form-control" placeholder="Örn: Kapadokya Turu Talebi" required>
+                </div>
+                <div class="form-group">
+                    <label for="cMsg">Mesajınız / Hayalinizdeki Tatil Detayları</label>
+                    <textarea id="cMsg" name="message" class="form-control" rows="4" placeholder="Kişi sayısı, otel tercihleri, tarihler veya özel istekler..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-teal" style="width:100%; margin-top:1rem; border-radius:8px; padding:0.85rem;">Talebi Gönder</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Modal Removed -->
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Countdown Timer Code ---
+            let days = 29, hours = 23, minutes = 57, seconds = 35;
+            
+            const daysBox = document.getElementById('daysBox');
+            const hoursBox = document.getElementById('hoursBox');
+            const minutesBox = document.getElementById('minutesBox');
+            const secondsBox = document.getElementById('secondsBox');
+
+            if (daysBox || hoursBox || minutesBox || secondsBox) {
+                setInterval(() => {
+                    if (seconds > 0) {
+                        seconds--;
+                    } else {
+                        seconds = 59;
+                        if (minutes > 0) {
+                            minutes--;
+                        } else {
+                            minutes = 59;
+                            if (hours > 0) {
+                                hours--;
+                            } else {
+                                hours = 23;
+                                if (days > 0) {
+                                    days--;
+                                }
+                            }
+                        }
+                    }
+
+                    if (daysBox) daysBox.textContent = days.toString().padStart(2, '0');
+                    if (hoursBox) hoursBox.textContent = hours.toString().padStart(2, '0');
+                    if (minutesBox) minutesBox.textContent = minutes.toString().padStart(2, '0');
+                    if (secondsBox) secondsBox.textContent = seconds.toString().padStart(2, '0');
+                }, 1000);
+            }
+
+            // --- AJAX Contact Form Submission ---
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(contactForm);
+                    const alertDiv = document.getElementById('contactAlert');
+                    
+                    alertDiv.style.display = 'none';
+                    
+                    try {
+                        const response = await fetch('/Home/SaveContactMessage', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            alertDiv.className = 'alert alert-success';
+                            alertDiv.style.background = 'rgba(13,148,136,0.15)';
+                            alertDiv.style.color = 'var(--accent-teal)';
+                            alertDiv.style.border = '1px solid var(--accent-teal)';
+                            alertDiv.style.display = 'block';
+                            alertDiv.textContent = data.message;
+                            contactForm.reset();
+                        } else {
+                            alertDiv.className = 'alert alert-danger';
+                            alertDiv.style.background = 'rgba(239,68,68,0.15)';
+                            alertDiv.style.color = '#ef4444';
+                            alertDiv.style.border = '1px solid #ef4444';
+                            alertDiv.style.display = 'block';
+                            alertDiv.textContent = data.message;
+                        }
+                    } catch (error) {
+                        console.error('Error submitting contact form:', error);
+                        alertDiv.className = 'alert alert-danger';
+                        alertDiv.style.background = 'rgba(239,68,68,0.15)';
+                        alertDiv.style.color = '#ef4444';
+                        alertDiv.style.border = '1px solid #ef4444';
+                        alertDiv.style.display = 'block';
+                        alertDiv.textContent = 'Mesaj gönderilirken teknik bir hata oluştu.';
+                    }
+                });
+            }
+        });
+    </script>
+}

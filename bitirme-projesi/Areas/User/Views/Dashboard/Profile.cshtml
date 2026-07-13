@@ -1,0 +1,55 @@
+@model seyahat_projesi.Model.ApplicationUser
+@inject Microsoft.AspNetCore.Identity.UserManager<seyahat_projesi.Model.ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Profil Bilgilerim";
+    var roles = await UserManager.GetRolesAsync(Model);
+    var role = roles.FirstOrDefault();
+    var displayRole = role ?? "User";
+}
+
+<div class="glass-card" style="padding: 2.5rem; border-radius: 16px; max-width: 600px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow);">
+    <div class="dashboard-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <h2 style="font-weight: 800; color: var(--text-primary); margin: 0;">Profil Bilgilerim</h2>
+    </div>
+
+    <!-- Alert notifications -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" style="background: rgba(13,148,136,0.15); color: var(--accent-teal); border: 1px solid var(--accent-teal); padding: 0.85rem 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600; font-size: 0.9rem;">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" style="background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid #ef4444; padding: 0.85rem 1.2rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600; font-size: 0.9rem;">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <form asp-area="User" asp-controller="Dashboard" asp-action="Profile" method="post" style="display:flex; flex-direction:column; gap:1.25rem;">
+        
+        <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <label for="name" style="color:var(--text-secondary); font-weight:600; font-size:0.9rem;">Ad Soyad:</label>
+            <input type="text" id="name" name="name" value="@Model.Name" required class="form-control" style="padding: 0.65rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-secondary); color: var(--text-primary);" />
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <label for="email" style="color:var(--text-secondary); font-weight:600; font-size:0.9rem;">E-posta Adresi:</label>
+            <input type="email" id="email" name="email" value="@Model.Email" required class="form-control" style="padding: 0.65rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-secondary); color: var(--text-primary);" />
+        </div>
+
+        <div style="display:grid; grid-template-columns:150px 1fr; border-bottom:1px solid var(--border-color); padding-bottom:0.75rem; align-items:center; font-size:0.9rem;">
+            <span style="color:var(--text-secondary); font-weight:600;">Kullanıcı Rolü:</span>
+            <span style="text-transform: capitalize; color: var(--accent-teal); font-weight:bold;">@displayRole</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:150px 1fr; border-bottom:1px solid var(--border-color); padding-bottom:0.75rem; align-items:center; font-size:0.9rem;">
+            <span style="color:var(--text-secondary); font-weight:600;">Hesap Durumu:</span>
+            <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; display: inline-block; width: fit-content; text-transform: uppercase;">Aktif</span>
+        </div>
+
+        <button type="submit" class="btn btn-teal" style="margin-top: 0.75rem; padding: 0.75rem 1.5rem; font-weight: 700; border-radius: 8px; width: fit-content; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; border: none; background-color: var(--accent-teal); color: #ffffff;">
+            💾 Profil Bilgilerini Güncelle
+        </button>
+    </form>
+</div>

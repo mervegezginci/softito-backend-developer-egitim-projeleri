@@ -1,0 +1,149 @@
+@model IEnumerable<seyahat_projesi.Model.Category>
+@{
+    ViewData["Title"] = "Kategorileri Yönet";
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header">
+                <h2>Tur Kategorilerini Yönet</h2>
+                <button class="btn btn-primary" id="addCatBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Yeni Kategori Ekle
+                </button>
+            </div>
+
+            <div class="table-wrapper" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kategori ID</th>
+                            <th>Kategori Adı</th>
+                            <th>Açıklama</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--text-muted); padding:2rem;">Kayıtlı kategori bulunmamaktadır.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var c in Model)
+                            {
+                                <tr>
+                                    <td>#@c.Id</td>
+                                    <td style="font-weight: 600;">@c.Name</td>
+                                    <td style="color: var(--text-secondary);">@c.Description</td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-edit-cat" 
+                                                data-id="@c.Id"
+                                                data-name="@c.Name"
+                                                data-desc="@c.Description">Düzenle</button>
+                                        <button class="btn btn-danger btn-delete-cat" data-id="@c.Id">Sil</button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add/Edit Category Modal -->
+<div class="modal-overlay" id="catModal">
+    <div class="glass-card modal-content" style="max-width: 500px;">
+        <button class="modal-close" id="closeCatModalBtn" type="button">&times;</button>
+        <h2 id="catModalTitle" style="margin-bottom: 1.5rem;">Yeni Kategori Ekle</h2>
+
+        <form asp-action="SaveCategory" method="post" id="catForm">
+            <input type="hidden" name="Id" id="catId" value="0" />
+
+            <div class="form-group">
+                <label for="catName">Kategori Adı</label>
+                <input type="text" id="catName" name="Name" class="form-control" placeholder="Örn: Kültür Turları" required>
+            </div>
+
+            <div class="form-group">
+                <label for="catDesc">Açıklama</label>
+                <textarea id="catDesc" name="Description" class="form-control" rows="4" placeholder="Kategori açıklaması..." required></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('catModal').style.display='none';">İptal</button>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const catModal = document.getElementById('catModal');
+            const catForm = document.getElementById('catForm');
+            const addCatBtn = document.getElementById('addCatBtn');
+            const closeCatModalBtn = document.getElementById('closeCatModalBtn');
+
+            // Open for Create
+            if (addCatBtn) {
+                addCatBtn.addEventListener('click', () => {
+                    document.getElementById('catId').value = 0;
+                    document.getElementById('catModalTitle').textContent = 'Yeni Tur Kategorisi Ekle';
+                    catForm.reset();
+                    catModal.style.display = 'flex';
+                });
+            }
+
+            // Close modal
+            if (closeCatModalBtn) {
+                closeCatModalBtn.addEventListener('click', () => {
+                    catModal.style.display = 'none';
+                });
+            }
+
+            // Edit Action
+            document.querySelectorAll('.btn-edit-cat').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('catId').value = btn.getAttribute('data-id');
+                    document.getElementById('catModalTitle').textContent = 'Kategoriyi Düzenle';
+
+                    document.getElementById('catName').value = btn.getAttribute('data-name');
+                    document.getElementById('catDesc').value = btn.getAttribute('data-desc');
+
+                    catModal.style.display = 'flex';
+                });
+            });
+
+            // Delete Action
+            document.querySelectorAll('.btn-delete-cat').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Bu kategoriyi silmek istediğinize emin misiniz?')) {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            const res = await fetch('/Admin/DeleteCategory/' + id, { method: 'POST' });
+                            const result = await res.json();
+                            if (result.success) {
+                                window.location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,138 @@
+@model IEnumerable<seyahat_projesi.Model.Booking>
+@{
+    ViewData["Title"] = "Rezervasyonlar";
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header">
+                <h2>Tüm Rezervasyonlar</h2>
+            </div>
+
+            <div class="table-wrapper" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rez ID</th>
+                            <th>Müşteri</th>
+                            <th>Seyahat Rotası</th>
+                            <th>Tarih</th>
+                            <th>Katılımcı</th>
+                            <th>Toplam Fiyat</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="8" style="text-align: center; color: var(--text-muted); padding:2rem;">Rezervasyon bulunmamaktadır.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var b in Model)
+                            {
+                                <tr>
+                                    <td>#@b.Id</td>
+                                    <td>
+                                        @b.User?.Name <br />
+                                        <small style="color:var(--text-secondary);">@b.User?.Email</small>
+                                    </td>
+                                    <td>@b.Tour?.Title</td>
+                                    <td>@b.BookingDate.ToString("dd.MM.yyyy")</td>
+                                    <td>@b.GuestsCount Kişi</td>
+                                    <td>@b.TotalPrice.ToString("N0") TL</td>
+                                    <td>
+                                        @if (b.Status == "approved")
+                                        {
+                                            <span class="status-badge status-approved">Onaylandı</span>
+                                        }
+                                        else if (b.Status == "pending")
+                                        {
+                                            <span class="status-badge status-pending">Beklemede</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge status-cancelled">İptal Edildi</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (b.Status == "pending")
+                                        {
+                                            <button class="btn btn-success btn-approve-booking" data-id="@b.Id" style="margin-right: 5px;">Onayla</button>
+                                            <button class="btn btn-danger btn-cancel-booking" data-id="@b.Id">İptal Et</button>
+                                        }
+                                        else if (b.Status == "approved")
+                                        {
+                                            <button class="btn btn-danger btn-cancel-booking" data-id="@b.Id">İptal Et</button>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cancel booking handler
+            document.querySelectorAll('.btn-cancel-booking').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Bu rezervasyonu iptal etmek istediğinize emin misiniz? Yapılan ödeme iade edilecektir.')) {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            const res = await fetch('/Admin/CancelBooking/' + id, { method: 'POST' });
+                            const result = await res.json();
+                            if (result.success) {
+                                alert(result.message);
+                                window.location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                });
+            });
+
+            // Approve booking handler
+            document.querySelectorAll('.btn-approve-booking').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Bu rezervasyonu onaylamak istediğinize emin misiniz?')) {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            const res = await fetch('/Admin/ApproveBooking/' + id, { method: 'POST' });
+                            const result = await res.json();
+                            if (result.success) {
+                                alert(result.message);
+                                window.location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            alert('İşlem sırasında bir hata oluştu.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

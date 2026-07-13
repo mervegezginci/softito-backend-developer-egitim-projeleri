@@ -1,0 +1,160 @@
+@model IEnumerable<seyahat_projesi.Model.Blog>
+@{
+    ViewData["Title"] = "Blog Yönetimi";
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header">
+                <h2>Blog Yazılarını Yönet</h2>
+                <button class="btn btn-primary" id="addBlogBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Yeni Yazı Ekle
+                </button>
+            </div>
+
+            <div class="table-wrapper" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Blog ID</th>
+                            <th>Yazı Görseli</th>
+                            <th>Başlık</th>
+                            <th>Tarih</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding:2rem;">Kayıtlı blog yazısı bulunmamaktadır.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var b in Model)
+                            {
+                                <tr>
+                                    <td>#@b.Id</td>
+                                    <td>
+                                        <img src="@b.ImageUrl" style="width: 80px; height: 50px; object-fit: cover; border-radius: 4px;" alt="blog image">
+                                    </td>
+                                    <td style="font-weight: 600;">@b.Title</td>
+                                    <td>@b.CreatedAt.ToString("dd.MM.yyyy")</td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-edit-blog" 
+                                                data-id="@b.Id"
+                                                data-title="@b.Title"
+                                                data-content="@b.Content"
+                                                data-url="@b.ImageUrl">Düzenle</button>
+                                        <button class="btn btn-danger btn-delete-blog" data-id="@b.Id">Sil</button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add/Edit Blog Modal -->
+<div class="modal-overlay" id="blogModal">
+    <div class="glass-card modal-content" style="max-width: 650px;">
+        <button class="modal-close" id="closeBlogModalBtn" type="button">&times;</button>
+        <h2 id="blogModalTitle" style="margin-bottom: 1.5rem;">Yeni Blog Yazısı Ekle</h2>
+
+        <form asp-action="SaveBlog" method="post" id="blogForm">
+            <input type="hidden" name="Id" id="blogId" value="0" />
+
+            <div class="form-group">
+                <label for="blogTitle">Yazı Başlığı</label>
+                <input type="text" id="blogTitle" name="Title" class="form-control" placeholder="Örn: Kapadokya'da Yapılması Gereken 5 Şey" required>
+            </div>
+
+            <div class="form-group">
+                <label for="blogImageUrl">Görsel URL</label>
+                <input type="url" id="blogImageUrl" name="ImageUrl" class="form-control" placeholder="https://images.unsplash.com/..." required>
+            </div>
+
+            <div class="form-group">
+                <label for="blogContent">İçerik / Makale Metni</label>
+                <textarea id="blogContent" name="Content" class="form-control" rows="8" placeholder="Yazı metnini buraya girin..." required></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('blogModal').style.display='none';">İptal</button>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const blogModal = document.getElementById('blogModal');
+            const blogForm = document.getElementById('blogForm');
+            const addBlogBtn = document.getElementById('addBlogBtn');
+            const closeBlogModalBtn = document.getElementById('closeBlogModalBtn');
+
+            // Open for Create
+            if (addBlogBtn) {
+                addBlogBtn.addEventListener('click', () => {
+                    document.getElementById('blogId').value = 0;
+                    document.getElementById('blogModalTitle').textContent = 'Yeni Blog Yazısı Ekle';
+                    blogForm.reset();
+                    blogModal.style.display = 'flex';
+                });
+            }
+
+            // Close modal
+            if (closeBlogModalBtn) {
+                closeBlogModalBtn.addEventListener('click', () => {
+                    blogModal.style.display = 'none';
+                });
+            }
+
+            // Edit Action
+            document.querySelectorAll('.btn-edit-blog').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('blogId').value = btn.getAttribute('data-id');
+                    document.getElementById('blogModalTitle').textContent = 'Yazıyı Düzenle';
+
+                    document.getElementById('blogTitle').value = btn.getAttribute('data-title');
+                    document.getElementById('blogImageUrl').value = btn.getAttribute('data-url');
+                    document.getElementById('blogContent').value = btn.getAttribute('data-content');
+
+                    blogModal.style.display = 'flex';
+                });
+            });
+
+            // Delete Action
+            document.querySelectorAll('.btn-delete-blog').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Bu blog yazısını silmek istediğinize emin misiniz?')) {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            const res = await fetch('/Admin/DeleteBlog/' + id, { method: 'POST' });
+                            const result = await res.json();
+                            if (result.success) {
+                                window.location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

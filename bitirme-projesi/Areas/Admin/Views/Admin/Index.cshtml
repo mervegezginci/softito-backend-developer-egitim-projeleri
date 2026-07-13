@@ -1,0 +1,55 @@
+@model seyahat_projesi.ViewModels.AdminStatsViewModel
+@{
+    ViewData["Title"] = "Yönetici Paneli";
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header">
+                <h2>Genel Bakış & İstatistikler</h2>
+            </div>
+
+            <div class="stats-row" style="margin-top:1.5rem;">
+                <div class="glass-card stat-card">
+                    <span class="stat-label">Toplam Üye</span>
+                    <div class="stat-value">@Model.UsersCount</div>
+                </div>
+                <div class="glass-card stat-card">
+                    <span class="stat-label">Toplam Ciro</span>
+                    <div class="stat-value" style="color:var(--success);">@Model.TotalEarnings.ToString("N0") TL</div>
+                </div>
+                <div class="glass-card stat-card">
+                    <span class="stat-label">Aktif Tur Rotaları</span>
+                    <div class="stat-value" style="color:var(--accent-secondary);">@Model.ToursCount</div>
+                </div>
+                <div class="glass-card stat-card">
+                    <span class="stat-label">Toplam Rezervasyon</span>
+                    <div class="stat-value">@Model.BookingsCount</div>
+                </div>
+            </div>
+
+            <!-- Excel Report Area -->
+            <div class="glass-card" style="margin-top:2.5rem; border-color: rgba(255,255,255,0.05); background: rgba(255,255,255,0.01);">
+                <h3 style="margin-bottom: 0.8rem;">Excel Veri Raporları İndir</h3>
+                <p style="color:var(--text-secondary); margin-bottom:1.5rem; font-size:0.9rem;">
+                    Sistemdeki rezervasyon listelerini ve denetim log kayıtlarını ClosedXML entegrasyonu sayesinde gerçek Excel (.xlsx) formatında dışa aktarın.
+                </p>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <a href="/Export/BookingsReport" class="btn btn-success">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Rezervasyon Raporunu İndir (Excel)
+                    </a>
+                    <a href="/Export/LogsReport" class="btn btn-secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Sistem Log Raporunu İndir (Excel)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,160 @@
+@model IEnumerable<seyahat_projesi.Model.Tour>
+@{
+    ViewData["Title"] = "Seyahat Turlarımız";
+    var categories = ViewBag.Categories as IEnumerable<seyahat_projesi.Model.Category>;
+}
+
+<link rel="stylesheet" href="~/css/premium-travel.css" asp-append-version="true" />
+
+<div class="premium-page-container">
+    <!-- Tours Header Hero -->
+    <header class="premium-hero-header" style="background: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&auto=format&fit=crop&q=80') center/cover;">
+        <h1>Tüm Seyahat Turlarımız</h1>
+        <p>Hayallerinizdeki tatili bulmak için zengin destinasyon seçeneklerimizi listeleyin ve filtreleyin.</p>
+    </header>
+
+    <!-- Filter/Search Bar (Floating overlay style matching Home) -->
+    <div class="premium-search-container">
+        <div class="premium-search-card">
+            <form asp-controller="Home" asp-action="Tours" method="get" class="premium-search-grid">
+                <div class="premium-field-group">
+                    <label for="search">
+                        <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Nereye?
+                    </label>
+                    <input type="text" id="search" name="search" placeholder="Ülke, şehir veya bölge..." value="@ViewBag.Search">
+                </div>
+
+                <div class="premium-field-group">
+                    <label for="categoryId">
+                        <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
+                        Kategori
+                    </label>
+                    <select id="categoryId" name="categoryId">
+                        <option value="">Tüm Kategoriler</option>
+                        @if (categories != null)
+                        {
+                            foreach (var cat in categories)
+                            {
+                                if (ViewBag.CategoryId == cat.Id)
+                                {
+                                    <option value="@cat.Id" selected>@cat.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@cat.Id">@cat.Name</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="premium-field-group">
+                    <label for="minDuration">
+                        <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        Süre
+                    </label>
+                    <select id="minDuration" name="minDuration">
+                        <option value="">Fark Etmez</option>
+                        <option value="3" selected="@(ViewBag.MinDuration == 3)">3+ Gün</option>
+                        <option value="5" selected="@(ViewBag.MinDuration == 5)">5+ Gün</option>
+                        <option value="7" selected="@(ViewBag.MinDuration == 7)">7+ Gün</option>
+                    </select>
+                </div>
+
+                <div class="premium-field-group">
+                    <label for="maxPrice">
+                        <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        Maksimum Fiyat
+                    </label>
+                    <select id="maxPrice" name="maxPrice">
+                        <option value="">Fark Etmez</option>
+                        <option value="15000" selected="@(ViewBag.MaxPrice == 15000)">15,000 TL</option>
+                        <option value="25000" selected="@(ViewBag.MaxPrice == 25000)">25,000 TL</option>
+                        <option value="35000" selected="@(ViewBag.MaxPrice == 35000)">35,000 TL</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="premium-search-btn">
+                    <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Ara
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tours Listing Grid -->
+    <main style="max-width: 1200px; margin: 0 auto 5rem; padding: 0 1.5rem;">
+        <div class="premium-tours-grid">
+            @if (Model == null || !Model.Any())
+            {
+                <div class="no-results-card" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 20px; box-shadow: var(--card-shadow); max-width: 600px; margin: 2rem auto; display: flex; flex-direction: column; align-items: center; gap: 1.25rem;">
+                    <div style="font-size: 3rem; width: 70px; height: 70px; background: rgba(13, 148, 136, 0.08); color: var(--accent-teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(13, 148, 136, 0.1);">
+                        <svg class="lucide-icon" style="width:32px; height:32px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 0;">Rota Bulunamadı</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6; margin: 0; max-width: 450px;">
+                        Arama kriterlerinize veya filtrelerinize uygun herhangi bir seyahat rotası bulamadık. Lütfen farklı anahtar kelimeler deneyin ya da filtreleri sıfırlayın.
+                    </p>
+                    <a href="/Tours" class="premium-btn premium-btn-primary" style="padding: 0.75rem 2rem; border-radius: 50px; text-decoration: none; margin-top: 0.5rem; display: inline-block;">Tüm Turları Listele</a>
+                </div>
+            }
+            else
+            {
+                foreach (var tour in Model)
+                {
+                    string categoryBadge = tour.Category?.Name ?? "Popüler";
+                    if (categoryBadge == "Ege-Akdeniz") categoryBadge = "Lüks & Deniz";
+                    else if (categoryBadge == "Kültür") categoryBadge = "Kültür & Doğa";
+                    else if (categoryBadge == "Doğa & Macera") categoryBadge = "Macera & Huzur";
+
+                    <div class="premium-tour-card">
+                        <div class="premium-tour-img-container">
+                            <img src="@tour.ImageUrl" alt="@tour.Title" class="premium-tour-img">
+                            <span class="premium-tour-badge">@categoryBadge</span>
+                            <span class="premium-tour-duration">@tour.DurationDays Gün</span>
+                        </div>
+                        <div class="premium-tour-body">
+                            <div class="premium-tour-rating">
+                                <svg class="lucide-icon" style="color:#eab308; fill:#eab308;" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                @tour.AverageRating.ToString("F1") <span>(@tour.ReviewCount Değerlendirme)</span>
+                            </div>
+                            <h3 class="premium-tour-title">@tour.Title</h3>
+                            <p class="premium-tour-desc">@tour.Description</p>
+                            
+                            <div class="premium-tour-info-row">
+                                <span class="premium-tour-info-item">
+                                    <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    @tour.Location
+                                </span>
+                                <span class="premium-tour-info-item">
+                                    <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
+                                    @tour.StartDate.ToString("dd MMM") - @tour.EndDate.ToString("dd MMM")
+                                </span>
+                            </div>
+                            
+                            <div class="premium-tour-guide-row">
+                                <svg class="lucide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Rehber: <strong>@tour.Guide?.FullName</strong>
+                            </div>
+
+                            <div class="premium-tour-footer">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%;">
+                                    <div class="premium-tour-price-box">
+                                        <span class="premium-tour-price-label">Kişi Başı</span>
+                                        <span class="premium-tour-price-val">@tour.Price.ToString("N0") TL</span>
+                                    </div>
+                                    <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; margin-bottom: 2px;">Kontenjan: @tour.Capacity</div>
+                                </div>
+                                <div class="premium-tour-actions">
+                                    <a href="/Home/Detail/@tour.Id" class="premium-btn premium-btn-secondary">İncele</a>
+                                    <a href="/Booking/Checkout?tourId=@tour.Id" class="premium-btn premium-btn-primary">Rezerve Et</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </main>
+</div>

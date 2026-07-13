@@ -1,0 +1,250 @@
+@model IEnumerable<seyahat_projesi.Model.Tour>
+@{
+    ViewData["Title"] = "Turları Yönet";
+    var categories = ViewBag.Categories as IEnumerable<seyahat_projesi.Model.Category>;
+    var guides = ViewBag.Guides as IEnumerable<seyahat_projesi.Model.Guide>;
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header">
+                <h2>Seyahat Rotalarını/Turlarını Yönet</h2>
+                <button class="btn btn-primary" id="addTourBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Yeni Rota/Tur Ekle
+                </button>
+            </div>
+
+            <div class="table-wrapper" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tur ID</th>
+                            <th>Görsel</th>
+                            <th>Başlık</th>
+                            <th>Konum</th>
+                            <th>Fiyat</th>
+                            <th>Kategori</th>
+                            <th>Rehber</th>
+                            <th>Kontenjan</th>
+                            <th>Süre</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="10" style="text-align: center; color: var(--text-muted); padding:2rem;">Kayıtlı aktif tur rotası bulunmamaktadır.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var t in Model)
+                            {
+                                <tr>
+                                    <td>#@t.Id</td>
+                                    <td>
+                                        <img src="@t.ImageUrl" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;" alt="tour image">
+                                    </td>
+                                    <td style="font-weight: 600;">@t.Title</td>
+                                    <td>@t.Location</td>
+                                    <td>@t.Price.ToString("N0") TL</td>
+                                    <td><span class="status-badge status-pending" style="background:rgba(59,130,246,0.15); color:#93c5fd;">@t.Category?.Name</span></td>
+                                    <td><strong>@t.Guide?.FullName</strong></td>
+                                    <td>@t.Capacity Kişi</td>
+                                    <td>@t.DurationDays Gün</td>
+                                    <td>
+                                        <div style="display:flex; gap:0.4rem;">
+                                            <button class="btn btn-secondary btn-edit-tour" 
+                                                    data-id="@t.Id"
+                                                    data-title="@t.Title"
+                                                    data-desc="@t.Description"
+                                                    data-location="@t.Location"
+                                                    data-start="@t.StartDate.ToString("yyyy-MM-dd")"
+                                                    data-end="@t.EndDate.ToString("yyyy-MM-dd")"
+                                                    data-duration="@t.DurationDays"
+                                                    data-price="@t.Price"
+                                                    data-capacity="@t.Capacity"
+                                                    data-url="@t.ImageUrl"
+                                                    data-category="@t.CategoryId"
+                                                    data-guide="@t.GuideId"
+                                                    style="padding:0.4rem 0.8rem; font-size:0.8rem;">Düzenle</button>
+                                            <button class="btn btn-danger btn-delete-tour" data-id="@t.Id" style="padding:0.4rem 0.8rem; font-size:0.8rem;">Sil</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add/Edit Tour Modal -->
+<div class="modal-overlay" id="tourModal">
+    <div class="glass-card modal-content" style="max-width: 650px;">
+        <button class="modal-close" id="closeTourModalBtn" type="button">&times;</button>
+        <h2 id="tourModalTitle" style="margin-bottom: 1.5rem;">Yeni Rota/Tur Ekle</h2>
+
+        <form asp-action="SaveTour" method="post" id="tourForm">
+            <input type="hidden" name="Id" id="tourId" value="0" />
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                    <label for="tourTitle">Tur Başlığı</label>
+                    <input type="text" id="tourTitle" name="Title" class="form-control" required placeholder="Örn: Kapadokya Balon Turu">
+                </div>
+                <div class="form-group">
+                    <label for="tourLocation">Konum / Şehir</label>
+                    <input type="text" id="tourLocation" name="Location" class="form-control" required placeholder="Örn: Nevşehir, Türkiye">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tourDesc">Açıklama</label>
+                <textarea id="tourDesc" name="Description" class="form-control" rows="4" required placeholder="Tur detayları..."></textarea>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                    <label for="tourStart">Başlangıç Tarihi</label>
+                    <input type="date" id="tourStart" name="StartDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="tourEnd">Bitiş Tarihi</label>
+                    <input type="date" id="tourEnd" name="EndDate" class="form-control" required>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                    <label for="tourDuration">Süre (Gün)</label>
+                    <input type="number" id="tourDuration" name="DurationDays" class="form-control" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="tourPrice">Fiyat (TL)</label>
+                    <input type="number" id="tourPrice" name="Price" class="form-control" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="tourCapacity">Kontenjan (Kişi)</label>
+                    <input type="number" id="tourCapacity" name="Capacity" class="form-control" required min="1">
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                    <label for="tourCategory">Kategori</label>
+                    <select id="tourCategory" name="CategoryId" class="form-control">
+                        @if (categories != null)
+                        {
+                            foreach (var cat in categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tourGuide">Rehber</label>
+                    <select id="tourGuide" name="GuideId" class="form-control">
+                        @if (guides != null)
+                        {
+                            foreach (var g in guides)
+                            {
+                                <option value="@g.Id">@g.FullName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tourImageUrl">Görsel URL</label>
+                <input type="url" id="tourImageUrl" name="ImageUrl" class="form-control" placeholder="https://images.unsplash.com/..." required>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('tourModal').style.display='none';">İptal</button>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tourModal = document.getElementById('tourModal');
+            const tourForm = document.getElementById('tourForm');
+            const addTourBtn = document.getElementById('addTourBtn');
+            const closeTourModalBtn = document.getElementById('closeTourModalBtn');
+
+            // Open for Create
+            if (addTourBtn) {
+                addTourBtn.addEventListener('click', () => {
+                    document.getElementById('tourId').value = 0;
+                    document.getElementById('tourModalTitle').textContent = 'Yeni Rota/Tur Ekle';
+                    tourForm.reset();
+                    tourModal.style.display = 'flex';
+                });
+            }
+
+            // Close modal
+            if (closeTourModalBtn) {
+                closeTourModalBtn.addEventListener('click', () => {
+                    tourModal.style.display = 'none';
+                });
+            }
+
+            // Edit Action
+            document.querySelectorAll('.btn-edit-tour').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('tourId').value = btn.getAttribute('data-id');
+                    document.getElementById('tourModalTitle').textContent = 'Tur Rotalarını Düzenle';
+
+                    document.getElementById('tourTitle').value = btn.getAttribute('data-title');
+                    document.getElementById('tourDesc').value = btn.getAttribute('data-desc');
+                    document.getElementById('tourLocation').value = btn.getAttribute('data-location');
+                    document.getElementById('tourStart').value = btn.getAttribute('data-start');
+                    document.getElementById('tourEnd').value = btn.getAttribute('data-end');
+                    document.getElementById('tourDuration').value = btn.getAttribute('data-duration');
+                    document.getElementById('tourPrice').value = btn.getAttribute('data-price');
+                    document.getElementById('tourCapacity').value = btn.getAttribute('data-capacity');
+                    document.getElementById('tourImageUrl').value = btn.getAttribute('data-url');
+                    document.getElementById('tourCategory').value = btn.getAttribute('data-category');
+                    document.getElementById('tourGuide').value = btn.getAttribute('data-guide');
+
+                    tourModal.style.display = 'flex';
+                });
+            });
+
+            // Delete Action
+            document.querySelectorAll('.btn-delete-tour').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (confirm('Bu tur rotasını silmek istediğinize emin misiniz?')) {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            const res = await fetch('/Admin/DeleteTour/' + id, { method: 'POST' });
+                            const result = await res.json();
+                            if (result.success) {
+                                window.location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

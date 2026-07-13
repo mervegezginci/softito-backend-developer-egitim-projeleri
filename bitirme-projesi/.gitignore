@@ -1,0 +1,30 @@
+## Ignore Visual Studio temporary files, build results, and user-specific settings
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Publishing/Deployment output
+publish/
+
+# SQL Server database files (if local DB was created inside project folder)
+*.mdf
+*.ldf
+
+# Environment files
+appsettings.Development.json
+appsettings.Local.json
+
+# Rider/JetBrains IDEs
+.idea/
+
+# OS-generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

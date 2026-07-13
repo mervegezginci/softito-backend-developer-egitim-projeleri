@@ -1,0 +1,56 @@
+@model IEnumerable<seyahat_projesi.Model.SystemLog>
+@{
+    ViewData["Title"] = "Sistem Günlükleri";
+}
+
+<div class="dashboard-grid">
+    <!-- Admin Sidebar -->
+    @await Html.PartialAsync("_AdminSidebar")
+
+    <!-- Main Content Panel -->
+    <main>
+        <div class="glass-card">
+            <div class="dashboard-header">
+                <h2>Sistem Günlükleri & Denetim (Logging)</h2>
+            </div>
+
+            <!-- Filters -->
+            <form asp-action="Logs" method="get" style="display:grid; grid-template-columns: 1fr auto auto; gap:1rem; margin-bottom: 1.5rem; align-items:end; margin-top: 1.5rem;">
+                <div class="filter-group">
+                    <label for="search">Detaylarda Ara</label>
+                    <input type="text" id="search" name="search" class="form-control" placeholder="Aksiyon veya detay ara..." value="@Context.Request.Query["search"]">
+                </div>
+                <div class="filter-group">
+                    <label for="level">Log Seviyesi</label>
+                    <select id="level" name="level" class="form-control">
+                        <option value="">Tümü</option>
+                        <option value="info" selected="@(Context.Request.Query["level"] == "info")">INFO</option>
+                        <option value="warn" selected="@(Context.Request.Query["level"] == "warn")">WARN</option>
+                        <option value="error" selected="@(Context.Request.Query["level"] == "error")">ERROR</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="padding: 0.75rem 2rem;">Sorgula</button>
+            </form>
+
+            <div class="logs-console" id="adminLogsConsole">
+                @if (Model == null || !Model.Any())
+                {
+                    <div style="color:var(--text-muted);">Sistem log kaydı bulunamadı.</div>
+                }
+                else
+                {
+                    foreach (var l in Model)
+                    {
+                        <div class="log-entry">
+                            <span class="log-time">[@l.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")]</span>
+                            <span class="status-badge log-level-@l.Level.ToLower()">@l.Level.ToUpper()</span>
+                            <span class="log-action">@l.Action</span>
+                            <span class="log-ip">(@l.IpAddress)</span>
+                            <span class="log-details">@l.Details</span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </main>
+</div>

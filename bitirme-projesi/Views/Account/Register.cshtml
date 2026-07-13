@@ -1,0 +1,48 @@
+@model seyahat_projesi.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<div class="auth-page-container">
+    <div class="auth-card">
+        <h2>GM Travel Ailesine Katılın</h2>
+        <p>Hesabınızı oluşturup tatil rezervasyonlarına başlayın.</p>
+
+        <form asp-action="Register" method="post">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="display:block; margin-bottom: 1rem;"></div>
+            }
+
+            <div class="form-group">
+                <label asp-for="Name">Adınız Soyadınız</label>
+                <input asp-for="Name" class="form-control" placeholder="Ahmet Yılmaz" required />
+                <span asp-validation-for="Name" style="color:var(--accent-orange); font-size:0.8rem;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">E-posta Adresi</label>
+                <input asp-for="Email" class="form-control" placeholder="ornek@domain.com" required />
+                <span asp-validation-for="Email" style="color:var(--accent-orange); font-size:0.8rem;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Şifre</label>
+                <input asp-for="Password" class="form-control" placeholder="••••••••" required />
+                <span asp-validation-for="Password" style="color:var(--accent-orange); font-size:0.8rem;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword">Şifre Tekrarı</label>
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="••••••••" required />
+                <span asp-validation-for="ConfirmPassword" style="color:var(--accent-orange); font-size:0.8rem;"></span>
+            </div>
+
+            <button type="submit" class="btn btn-teal" style="width: 100%; justify-content: center; margin-top: 1.5rem; padding: 0.8rem; border-radius:8px;">Kayıt Ol</button>
+        </form>
+
+        <div class="auth-footer">
+            Zaten hesabınız var mı? <a href="/Account/Login">Giriş Yapın</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="PDFsharp" Version="6.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="seyahat_projesi.Data\seyahat_projesi.Data.csproj" />
+    <ProjectReference Include="seyahat_projesi.Model\seyahat_projesi.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="seyahat_projesi.Model\**" />
+    <Compile Remove="seyahat_projesi.Data\**" />
+    <Content Remove="seyahat_projesi.Model\**" />
+    <Content Remove="seyahat_projesi.Data\**" />
+    <EmbeddedResource Remove="seyahat_projesi.Model\**" />
+    <EmbeddedResource Remove="seyahat_projesi.Data\**" />
+    <None Remove="seyahat_projesi.Model\**" />
+    <None Remove="seyahat_projesi.Data\**" />
+  </ItemGroup>
+
+</Project>

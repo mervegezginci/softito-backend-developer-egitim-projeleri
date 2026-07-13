@@ -1,0 +1,109 @@
+@model seyahat_projesi.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Üye Gösterge Paneli";
+}
+
+<div style="margin-bottom: 2rem;">
+    <h2 style="font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">Hoş Geldiniz, @Model.User.Name!</h2>
+    <p style="color: var(--text-secondary); margin: 0;">Seyahat durumunuzu takip edin ve yeni maceralarınızı yönetin.</p>
+</div>
+
+<!-- Stats Grid -->
+<div class="user-stats-grid">
+    <div class="user-stat-card">
+        <div class="user-stat-icon">🔔</div>
+        <div class="user-stat-info">
+            <h4>Aktif Rezervasyonlar</h4>
+            <p>@ViewBag.ActiveBookingsCount</p>
+        </div>
+    </div>
+    <div class="user-stat-card">
+        <div class="user-stat-icon">🌍</div>
+        <div class="user-stat-info">
+            <h4>Tamamlanan Seyahatler</h4>
+            <p>@ViewBag.CompletedTripsCount</p>
+        </div>
+    </div>
+    <div class="user-stat-card">
+        <div class="user-stat-icon">💰</div>
+        <div class="user-stat-info">
+            <h4>Toplam Harcama</h4>
+            <p>@ViewBag.TotalSpent.ToString("N0") TL</p>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Bookings Table -->
+<div class="glass-card" style="padding: 2.5rem; border-radius: 16px;">
+    <div class="dashboard-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-weight: 700; color: var(--text-primary); margin: 0;">Son Rezervasyonlarım</h3>
+        <a href="/User/Bookings" style="color: var(--accent-teal); font-weight: 600; text-decoration: none; font-size: 0.9rem;">Tümünü Gör →</a>
+    </div>
+
+    @if (Model.Bookings == null || !Model.Bookings.Any())
+    {
+        <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 2rem;">Henüz bir rezervasyon yapmadınız. Keşfetmeye başlamak için ana sayfayı ziyaret edin!</p>
+    }
+    else
+    {
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tur</th>
+                        <th>Tarih</th>
+                        <th>Kişi Sayısı</th>
+                        <th>Tutar</th>
+                        <th>Ödeme</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model.Bookings)
+                    {
+                        <tr>
+                            <td>
+                                <div style="font-weight: 600; color: var(--text-primary);">@booking.Tour?.Title</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">📍 @booking.Tour?.Location</div>
+                            </td>
+                            <td>
+                                <div style="color: var(--text-primary);">@booking.Tour?.StartDate.ToString("dd.MM.yyyy")</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">@booking.Tour?.DurationDays Gün</div>
+                            </td>
+                            <td>@booking.GuestsCount Kişi</td>
+                            <td style="font-weight: 700; color: var(--text-primary);">@booking.TotalPrice.ToString("N0") TL</td>
+                            <td>
+                                @if (booking.PaymentStatus == "paid")
+                                {
+                                    <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Ödendi</span>
+                                }
+                                else if (booking.PaymentStatus == "refunded")
+                                {
+                                    <span style="background: rgba(100,116,139,0.1); color: #64748b; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">İade Edildi</span>
+                                }
+                                else
+                                {
+                                    <span style="background: rgba(245,158,11,0.1); color: #f59e0b; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Bekliyor</span>
+                                }
+                            </td>
+                            <td>
+                                @if (booking.Status == "approved")
+                                {
+                                    <span style="background: rgba(13,148,136,0.1); color: var(--accent-teal); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Onaylandı</span>
+                                }
+                                else if (booking.Status == "cancelled")
+                                {
+                                    <span style="background: rgba(239,68,68,0.1); color: #ef4444; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">İptal Edildi</span>
+                                }
+                                else
+                                {
+                                    <span style="background: rgba(245,158,11,0.1); color: #f59e0b; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;">Onay Bekliyor</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
