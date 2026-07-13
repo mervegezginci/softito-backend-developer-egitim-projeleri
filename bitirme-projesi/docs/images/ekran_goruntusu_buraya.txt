@@ -1,0 +1,16 @@
+Ekran görüntülerinizi bu klasöre (docs/images/) README'deki isimlerle kaydedin:
+- home.png
+- search_results.png
+- tour_detail.png
+- checkout.png
+- payment.png
+- invoice_pdf.png
+- user_dashboard.png
+- user_bookings.png
+- admin_dashboard.png
+- admin_tours.png
+- admin_bookings.png
+- admin_users.png
+- admin_coupons.png
+- admin_cache.png
+- admin_logs.png

@@ -2,39 +2,58 @@
 
 **GM Seyahat Acentesi**, **Softito Academy - Backend Developer** eğitimi bitirme projesi olarak; modern seyahat acentelerinin tur listeleme, arama, rezervasyon, blog yönetimi, üyelik ve sistem moderasyon süreçlerini uçtan uca dijitalleştirmek amacıyla geliştirilmiş, **ASP.NET Core MVC** mimarisine sahip kurumsal düzeyde bir web uygulamasıdır.
 
-> 💡 **Proje Adı Hakkında:** Projede kullanılan "GM" ismi, geliştiriciler **Gamze Türker** ve **Merve Gezginci**'nin baş harflerini temsil etmektedir. Projenin genelindeki marka kimliği (Fatura PDF'leri, raporlar, logolar) bu isim doğrultusunda şekillendirilmiştir.
+> 💡 **Proje Adı Hakkında:** Projede kullanılan "GM" ismi, geliştiriciler **Gamze Türker** ve **Merve Gezginci**'nin baş harflerini temsil etmektedir. Projenin genelindeki marka kimliği (Fatura PDF'leri, Excel tabloları, logolar) bu isim doğrultusunda şekillendirilmiştir.
 
 ---
 
 ## 📌 İçindekiler
-1. [📸 Ekran Görüntüleri](#-ekran-görüntüleri)
+1. [📸 Genişletilmiş Ekran Görüntüleri Galerisi](#-geni%C5%9Fletilmi%C5%9F-ekran-g%C3%B6r%C3%BCnt%C3%BCleri-galerisi)
 2. [👥 Proje Ekibi](#-proje-ekibi)
-3. [🛠️ Teknoloji Yığını (Tech Stack)](#%EF%B8%8F-teknoloji-y%C4%B1%C4%9F%C4%B1n%C4%B1-tech-stack)
-4. [🏢 Mimari Tasarım ve Tasarım Desenleri (Architecture & Patterns)](#-mimari-tasar%C4%B1m-ve-tasar%C4%B1m-desenleri-architecture--patterns)
-5. [🗄️ Veri Tabanı Modelleri ve İlişkileri](#%EF%B8%8F-veri-taban%C4%B1-modelleri-ve-ili%C5%9Fkileri)
-6. [🎮 Controller Sınıfları ve İşlevleri](#-controller-s%C4%B1n%C4%B1flar%C4%B1-ve-%C4%B0%C5%9Flevleri)
-7. [📁 Proje Dizin Yapısı (Directory Tree)](#-proje-dizin-yap%C4%B1s%C4%B1-directory-tree)
-8. [🔌 Veri Tabanı Seeding ve SQL Dosyaları](#-veri-taban%C4%B1-seeding-ve-sql-dosyalar%C4%B1)
-9. [🚀 Kurulum ve Yapılandırma Kılavuzu](#-kurulum-ve-yap%C4%B1land%C4%B1rma-k%C4%B1lavuzu)
-10. [👥 Git & GitHub Ortak Çalışma Kılavuzu](#-git--github-ortak-%C3%A7al%C4%B1%C5%9Fma-k%C4%B1lavuzu)
+3. [🛠️ Detaylı Teknoloji ve Kütüphane Yığını](#%EF%B8%8F-detayl%C4%B1-teknoloji-ve-k%C3%BCt%C3%BCphane-y%C4%B1%C4%9F%C4%B1n%C4%B1)
+4. [🏢 Mimari Tasarım ve Tasarım Desenleri](#-mimari-tasar%C4%B1m-ve-tasar%C4%B1m-desenleri)
+5. [🗄️ Veri Tabanı Modelleri ve İlişki Yapıları](#%EF%B8%8F-veri-taban%C4%B1-modelleri-ve-ili%C5%9Fki-yap%C4%B1lar%C4%B1)
+6. [🔄 Kritik Sistem Algoritmaları ve İş Akışları](#-kritik-sistem-algoritmalar%C4%B1-ve-%C4%B0%C5%9F-ak%C4%B1%C5%9Flar%C4%B1)
+7. [🎮 Controller Ayrıntılı Metot ve Endpoint Analizi](#-controller-ayr%C4%B1nt%C4%B1l%C4%B1-metot-ve-endpoint-analizi)
+8. [📁 Proje Dizin Yapısı (Directory Tree)](#-proje-dizin-yap%C4%B1s%C4%B1-directory-tree)
+9. [🔌 Veri Tabanı Seeding ve SQL Dosyaları](#-veri-taban%C4%B1-seeding-ve-sql-dosyalar%C4%B1)
+10. [🚀 Adım Adım Kurulum ve Yapılandırma Kılavuzu](#-ad%C4%B1m-ad%C4%B1m-kurulum-ve-yap%C4%B1land%C4%B1rma-k%C4%B1lavuzu)
+11. [👥 Git & GitHub Ortak Çalışma Kılavuzu](#-git--github-ortak-%C3%A7al%C4%B1%C5%9Fma-k%C4%B1lavuzu)
 
 ---
 
-## 📸 Ekran Görüntüleri (Screenshots)
+## 📸 Genişletilmiş Ekran Görüntüleri Galerisi
 
-*Projenizin görsellerini GitHub'da sergilemek için `docs/images` dizinine ilgili ekran görüntülerini ekleyebilirsiniz.*
+*GitHub sayfanızda görsellerin şık bir şekilde sergilenebilmesi için tarayıcınızdan alacağınız ekran görüntülerini projedeki `docs/images/` dizinine README'de belirtilen dosya isimleriyle kaydedip commit etmeniz yeterlidir.*
 
-| Ziyaretçi Ana Sayfası | Detaylı Tur Sayfası & Yorumlar |
-| :---: | :---: |
-| ![Ana Sayfa](docs/images/home.png) | ![Tur Detay](docs/images/tour_detail.png) |
+### 1. Ziyaretçi ve Kullanıcı Arayüzü (Public UI)
 
-| Fatura PDF Çıktısı (PDFsharp) | Yönetici (Admin) Kontrol Paneli |
-| :---: | :---: |
-| ![Fatura PDF](docs/images/invoice_pdf.png) | ![Admin Panel](docs/images/admin_dashboard.png) |
+| Ekran Görüntüsü | Dosya Adı | Açıklama |
+| :---: | :---: | :--- |
+| ![Ana Sayfa](docs/images/home.png) | `home.png` | **Ana Sayfa:** Dynamic Category Slider, Marquee Banner (anlık aktif tur isimleri) ve en popüler turların 10 dakikalık RAM önbelleğinden listelendiği vizyoner arayüz. |
+| ![Arama Sonuçları](docs/images/search_results.png) | `search_results.png` | **Gelişmiş Arama:** Lokasyon, tur ismi, kategori ve süreye göre filtreleme yapan, Dapper tabanlı hızlı arama sonuç ekranı. |
+| ![Tur Detay](docs/images/tour_detail.png) | `tour_detail.png` | **Tur Detay ve Yorumlar:** Tur bilgileri, kontenjan durumu, harita lokasyonu, rehber bilgileri ve onaylanmış üye yorumlarının listelendiği dinamik arayüz. |
+| ![Checkout Sayfası](docs/images/checkout.png) | `checkout.png` | **Rezervasyon / Satın Alma Girişi:** Kişi sayısı seçimi, kupon kodunun AJAX ile doğrulanması ve indirim tutarının anlık hesaplanması. |
+| ![Ödeme Ekranı](docs/images/payment.png) | `payment.png` | **Simüle Ödeme Geçidi:** Kredi Kartı (3D Secure simülasyonu) ve EFT/Banka havalesi ile ödeme kanalları. |
 
-| Önbellek (Cache) İzleme Ekranı | Sistem İşlem Günlükleri (Audit Logs) |
-| :---: | :---: |
-| ![Cache Yönetimi](docs/images/cache_management.png) | ![Sistem Logları](docs/images/admin_logs.png) |
+### 2. Kullanıcı Kişisel Paneli (User Dashboard - `/User`)
+
+| Ekran Görüntüsü | Dosya Adı | Açıklama |
+| :---: | :---: | :--- |
+| ![Kullanıcı Paneli](docs/images/user_dashboard.png) | `user_dashboard.png` | **Kullanıcı Dashboard:** Toplam harcama, aktif seyahat sayısı, tamamlanan geziler ve son rezervasyon özet kartları. |
+| ![Rezervasyon Geçmişi](docs/images/user_bookings.png) | `user_bookings.png` | **Rezervasyonlarım:** Kullanıcının geçmiş ve aktif tüm rezervasyon listesi, onay durumları ve fatura indirme butonları. |
+| ![Fatura PDF Görünümü](docs/images/invoice_pdf.png) | `invoice_pdf.png` | **E-Fatura (PDF):** PDFsharp ile sunucuda anlık üretilen, Türkçe karakter destekli, şık ve resmi tasarımlı rezervasyon belgesi çıktısı. |
+
+### 3. Yönetici Kontrol Paneli (Admin Console - `/Admin`)
+
+| Ekran Görüntüsü | Dosya Adı | Açıklama |
+| :---: | :---: | :--- |
+| ![Yönetici Dashboard](docs/images/admin_dashboard.png) | `admin_dashboard.png` | **Yönetici Dashboard:** Toplam ciro, toplam üye sayısı, aktif rezervasyonlar ve sistem doluluk grafiklerini içeren özet alan. |
+| ![Tur Yönetimi](docs/images/admin_tours.png) | `admin_tours.png` | **Tur CRUD Paneli:** Yeni tur rotası oluşturma, rehber ve kategori atama, kapasite, fiyat güncelleme ve soft-delete (aktiflik) yönetimi. |
+| ![Rezervasyon Yönetimi](docs/images/admin_bookings.png) | `admin_bookings.png` | **Rezervasyon Moderasyonu:** Gelen ödemeleri onaylama, rezervasyon iptal etme (kapasite iade tetikleyicisi) ve Excel raporu alma. |
+| ![Kullanıcı Yönetimi](docs/images/admin_users.png) | `admin_users.png` | **Üye Kontrolü:** Rol (Admin/User) atama, şifre sıfırlama ve hesabı askıya alma (aktif/pasif status yönetimi). |
+| ![Kupon Yönetimi](docs/images/admin_coupons.png) | `admin_coupons.png` | **Promosyon & Kupon Tanımlama:** Yüzdelik veya sabit indirim kodları oluşturma, geçerlilik tarihi belirleme. |
+| ![Önbellek İzleme Paneli](docs/images/admin_cache.png) | `admin_cache.png` | **Cache Yönetim Paneli:** Bellekte tutulan kategorilerin, popüler turların ve marquee verilerinin durumu, tek tıkla RAM temizleme. |
+| ![Audit Logs Paneli](docs/images/admin_logs.png) | `admin_logs.png` | **Denetim Günlükleri:** Sistemde kimin, ne zaman, hangi IP ile hangi işlemi yaptığını gösteren filtreli günlük (log) tablosu. |
 
 ---
 
@@ -45,177 +64,108 @@ Bu proje, **Softito Academy - Backend Developer** eğitimi kapsamında aşağıd
 
 ---
 
-## 🛠️ Teknoloji Yığını (Tech Stack)
+## 🛠️ Detaylı Teknoloji ve Kütüphane Yığını
 
-### Backend (Sunucu Tarafı)
-* **.NET 8.0 (C#)**: Modern, platformlar arası çalışan ve yüksek performanslı backend çatısı.
-* **Entity Framework Core 8.0**: SQL Server ile nesne-ilişkisel eşleme (ORM) sağlayan veri tabanı yönetim katmanı.
-* **Dapper (Micro-ORM)**: Okuma (Read) ağırlıklı ve karmaşık birleştirme (JOIN) içeren SQL sorgularını milisaniyeler içinde çalıştırmak için entegre edilmiş yüksek performanslı mikro ORM.
-* **ASP.NET Core Identity**: Kullanıcı ve rol tabanlı (Admin/User) kimlik doğrulama, güvenli parola doğrulama yapılandırmaları ve oturum çerezleri yönetimi.
-* **IMemoryCache (RAM Caching)**: Kategoriler, marquee tur başlıkları ve en popüler turlar gibi veri tabanına her saniye istek gitmesi gerekmeyen, az değişen verilerin sunucu RAM'inde tutulması amacıyla kullanılan önbellek kütüphanesi.
+### Backend Katmanı
+* **.NET 8.0 (C#) & ASP.NET Core MVC**: Modern, güvenli, Dependency Injection (Bağımlılık Enjeksiyonu) barındıran güçlü web mimarisi.
+* **Entity Framework Core 8.0 (ORM)**: Code-First yaklaşımıyla SQL veritabanı şemalarının C# sınıflarından türetilmesi, veri tabanı ilişkilerinin yönetilmesi ve migrations süreçleri.
+* **Dapper Micro-ORM**: EF Core'un ek yük (overhead) oluşturduğu karmaşık JOIN sorgularında, direkt SQL komutlarıyla arama motoru filtrelemeleri ve cache veri çekme süreçlerini yöneten performans optimizasyonu.
+* **ASP.NET Core Identity**: Rol tabanlı yetki kontrolü (`[Authorize(Roles = "Admin")]`), kullanıcı oturum süreleri ve çerez tabanlı oturum güvenliği (Cookie Authentication).
 
-### Raporlama ve Yardımcı Servisler
-* **PDFsharp**: Satın alınan turlara ait seyahat belgelerini ve faturaları dinamik olarak oluşturmak için kullanılan kütüphane. Türkçe karakter uyumluluğu için özel bir `MyFontResolver` font çözücü sınıfı yazılmıştır.
-* **ClosedXML**: Admin panelinden rezervasyon, üye ve finansal işlem tablolarını anlık olarak Excel (.xlsx) formatında dışa aktarmak için kullanılır.
-* **LogService**: Platformda yapılan kritik hareketleri (Tur ekleme/silme, rezervasyon onaylama/iptal, cache temizleme) gerçekleştiren kullanıcının IP adresiyle birlikte veri tabanına kaydeden denetim (audit) servisi.
+### Önbellekleme & Raporlama & Yardımcı Servisler
+* **IMemoryCache**: Sık okunan ve nadir güncellenen verilerin RAM üzerinde önbelleğe alınmasıyla sayfa açılış sürelerinin ortalama 10 kat düşürülmesi.
+* **PDFsharp (Custom Font Resolver)**: Müşterilere indirtilen rezervasyon faturalarının dinamik PDF oluşturma süreci. Türkçe karakter (`ğ, ş, ı, ç, ö, ü`) hatası alınmaması adına özel olarak tasarlanmış `MyFontResolver` sınıfı ile Arial TrueType font kütüphanesi sisteme entegre edilmiştir.
+* **ClosedXML**: SQL Server veritabanındaki rezervasyon tablolarını C# nesnelerinden doğrudan MS Excel standardına dönüştürerek indirtir.
+* **Audit System Log Service**: Veri tabanında `SystemLogs` tablosu oluşturularak, adminlerin gerçekleştirdiği kritik işlemler (CRUD, Cache sıfırlama, bilet iptalleri) IP adresiyle birlikte kayıt altına alınır.
 
-### Frontend (İstemci Tarafı)
-* **HTML5 & CSS3 & Javascript**
-* **Bootstrap 5**: Duyarlı (Responsive) tasarım altyapısı.
-* **jQuery**: Dinamik AJAX talepleri, DOM manipülasyonu ve arayüz etkileşimleri.
-* **SweetAlert2**: Klasik browser uyarı kutuları yerine modern, animasyonlu bildirim ve silme onay pencereleri.
-* **FontAwesome**: Proje genelindeki ikon tasarımları.
+### Frontend Katmanı
+* **Bootstrap 5.3 & CSS3**: Mobil cihazlarla %100 uyumlu (Responsive) tasarım dili.
+* **SweetAlert2**: Silme, güncelleme ve hata bildirimlerinde AJAX süreçlerini yöneten modern animasyonlu arayüz modalları.
+* **FontAwesome v6**: Arayüzdeki vektörel ve estetik ikon desteği.
 
 ---
 
-## 🏢 Mimari Tasarım ve Tasarım Desenleri (Architecture & Patterns)
+## 🏢 Mimari Tasarım ve Tasarım Desenleri
 
-### 1. N-Tier (Çok Katmanlı) Mimari
-Proje, bağımlılıkları azaltmak ve sürdürülebilirliği artırmak amacıyla üç katman halinde tasarlanmıştır:
-- **Presentation Layer (`seyahat_projesi`)**: Arayüz (Views), denetleyiciler (Controllers) ve dış servislere bağlantı sağlayan yapılar.
-- **Data Layer (`seyahat_projesi.Data`)**: Veri tabanı bağlamı (`DbContext`), EF Core migrations dosyaları ve veri erişim sınıfları.
-- **Model Layer (`seyahat_projesi.Model`)**: Veri tabanı tablolarının C# karşılığı olan entity sınıfları ve arayüze veri taşımak için özelleştirilmiş ViewModels.
+### 1. Repository Pattern ve Unit of Work
+Projede doğrudan `DbContext` çağrıları yerine veri tabanı katmanını soyutlayan (abstraction) tasarım desenleri uygulanmıştır:
+* **Repository**: Her bir tablo için ortak veri erişim metotlarını (`Add`, `Remove`, `Get`, `GetAll`) tek noktada toplar.
+* **Unit of Work**: Tüm veri yazma işlemlerini tek bir veritabanı oturumuna bağlar. `_unitOfWork.Save()` metodu tetiklenene kadar hiçbir değişiklik SQL Server'a yansıtılmaz. Hata durumunda işlemler otomatik geri alınır (Rollback).
 
-### 2. Repository ve Unit of Work Desenleri
-Veri erişim kodlarının tekrar etmesini önlemek amacıyla Repository Deseni kullanılmıştır. Sınıflar veri tabanına doğrudan erişmek yerine `Repository` üzerinden işlem gerçekleştirir:
-* **`IRepository<T>`**: Genel CRUD (Ekleme, güncelleme, getirme, silme) işlemlerini arayüz olarak tanımlar.
-* **`IUnitOfWork`**: Tüm repository sınıflarını tek bir çatı altında toplar ve veri tabanı işlemlerinin tek bir SQL `Transaction` altında topluca kaydedilmesini (`Save()`) sağlar.
-
-### 3. Hibrit ORM Yaklaşımı (EF Core + Dapper)
-Bu projede veri yazma (Insert/Update/Delete) ve tablo ilişkileri kurma/güncelleme işlemleri için **EF Core** kullanılırken, performans gerektiren okuma ve arama (Select/Search) sorguları için doğrudan SQL komutları koşturan **Dapper** kullanılmıştır:
-* **EF Core**: İlişkileri yönetir, otomatik veritabanı tablolarını üretir.
-* **Dapper**: Caching mekanizmalarıyla doğrudan SQL sorgusu atarak kategori listeleri, marquee tur isimleri ve filtreleme sonuçlarını yüksek hızda getirir.
-
-### 4. Önbellek (Caching) Stratejisi
-IMemoryCache kullanılarak anlık sorgular önbelleğe alınır.
-* **Önbellek Evicting (Temizleme)**: Veriler veri tabanında güncellendiğinde (`SaveTour`, `DeleteTour`, `SaveCategory` vb.) önbellekteki ilgili anahtarlar (`CategoriesList`, `ActiveTours` vb.) `_cache.Remove("Key")` metoduyla silinerek sonraki ilk istekte verilerin güncel haliyle veritabanından çekilip yeniden önbelleğe yazılması sağlanır.
+### 2. Katmanlı Yapı (Layered Architecture)
+* **`seyahat_projesi.Model` (Varlık Katmanı)**: Veri tabanı şemasını oluşturan sınıfları içerir. Sunum katmanı ile veri tabanı katmanı arasında veri taşımak için DTO veya ViewModels barındırır.
+* **`seyahat_projesi.Data` (Veri Erişim Katmanı)**: DB bağlantısı, Repositories, Unit of Work ve test verisi seeder dosyalarını kapsar.
+* **`seyahat_projesi` (Sunum ve Mantık Katmanı)**: Controller sınıfları, HTML/Razor arayüzleri, CSS/JS dosyaları ve servis entegrasyonları buradadır.
 
 ---
 
-## 🗄️ Veri Tabanı Modelleri ve İlişkileri
+## 🗄️ Veri Tabanı Modelleri ve İlişki Yapıları
+
+Projedeki veri tabanı tabloları ilişkisel veri tabanı kurallarına (1NF, 2NF, 3NF) uygun olarak tasarlanmıştır:
+
+* **Kategori (`Category`) ve Tur (`Tour`)**: 1-N İlişki. Bir kategori altında birden fazla seyahat rotası bulunabilir.
+* **Rehber (`Guide`) ve Tur (`Tour`)**: 1-N İlişki. Bir rehber birden fazla tura liderlik edebilir.
+* **Kullanıcı (`ApplicationUser`) ve Rezervasyon (`Booking`)**: 1-N İlişki. Bir üye birden fazla tur rezervasyonu yapabilir.
+* **Rezervasyon (`Booking`) ve Ödeme (`Payment`)**: 1-1 İlişki. Her rezervasyonun tek bir ödeme makbuzu veya işlem kaydı bulunur.
+* **Tur (`Tour`) ve Yorum (`Review`)**: 1-N İlişki. Bir tur hakkında birden fazla üye değerlendirme yazabilir.
+* **Kullanıcı (`ApplicationUser`) ve Sistem Günlükleri (`SystemLog`)**: 1-N İlişki. Adminlerin yaptığı her işlem denetim loglarına kaydedilir.
+
+---
+
+## 🔄 Kritik Sistem Algoritmaları ve İş Akışları
+
+### 1. Rezervasyon İptali ve Kapasite İade Akışı
+Bir rezervasyon iptal edildiğinde veri tutarlılığını sağlamak için aşağıdaki adımlar bir **Transaction** zinciriyle yürütülür:
 
 ```mermaid
-erDiagram
-    ApplicationUser ||--o{ Booking : "has"
-    ApplicationUser ||--o{ Review : "writes"
-    ApplicationUser ||--o{ SystemLog : "triggers"
-    Category ||--o{ Tour : "contains"
-    Guide ||--o{ Tour : "leads"
-    Tour ||--o{ Booking : "booked_in"
-    Tour ||--o{ Review : "reviewed_in"
-    Booking ||--|| Payment : "paid_by"
-
+graph TD
+    A[Admin/Kullanıcı İptal İsteği] --> B[Transaction Başlat]
+    B --> C{Rezervasyon Durumu Kontrolü}
+    C -- Zaten İptal Edilmiş --> D[İşlemi Sonlandır / Hata Dön]
+    C -- Aktif Rezervasyon --> E[Rezervasyon Durumunu 'cancelled' Yap]
+    E --> F[Ödeme Durumunu 'refunded' Yap]
+    F --> G[Tur Kapasitesini Katılımcı Sayısı Kadar Artır]
+    G --> H[Audit Log Tablosuna 'BOOKING_CANCEL' İşlemini Kaydet]
+    H --> I[Transaction'ı Commit Et (Kaydet)]
+    I --> J[Onay Mesajı ve Güncel Kontenjanı Yansıt]
 ```
 
-### 1. `ApplicationUser` (AspNetUsers)
-ASP.NET Core Identity'den türetilmiştir. Sisteme kayıtlı kullanıcıları temsil eder.
-* `Name` (string): Kullanıcı adı soyadı.
-* `Status` (string): Kullanıcı hesabı durumu (`active`, `suspended`).
-* `Email`, `PhoneNumber` vb. (Identity alanları).
+### 2. Önbellek (Cache) Geçersiz Kılma (Eviction) Mekanizması
+Performansı üst seviyede tutmak için turlar ve kategoriler RAM'de saklanır. Ancak veri güncellendiğinde veya silindiğinde kullanıcıların eski verileri görmemesi için önbellek sıfırlama algoritması devreye girer:
 
-### 2. `Tour` (Turlar)
-Acentenin sunduğu seyahat rotalarını temsil eder.
-* `Title` (string): Turun başlığı.
-* `Description` (string): Turun detaylı açıklaması.
-* `Location` (string): Turun gerçekleşeceği konum.
-* `StartDate` / `EndDate` (DateTime): Seyahat başlangıç ve bitiş tarihleri.
-* `DurationDays` (int): Seyahat süresi.
-* `Price` (double): Kişi başı tur ücreti.
-* `Capacity` (int): Kalan kontenjan miktarı.
-* `ImageUrl` (string): Tur görselinin URL adresi.
-* `IsActive` (bool): Soft delete için aktif/pasif durumu.
-* `CategoryId` (int): Bağlı olduğu kategori (İlişki: N-1).
-* `GuideId` (int): Tur rehberi (İlişki: N-1).
-
-### 3. `Category` (Kategoriler)
-Turların gruplandırıldığı alanlardır (Örn: Kültür Turu, Doğa Turu).
-* `Name` (string): Kategori adı.
-* `Description` (string): Kategori açıklaması.
-
-### 4. `Guide` (Rehberler)
-Turları yöneten seyahat rehberlerini temsil eder.
-* `FullName` (string): Rehber adı soyadı.
-* `Mail` / `Phone` (string): İletişim bilgileri.
-* `Bio` (string): Rehber özgeçmişi.
-* `GuideImageUrl` (string): Rehber profil fotoğrafı.
-
-### 5. `Booking` (Rezervasyonlar)
-Kullanıcıların tur satın alma taleplerini içerir.
-* `BookingDate` (DateTime): Rezervasyonun oluşturulduğu tarih.
-* `GuestsCount` (int): Rezervasyona katılacak kişi sayısı.
-* `TotalPrice` (double): İndirimler hesaplandıktan sonraki toplam tutar.
-* `Status` (string): Rezervasyon durumu (`pending`, `approved`, `cancelled`).
-* `PaymentStatus` (string): Ödeme durumu (`unpaid`, `paid`, `refunded`).
-* `UserId` (string): Rezervasyonu yapan kullanıcı (İlişki: N-1).
-* `TourId` (int): Satın alınan tur (İlişki: N-1).
-
-### 6. `Payment` (Ödemeler)
-Rezervasyonlara ait ödeme ve fatura işlemlerini saklar.
-* `PaymentDate` (DateTime): Ödeme saati.
-* `Amount` (double): Tahsil edilen tutar.
-* `PaymentMethod` (string): Ödeme yöntemi (`credit_card`, `bank_transfer`).
-* `TransactionId` (string): Banka/Sistem işlem ID'si.
-* `Status` (string): Ödeme işlem durumu (`completed`, `refunded`).
-* `BookingId` (int): Bağlı rezervasyon (İlişki: 1-1).
-
-### 7. `Review` (Yorumlar)
-Kullanıcıların katıldıkları turlar hakkında yaptığı değerlendirmeler.
-* `Rating` (int): Puanlama (1-5 arası).
-* `Comment` (string): Yorum metni.
-* `CreatedAt` (DateTime): Yorum tarihi.
-* `UserId` (string) / `TourId` (int): İlişkili kullanıcı ve tur.
-
-### 8. `Coupon` (Kuponlar)
-İndirim sağlayan promosyon kodlarıdır.
-* `Code` (string): Kupon kodu (Örn: GEZGIN20).
-* `DiscountType` (string): İndirim türü (`percentage`, `fixed_amount`).
-* `DiscountValue` (double): İndirim miktarı.
-* `ExpiryDate` (DateTime): Son kullanma tarihi.
-* `IsActive` (bool): Aktiflik durumu.
-
-### 9. `SystemLog` (Sistem Günlükleri)
-Yönetici paneli üzerinden yapılan kritik denetim logları.
-* `Action` (string): Yapılan işlem türü (`TOUR_CREATE`, `CACHE_CLEAR` vb.).
-* `Level` (string): Uyarı seviyesi (`info`, `warn`, `error`).
-* `Details` (string): İşlem detayları.
-* `CreatedAt` (DateTime): İşlem tarihi.
-* `UserId` (string): İşlemi gerçekleştiren admin (İlişki: N-1).
+| Tetikleyici İşlem | Çalıştırılan Metot | Etkilenen Cache Key Değerleri |
+| :--- | :--- | :--- |
+| Yeni Tur Ekleme / Düzenleme | `AdminController.SaveTour()` | `ActiveTours`, `PopularActiveTours`, `MarqueeToursList` |
+| Tur Silme (Pasife Alma) | `AdminController.DeleteTour()` | `ActiveTours`, `PopularActiveTours`, `MarqueeToursList` |
+| Kategori Ekleme / Düzenleme | `AdminController.SaveCategory()` | `CategoriesList` |
+| Kategori Silme | `AdminController.DeleteCategory()` | `CategoriesList` |
+| Admin Paneli Manuel Sıfırlama | `AdminController.ClearSystemCache()` | *Tüm Bellek Anahtarları Silinir* |
 
 ---
 
-## 🎮 Controller Sınıfları ve İşlevleri
+## 🎮 Controller Ayrıntılı Metot ve Endpoint Analizi
 
-### 1. `HomeController`
-Ziyaretçilerin karşılandığı ana sayfayı yönetir.
-* `Index()`: Dapper ve IMemoryCache ile kategorileri ve popüler 6 aktif turu getirir. Ayrıca arama sorgularını işler.
-* `Tours()`: Fiyat, süre ve kategoriye göre gelişmiş filtrelemeli turları listeler.
-* `CategoryDetail(id)`: Seçilen kategoriye ait aktif turları listeler.
-* `Detail(id)`: Turun tüm detaylarını, rehber bilgisini ve bu tura yapılmış yorumları kullanıcıya gösterir.
+### 1. `HomeController` (Kamuya Açık Alan)
+* **`[HttpGet] Index(search, categoryId, minDuration)`**:
+  * Önbellekten kategorileri ve marquee tur başlıklarını Dapper ile çeker.
+  * Eğer filtreleme parametreleri dolu gelirse Dapper ile hazırlanan dinamik sorgu veritabanına atılarak arama sonuçları listelenir. Arama yoksa popüler 6 tur önbellekten yüklenir.
+* **`[HttpGet] Details(id)`**:
+  * Tura ait detaylı bilgileri rehberiyle birlikte çeker. Bu tura ait onaylanmış puanları ve yorumları listeler.
 
-### 2. `BookingController`
-Kullanıcıların satın alma ve rezervasyon aşamalarını yönetir. `[Authorize]` etiketi ile korunmaktadır.
-* `Checkout(tourId)`: Rezervasyon yapılacak turun kontenjan ve mükerrer rezervasyon kontrollerini yapar, rezervasyon formunu yükler.
-* `Create(...)`: Rezervasyon kaydını oluşturur, kupon kodunu doğrular, toplam tutarı hesaplar, ödeme simülasyonunu (`Payment`) gerçekleştirir ve tura ait kontenjandan katılımcı sayısını düşer. Tüm bu adımları güvenli bir database transaction altında yürütür.
+### 2. `BookingController` (Rezervasyon Akışı - `[Authorize]`)
+* **`[HttpGet] Checkout(tourId)`**:
+  * Tura ait güncel kapasite kontrolünü yapar.
+  * Kullanıcının daha önce aynı tura aktif rezervasyonu olup olmadığını sorgular (Mükerrer rezervasyon engeli).
+* **`[HttpPost] Create(tourId, guestsCount, paymentMethod, couponCode)`**:
+  * Gelen kupon kodunu veritabanında tarih ve aktiflik yönünden sorgular. Geçerliyse indirimi uygular.
+  * Kredi kartı/EFT ödeme simülasyonunu tamamlar, rezervasyonu onaylar ve kontenjandan düşer.
 
-### 3. `ExportController`
-Dışa aktarma ve raporlama işlemlerini barındırır.
-* `Invoice(id)`: Kullanıcının satın aldığı rezervasyonun faturasını PDFsharp kullanarak Türkçe karakter uyumlu şık bir PDF belgesi halinde üretir ve indirtir.
-* `ExportBookingsToExcel()`: ClosedXML kullanarak sistemdeki tüm rezervasyonları Excel (.xlsx) formatında derler ve indirir.
-
-### 4. `AccountController`
-Kullanıcı kayıt, giriş, çıkış ve profil güvenliği işlemlerini yürütür.
-* `Register()`: Yeni kullanıcı kaydı.
-* `Login()`: Güvenli şifre kontrolü ile üye veya yönetici girişi sağlar.
-* `Logout()`: Kullanıcı oturum çerezlerini temizler.
-
-### 5. `AdminController` (Admin Area)
-Yönetici panelinin kalbidir. `[Authorize(Roles = "Admin")]` korumalıdır.
-* `Index()`: Toplam gelir, rezervasyon, üye ve aktif turların istatistiklerini getirir.
-* `Tours() / SaveTour() / DeleteTour()`: Tur rotası CRUD işlemleri.
-* `Bookings() / ApproveBooking() / CancelBooking()`: Rezervasyon onaylama veya iptal süreçleri. İptal durumunda ücret iade durumuna alınır ve tur kontenjanı otomatik olarak geri eklenir.
-* `Users() / UpdateUserRoleAndStatus()`: Kullanıcı durumunu değiştirme (aktif/pasif) ve rol yönetimi.
-* `Logs()`: Audit veritabanı loglarını inceleme, arama ve filtreleme.
-* `Cache() / ClearSystemCache()`: Sistem önbelleğini izleme ve temizleme portalı.
+### 3. `ExportController` (Raporlama - `[Authorize]`)
+* **`[HttpGet] Invoice(id)`**:
+  * Rezervasyon, ödeme, tur ve kullanıcı bilgilerini JOIN ederek çeker.
+  * PDFsharp kütüphanesi ile A4 boyutunda bir grafik arayüz çizer. Müşteri bilgileri, fatura no, ödeme yöntemi ve fiyat detaylarını tablo halinde PDF formatında render eder.
+* **`[HttpGet] ExportBookingsToExcel()`**:
+  * `ClosedXML` kullanarak veritabanındaki rezervasyonları çeker. `Booking ID`, `Müşteri`, `Tur Adı`, `Tarih`, `Kişi Sayısı` ve `Toplam Ödeme` kolonlarını içeren şık biçimlendirilmiş bir Excel dosyası üretir.
 
 ---
 
@@ -229,40 +179,40 @@ seyahat_projesi/
 ├── seyahat_projesi/                              # Sunum Katmanı (Web App)
 │   ├── Areas/
 │   │   ├── Admin/                                # Yönetici Paneli Alanı
-│   │   │   ├── Controllers/AdminController.cs
-│   │   │   └── Views/
+│   │   │   ├── Controllers/AdminController.cs    # Yönetimsel CRUD, Log, Cache Denetleyicisi
+│   │   │   └── Views/                            # Yönetici cshtml şablonları
 │   │   └── User/                                 # Kullanıcı Paneli Alanı
-│   │       ├── Controllers/DashboardController.cs
-│   │       └── Views/
+│   │       ├── Controllers/DashboardController.cs# Kullanıcı rezervasyon & profil denetleyicisi
+│   │       └── Views/                            # Kullanıcı cshtml şablonları
 │   ├── Controllers/
-│   │   ├── HomeController.cs
-│   │   ├── BookingController.cs
-│   │   └── ExportController.cs
+│   │   ├── HomeController.cs                     # Ana sayfa, Tur Arama, Detay & Filtreler
+│   │   ├── BookingController.cs                  # Satın Alma, Kupon Kontrol, Ödeme Simülasyonu
+│   │   └── ExportController.cs                   # PDF Fatura ve Excel Rapor Çıktıları
 │   ├── Services/
-│   │   ├── LogService.cs                         # Veritabanı Loglama Servisi
-│   │   └── MyFontResolver.cs                     # PDFsharp Türkçe Font Ayarı
-│   ├── ViewModels/                               # Arayüze Özel Model Yapıları
-│   ├── Views/                                    # Kamu Arayüzü Cshtml Dosyaları
+│   │   ├── LogService.cs                         # Audit log kayıt motoru
+│   │   └── MyFontResolver.cs                     # PDFsharp Türkçe font entegrasyonu
+│   ├── ViewModels/                               # Modelle görünüm arası DTO/VM yapıları
+│   ├── Views/                                    # Kamu Arayüzü cshtml dosyaları
 │   ├── wwwroot/                                  # CSS, JS, Libs, Favicon
-│   ├── appsettings.json                          # Veritabanı ve API Key Ayarları
-│   └── Program.cs                                # Sistem Başlangıç ve DI Konfigürasyonu
+│   ├── appsettings.json                          # Veritabanı ve API Key ayarları (Cleaned)
+│   └── Program.cs                                # Sistem Başlangıç ve Servis Konfigürasyonu
 │
 ├── seyahat_projesi.Data/                         # Veri Erişim Katmanı
-│   ├── ApplicationDbContext.cs                   # EF Core DB Bağlamı
-│   ├── DapperRepository.cs                       # Hızlı Dapper Sorgu Sınıfı
-│   ├── DbInitializer.cs                          # İlk Kurulum Admin/Rol Seeder'ı
-│   ├── DbSeeder.cs                               # 20 Örnek Kayıt Üreten Mekanizma
+│   ├── ApplicationDbContext.cs                   # EF Core DB Context tanımı
+│   ├── DapperRepository.cs                       # Hızlı SQL ve Cache okuma sınıfları
+│   ├── DbInitializer.cs                          # İlk Kurulum Admin/Rol Verileri
+│   ├── DbSeeder.cs                               # Tablo başına 20 örnek veri üreten seeder
 │   ├── Migrations/                               # EF Core Migration Dosyaları
-│   └── Repository/                               # Repository Pattern Sınıfları
+│   └── Repository/                               # Repository ve Unit Of Work sınıfları
 │
 ├── seyahat_projesi.Model/                        # Entity (Model) Katmanı
-│   ├── ApplicationUser.cs
-│   ├── Tour.cs
-│   ├── Category.cs
-│   ├── Booking.cs
+│   ├── ApplicationUser.cs                        # Identity Özelleştirilmiş Kullanıcı Sınıfı
+│   ├── Tour.cs                                   # Turlar Tablosu
+│   ├── Category.cs                               # Kategoriler Tablosu
+│   ├── Booking.cs                                # Rezervasyonlar Tablosu
 │   └── ... (Diğer Modeller)
 │
-├── seed_all_20.sql                               # Manuel Veritabanı Seed Scripti
+├── seed_all_20.sql                               # Veritabanı SSMS Manuel Seed Scripti
 └── update_tour_images.sql                        # Estetik Görseller Ekleyen SQL Scripti
 ```
 
@@ -270,51 +220,51 @@ seyahat_projesi/
 
 ## 🔌 Veri Tabanı Seeding ve SQL Dosyaları
 
-Projede iki çeşit test verisi oluşturma yöntemi mevcuttur:
+Projede yerel geliştirme ortamını kolaylaştırmak amacıyla iki farklı veri tohumlama (seeding) yöntemi bulunur:
 
-1. **Kod Tabanlı Otomatik Seeding (Tavsiye Edilen)**:
-   Proje ilk kez çalıştırıldığında `Program.cs` içindeki başlangıç scope'u sayesinde veri tabanı kurulur, migration'lar uygulanır ve `DbInitializer` ile `DbSeeder` sınıfları devreye girerek her tabloya **20'şer adet gerçekçi test verisi** yükler.
+1. **Kod Tabanlı Otomatik Yapılandırma**:
+   `Program.cs` dosyası ayağa kalktığında veritabanı sunucusunda `SeyahatDb` adında bir veri tabanı yoksa oluşturur, migrations adımlarını tamamlar ve `DbSeeder.Seed20Async` metodu üzerinden tüm tablolara **20'şer adet birbirleriyle ilişkili örnek kayıt** yükler.
    
 2. **Manuel SQL Scriptleri**:
-   * `seed_all_20.sql`: SQL Server Management Studio (SSMS) üzerinden veri tabanını sıfırdan doldurmak isterseniz bu dosyayı çalıştırabilirsiniz.
-   * `update_tour_images.sql`: Turların görsellerini daha estetik ve modern seyahat fotoğraflarıyla güncellemek için bu scripti veri tabanınızda koşturabilirsiniz.
+   * `seed_all_20.sql`: SQL Server Management Studio (SSMS) kullanarak veritabanına el ile 20'şer kayıt eklemek için.
+   * `update_tour_images.sql`: Turların görsellerini daha estetik ve kaliteli seyahat fotoğraflarıyla güncellemek için yazılmış SQL scripti.
 
 ---
 
-## 🚀 Kurulum ve Yapılandırma Kılavuzu
+## 🚀 Adım Adım Kurulum ve Yapılandırma Kılavuzu
 
-Projeyi yerel bilgisayarınızda çalıştırmak için aşağıdaki adımları takip ediniz:
+Projeyi kendi bilgisayarınızda kurmak ve çalıştırmak için aşağıdaki adımları izleyin:
 
-### 1. Dosyaları İndirin
-Projeyi bilgisayarınıza kopyalayın veya klonlayın:
+### 1. Depoyu İndirin
+Projeyi bilgisayarınıza indirin veya terminal aracılığıyla klonlayın:
 ```bash
 git clone <github-repository-url>
 ```
 
-### 2. Veri Tabanı Bağlantısını Düzenleyin
-`seyahat_projesi` projesi içindeki **`appsettings.json`** dosyasını açın ve `DefaultConnection` bağlantı adresini kendi lokal SQL Server adınıza göre düzenleyin:
+### 2. appsettings.json Dosyasını Yapılandırın
+`seyahat_projesi` dizinindeki `appsettings.json` dosyasını açıp veritabanı bağlantı adresinizi lokal SQL Server isminize göre güncelleyin:
 ```json
 "ConnectionStrings": {
-  "DefaultConnection": "Server=LOKAL_SUNUCU_ADINIZ;Database=SeyahatDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
+  "DefaultConnection": "Server=LOKAL_SQL_SERVER_ADINIZ;Database=SeyahatDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
 }
 ```
 
-### 3. Paketleri Restore Edin ve Çalıştırın
-Terminali proje klasörünün kök dizininde açarak NuGet paketlerini yükleyin ve projeyi derleyin:
+### 3. Paketleri Restore Edin ve Projeyi Çalıştırın
+Kök klasörde bir terminal açarak aşağıdaki komutları girin:
 ```bash
-# Paketleri geri yükleyin
+# NuGet paketlerini geri yükleyin
 dotnet restore
 
-# Projeyi çalıştırın
+# Projeyi derleyin ve ayağa kaldırın
 dotnet run --project seyahat_projesi
 ```
-Tarayıcınız üzerinden terminalde belirtilen adresleri (Örn: `http://localhost:5000` veya `https://localhost:5001`) açarak projeyi test etmeye başlayabilirsiniz.
+Proje başladıktan sonra tarayıcınızdan `http://localhost:5000` veya `https://localhost:5001` adresine giderek sistemi test edebilirsiniz. İlk açılışta veritabanı otomatik olarak oluşturulacak ve seed verileri yüklenecektir.
 
-### 🔑 Başlangıç Giriş Bilgileri (Default Test Hesapları)
-* **Yönetici Hesabı (Admin)**:
+### 🔑 Başlangıç Test Hesapları (Giriş Bilgileri)
+* **Yönetici Girişi (Admin)**:
   * **E-posta**: `admin@gezgin.com`
   * **Şifre**: `Admin123*`
-* **Standart Üye Hesabı (User)**:
+* **Standart Üye Girişi (User)**:
   * **E-posta**: `uye@gezgin.com`
   * **Şifre**: `Uye123*`
 
@@ -324,39 +274,32 @@ Tarayıcınız üzerinden terminalde belirtilen adresleri (Örn: `http://localho
 
 Gamze ve Merve olarak projeyi çakışma (merge conflict) yaşamadan, düzenli bir şekilde sürdürebilmeniz için aşağıdaki iş akışını uygulamanız önerilir:
 
-### 1. İş Bölümü ve Branch Kullanımı
-Doğrudan `main` dalına kod göndermek yerine, her yeni özellik veya hata düzeltmesi için ayrı bir dal (branch) açın:
+### 1. Proje Sahibi Daveti
+Repoyu oluşturan kişi (örneğin Merve), GitHub repo sayfasından **Settings > Collaborators > Add people** kısmına giderek diğer arkadaşının (örneğin Gamze) kullanıcı adını eklemeli ve davet göndermelidir. Davet kabul edildikten sonra ortak geliştirme süreci başlar.
+
+### 2. Branch (Dal) Yönetimi
+Ana dal olan `main` dalına doğrudan kod göndermek yerine, yapacağınız geliştirmeler için yerelde yeni bir dal oluşturun:
 ```bash
-# Yerelinizdeki main dalını güncelleyin
+# Yereldeki main dalınızı en güncel hale getirin
 git checkout main
 git pull origin main
 
-# Yeni bir branch açın (Örn: Merve profil düzenleme özelliği yapıyor olsun)
-git checkout -b feature/profil-duzenleme
+# Yapacağınız geliştirme için yeni dal açın (Örn: Admin kupon ekranı tasarımı)
+git checkout -b feature/admin-kuponlar
 ```
 
-### 2. Değişiklikleri Kaydetme ve Gönderme
-Yaptığınız iş bittiğinde dosyaları ekleyip açıklayıcı bir commit mesajı ile kendi dalınıza pushlayın:
+### 3. Değişiklikleri Gönderme (Push)
+Geliştirmenizi tamamladıktan sonra değişikliklerinizi kendi dalınıza pushlayın:
 ```bash
 git add .
-git commit -m "feat: Kullanıcı profil düzenleme alanı tamamlandı"
-git push origin feature/profil-duzenleme
+git commit -m "feat: Admin kupon arayüzü ve doğrulama metotları yazıldı"
+git push origin feature/admin-kuponlar
 ```
 
-### 3. Pull Request (PR) Oluşturma ve Merge Etme
-* GitHub sitesine gidin.
-* Yeni açtığınız dal için **Compare & pull request** butonuna tıklayın.
-* Arkadaşınız kodları inceledikten ve onayladıktan sonra kodlar `main` dalı ile birleştirilir (Merge).
-
-### 4. Çakışma (Conflict) Çözme İpucu
-Eğer ikiniz aynı dosyada aynı satırları değiştirdiyseniz Git çakışma uyarısı verecektir. Bu durumda çakışan dosyayı VS Code veya Visual Studio ile açarak hangi satırların kalacağını belirleyip (Accept Incoming / Accept Current) dosyayı kaydedin. Ardından:
-```bash
-git add .
-git commit -m "fix: Çakışmalar giderildi"
-git push
-```
+### 4. Pull Request (PR) ve Kod İncelemesi
+GitHub sitesine giderek oluşturduğunuz dal için bir **Pull Request** açın. Diğer arkadaşınız kodları inceleyip onay verdikten sonra (Approve), PR'ı `main` dalı ile birleştirin (Merge). Kendi bilgisayarınızda tekrar `main` dalına dönüp güncel kodları çekin (`git pull origin main`).
 
 ---
 
 ## 📝 Lisans
-Bu proje eğitim ve kişisel gelişim amacıyla **Gamze Türker** ve **Merve Gezginci** tarafından geliştirilmiştir. Ticari amaçla kopyalanamaz veya satılamaz.
+Bu proje eğitim ve kişisel gelişim amacıyla **Gamze Türker** ve **Merve Gezginci** tarafından geliştirilmiştir. Ticari amaçla çoğaltılamaz ve dağıtılamaz.
